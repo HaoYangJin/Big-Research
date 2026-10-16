@@ -1,17 +1,20 @@
 {
-  "verified_at": null,
+  "verified_at": "2026-10-16T17:01:13.121308+00:00",
   "checks": {
     "independent_code_review": true,
     "behavioral_skill_evaluation": true,
     "cross_disciplinary_examples": true,
     "interactive_ui": true,
-    "claude_clean_install": false,
-    "codex_clean_install": false
+    "claude_clean_install": true,
+    "codex_clean_install": true
   },
   "evidence": {
-    "cross_disciplinary_examples": "examples/run_examples.py completed computational negative-result, public-domain interpretive and formal-proof cases; tests/test_core_v2.py covers six discipline/paradigm routes.",
+    "cross_disciplinary_examples": "examples/run_examples.py completed computational negative-result, public-domain interpretive and formal-proof cases; tests/test_core_v2.py covers six discipline/paradigm routes. Six OS/Python combinations passed in https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580",
     "behavioral_skill_evaluation": "Independent humanities manuscript task evaluation verified method-sensitive review, missing-material handling, source uncertainty and researcher authority; regression tests cover budget exhaustion and contradictory/unsupported evidence.",
     "interactive_ui": "scripts/check_ui.py passed static tabs, filtering, provenance, text safety, mobile layout and real MCP Apps SDK bridge message/tool interactions.",
-    "independent_code_review": "Independent code and Python reviews of 6a96ec3 approved; release/controller/distribution regressions passed; docs/development.md."
-  }
+    "independent_code_review": "Independent code and Python reviews of 6a96ec3 approved; release/controller/distribution regressions passed; docs/development.md.",
+    "claude_clean_install": "https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580 — browser job: Claude Code 2.1.301 strict plugin/marketplace validation, clean isolated marketplace add, install and listing passed.",
+    "codex_clean_install": "https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580 — browser job: Codex CLI 0.163.0 clean isolated marketplace add, plugin add and listing passed."
+  },
+  "content_sha256": "65033662c79d67c0a3c5b91a7a05970f1f128bd9977f73dcad27073bfe50233a"
 }
