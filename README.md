@@ -10,6 +10,35 @@ An evidence-aware research mentor/reviewer plugin with nine research phases, rep
 
 ## 中文
 
+### 先选一条使用路径
+
+| 你的目标 | 从这里开始 | 完成后得到什么 |
+| --- | --- | --- |
+| 先看看它能跑出什么 | [本地运行示例](docs/getting-started.md#1-先跑一个不需要-ai-的示例) | 合成实验的结果表、摘要和运行环境记录；不需要安装插件 |
+| 让 AI 帮我推进研究 | [安装并发起任务](docs/getting-started.md#2-安装技能并发起第一次任务) | 在宿主 AI 中调用技能，按阶段生成研究产物 |
+| 只审论文、设计实验或继续旧项目 | [按需使用与恢复](docs/getting-started.md#4-只做一个阶段或继续已有项目) | 聚焦当前任务，不必从头跑九阶段 |
+
+第一次使用建议阅读 **[上手指南：从安装到看到结果](docs/getting-started.md)**。安装细节与命令参考见 [USAGE.md](USAGE.md)。
+
+### 使用时会发生什么
+
+```mermaid
+flowchart TD
+    A["向宿主 AI 提供问题、材料、预算与模式"] --> B{"任务范围？"}
+    B -->|单次任务| C["读取相关阶段资料，交付分析或审查意见"]
+    B -->|持续研究项目| D["读取已有状态，或初始化空项目目录"]
+    D --> E["完成当前阶段：查来源、做实验或写文件"]
+    E --> F{"产物和证据是否满足阶段要求？"}
+    F -->|满足| G["保存检查点，进入下一阶段"]
+    F -->|缺少资源或证据| H["记录 blocked 和缺口，补齐后继续"]
+    H --> E
+    G --> I{"是否完成本次任务？"}
+    I -->|否| E
+    I -->|是| J["交付结果、限制与下一步；评估投稿时给出 ready / not_ready"]
+```
+
+图中的研究工作由**宿主 AI 及其可用工具**完成；Python CLI 负责记录与校验。单次任务可以直接回答，不创建项目。
+
 ### v1.0.0 能做什么
 
 - 保留 `research-mentor` 技能与 `mentor / reviewer / mixed` 三种模式；只加载当前阶段需要的参考资料。
@@ -89,6 +118,8 @@ python scripts/build_release.py --output dist
 正式 Skill 源码移至 `skills/research-mentor/`。根 `SKILL.md` 保留兼容入口；旧的 `references/` 与示例已迁入正式 Skill。推荐备份旧安装后只复制正式 Skill 目录，或切换为插件，避免同时启用两份。0.1.0 没有状态格式，因此不存在旧项目状态的自动迁移。
 
 ## English
+
+Start with the [step-by-step guide (Chinese)](docs/getting-started.md): run the standalone synthetic demo, install the skill in an AI host, or resume an existing project. The demo produces experiment files; the host agent performs the broader research workflow; the local CLI only records and validates checkpoints.
 
 Research Workflow supports nine phases: scope/literature, hypotheses, design, data/reproducibility, results/ablations, drafting, self-review, revision/rebuttal, and submission readiness. Choose mentor, reviewer, or mixed mode; short requests do not require a project.
 

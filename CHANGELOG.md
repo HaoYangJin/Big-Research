@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Documentation
+
+- Add a task-based README entry, a rendered Mermaid usage flow, and a step-by-step Chinese guide covering the local demo, host installation, research deliverables, and checkpoint recovery.
+- Clarify the separate roles of the host agent, synthetic experiment, and state CLI, with copyable prompts and observable completion criteria.
+
 ## [1.0.0] - 2026-10-16
 
 ### Added
