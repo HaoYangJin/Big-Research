@@ -1,12 +1,12 @@
 {
   "name": "research-workflow-marketplace",
-  "description": "Evidence-aware, reproducible research workflow tools",
+  "description": "Human-led research with adaptable methods and traceable evidence",
   "owner": {"name": "HaoYangJin"},
   "plugins": [{
     "name": "research-workflow",
     "source": "./",
-    "description": "Nine-phase research mentor/reviewer with evidence and reproducible checkpoints",
-    "version": "1.1.0"
+    "description": "A human-led research workspace across disciplines",
+    "version": "2.1.0"
   }]
 }
 

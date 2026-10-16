@@ -1,53 +1,70 @@
-#!/usr/bin/env python3
-"""Dependency-free source/package consistency checks; host validation is separate."""
+"""Validate current package identity, assets and documentation references."""
+
 import json
-from pathlib import Path
 import re
 import sys
+import tomllib
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def validate(root=ROOT):
+    root = Path(root)
     version = (root / "VERSION").read_text().strip()
-    assert re.fullmatch(r"\d+\.\d+\.\d+", version), "Invalid release version"
-    assert not (root / "SKILL.md").exists(), "Duplicate root skill entry"
-    skill = root / "skills/research-mentor"
-    text = (skill / "SKILL.md").read_text(encoding="utf-8")
-    assert text.startswith("---\nname: research-mentor\ndescription: "), "Invalid skill metadata"
-    assert len(text.splitlines()) < 500, "Skill entry is too long"
-    assert f'VERSION = "{version}"' in (skill / "scripts/workflow.py").read_text(encoding="utf-8"), "CLI version drift"
-    claude = json.loads((root / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
-    codex = json.loads((root / ".codex-plugin/plugin.json").read_text(encoding="utf-8"))
+    assert version == "2.1.0", "Unexpected candidate version"
+    project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
+    assert project["project"]["version"] == version
+    for relative in ("plugin.json", ".codex-plugin/plugin.json", ".claude-plugin/plugin.json"):
+        manifest = json.loads((root / relative).read_text(encoding="utf-8"))
+        assert manifest["version"] == version and manifest["name"] == "research-workflow", "Manifest drift"
     marketplace = json.loads((root / ".claude-plugin/marketplace.json").read_text(encoding="utf-8"))
-    for item in (claude, codex, marketplace["plugins"][0]):
-        assert item["version"] == version and item["name"] == "research-workflow", "Manifest identity/version drift"
-    assert marketplace["plugins"][0]["source"] == "./", "Marketplace source must resolve to this repository"
-    assert codex["skills"] == "./skills/", "Missing canonical skill directory"
-    interface = codex["interface"]
-    for field in ("displayName", "shortDescription", "longDescription", "developerName", "category", "capabilities", "composerIcon", "logo"):
-        assert field in interface and interface[field], f"Codex interface missing {field}"
-    for field in ("displayName", "shortDescription"):
-        assert len(interface[field]) <= 30, f"Codex {field} too long"
-    for field in ("composerIcon", "logo"):
-        assert (root / interface[field]).is_file(), f"Missing icon {field}"
-    assert "$research-mentor" in (skill / "agents/openai.yaml").read_text(encoding="utf-8"), "Stale UI prompt"
-    for doc in root.rglob("*.md"):
-        if any(p in {".git", "dist", "node_modules"} for p in doc.parts):
-            continue
-        for target in re.findall(r"\]\(([^)]+)\)", doc.read_text(encoding="utf-8")):
-            path = target.split("#")[0]
-            if not path or re.match(r"[a-z]+:", path):
+    assert len(marketplace["plugins"]) == 1 and marketplace["plugins"][0]["version"] == version
+    codex_marketplace = json.loads((root / ".agents/plugins/marketplace.json").read_text(encoding="utf-8"))
+    assert codex_marketplace["name"] == marketplace["name"]
+    assert codex_marketplace["plugins"][0]["source"] == {"source": "local", "path": "./"}
+    assert not (root / "skills/research-mentor").exists(), "Historical skill must not be shipped"
+    assert not (root / "SKILL.md").exists(), "Duplicate root skill"
+    skill_files = sorted((root / "skills").glob("*/SKILL.md"))
+    assert len(skill_files) == 7, "Expected current composed skills"
+    for path in skill_files:
+        text = path.read_text(encoding="utf-8")
+        assert text.startswith(f"---\nname: {path.parent.name}\ndescription: ")
+        assert len(text.splitlines()) < 150, "Use progressive disclosure"
+        assert (path.parent / "agents/openai.yaml").is_file()
+    for required in (
+        "src/research_workflow/methods.json",
+        "src/research_workflow/review_profiles.json",
+        "src/research_workflow/workspace.html",
+        "src/research_workflow/bridge.js",
+        "uv.lock",
+        "package-lock.json",
+        "mcp.json",
+        ".mcp.json",
+    ):
+        assert (root / required).is_file(), f"Missing runtime asset: {required}"
+    assert (root / "README.md").read_text(encoding="utf-8").startswith("> 本项目旨在利用 AI 工具辅助人类科学家")
+    assert (root / "README.en.md").read_text(encoding="utf-8").startswith("> This project uses AI tools")
+    markdown = (
+        list((root / "docs").rglob("*.md"))
+        + list((root / "skills").rglob("*.md"))
+        + list((root / "examples").rglob("*.md"))
+        + list(root.glob("*.md"))
+    )
+    for path in markdown:
+        for target in re.findall(r"\]\(([^)]+)\)", path.read_text(encoding="utf-8")):
+            relative = target.split("#")[0]
+            if not relative or re.match(r"[a-zA-Z][a-zA-Z0-9+.-]*:", relative):
                 continue
-            assert (doc.parent / path).exists(), f"Broken link: {doc.relative_to(root)} -> {target}"
-    print(f"Repository checks passed: v{version} (structural; not a host import test)")
+            assert (path.parent / relative).is_file() or (path.parent / relative).is_dir(), (
+                f"Broken link: {path.relative_to(root)} -> {target}"
+            )
     return version
 
 
 if __name__ == "__main__":
     try:
-        validate()
-    except (AssertionError, OSError, ValueError, KeyError) as exc:
+        print(f"Current package checks passed: v{validate()}")
+    except (OSError, ValueError, KeyError, AssertionError) as exc:
         print(str(exc), file=sys.stderr)
-        sys.exit(1)
-
+        raise SystemExit(1)

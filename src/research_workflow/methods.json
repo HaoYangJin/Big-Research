@@ -1,0 +1,72 @@
+{
+  "quantitative": {
+    "name": "定量与实验 / Quantitative and experimental",
+    "applies_to": "Measured observations, simulations, interventions, engineering evaluations; use only where justified by the question.",
+    "inputs": ["question and estimand", "data provenance", "comparison and analysis plan", "resource budget"],
+    "deliverables": ["protocol", "data and processing record", "actual results with uncertainty", "negative results and limitations"],
+    "checks": ["design_validity", "sampling_and_independence", "measurement_and_leakage", "comparisons_and_controls", "uncertainty_and_sensitivity", "reproduction_and_limits"],
+    "optional_tools": ["available Python or R environment", "discipline-specific measurement tools"],
+    "guidance": "Specify what variation the uncertainty describes. Freeze confirmatory comparisons before seeing their outcomes; label exploratory analysis. Record failed and negative runs, seeds, software, configuration and raw outputs. Match baselines and budgets. Distinguish causal effects from association; synthetic demonstrations support bounded claims only.",
+    "references": ["https://www.cos.io/initiatives/prereg", "https://www.equator-network.org/"]
+  },
+  "qualitative": {
+    "name": "质性研究 / Qualitative inquiry",
+    "applies_to": "Interviews, observation, case studies, thematic and grounded analyses, where their epistemological assumptions fit.",
+    "inputs": ["research position", "sampling rationale", "consent and access conditions", "corpus and analytic approach"],
+    "deliverables": ["sampling and collection rationale", "coding or analytic memos", "traceable excerpts", "reflexive account and rival readings"],
+    "checks": ["epistemic_fit", "sampling_rationale", "consent_and_confidentiality", "analytic_traceability", "reflexivity_and_counterexamples", "transferability_limits"],
+    "optional_tools": ["local transcript search", "researcher-approved coding tools"],
+    "guidance": "Do not fabricate participants, quotations, fieldwork or consent. Separate participant accounts from researcher interpretation. Preserve context and positionality, inspect disconfirming cases, and explain how interpretations were developed. Choose saturation, triangulation or agreement checks only when appropriate to the declared approach; do not demand quantitative significance.",
+    "references": ["https://www.equator-network.org/reporting-guidelines/coreq/"]
+  },
+  "interpretive": {
+    "name": "解释与人文研究 / Interpretive and humanities research",
+    "applies_to": "Historical, philosophical, textual, archival and hermeneutic inquiry; research standards follow the material and interpretive tradition.",
+    "inputs": ["question and interpretive position", "primary materials and editions", "historical or conceptual context", "corpus boundaries"],
+    "deliverables": ["source and edition register", "close readings or arguments", "competing interpretations", "scope and interpretive limits"],
+    "checks": ["source_authenticity_and_context", "edition_and_translation", "interpretive_traceability", "rival_readings", "argument_coherence", "scope_and_positionality"],
+    "optional_tools": ["local text search", "available digital archive or corpus tools"],
+    "guidance": "Trace readings to passages and editions. Explain translation choices, selection and omissions. Distinguish what the material says from an interpretation, consider rival readings and avoid anachronism. A small corpus does not establish a historical population trend. Computational counts can inform a reading but do not settle its meaning. Experimental falsifiability and statistical power are not universal requirements.",
+    "references": ["https://www.historians.org/resource/statement-on-standards-of-professional-conduct/"]
+  },
+  "formal": {
+    "name": "形式化与理论 / Formal and theoretical",
+    "applies_to": "Mathematical, logical, conceptual and formal theoretical claims with explicit assumptions.",
+    "inputs": ["definitions", "assumptions", "claim or proposition", "related results"],
+    "deliverables": ["derivation or proof", "assumption ledger", "boundary cases and counterexamples", "independent proof audit"],
+    "checks": ["definitions_and_assumptions", "logical_steps", "boundary_cases", "counterexamples", "relation_to_prior_results", "proof_and_computation_boundary"],
+    "optional_tools": ["symbolic computation", "proof assistant if already available"],
+    "guidance": "Expose every substantive inference and dependency, check limiting cases, and search for counterexamples. Distinguish theorem, conjecture and illustrative calculation. Finite numerical tests do not prove a universal statement. Formalization is optional when the chosen theoretical tradition does not require machine checking.",
+    "references": []
+  },
+  "synthesis": {
+    "name": "文献综合 / Evidence synthesis",
+    "applies_to": "Narrative, scoping and systematic reviews, conceptual syntheses and meta-analysis when justified.",
+    "inputs": ["review question", "review type", "search coverage", "inclusion and exclusion rationale"],
+    "deliverables": ["search and screening record", "source-level extraction", "synthesis", "coverage and bias limitations"],
+    "checks": ["review_type_and_scope", "search_coverage", "selection_traceability", "source_appraisal", "synthesis_fit", "coverage_and_bias_limits"],
+    "optional_tools": ["available scholarly search", "reference manager", "statistical tools for justified meta-analysis"],
+    "guidance": "Distinguish records from studies and metadata verification from full-text verification. Record searches, dates and exclusions. Inspect primary sources before attributing findings; inaccessible material remains unverified. Do not call a bounded narrative scan systematic or pool incompatible studies without justification.",
+    "references": ["https://www.prisma-statement.org/"]
+  },
+  "mixed": {
+    "name": "混合方法 / Mixed methods",
+    "applies_to": "Studies combining multiple methodological traditions with an explicit integration rationale.",
+    "inputs": ["research question", "component methods", "integration rationale", "sequencing and resources"],
+    "deliverables": ["component analyses", "integration matrix", "agreement and tension account", "bounded combined conclusions"],
+    "checks": ["integration_rationale", "component_quality", "sequencing", "integration_traceability", "discordant_findings", "combined_claim_limits"],
+    "optional_tools": [],
+    "guidance": "Load the component method modules as well. Explain where integration changes the inference. Preserve tensions rather than forcing agreement, and do not let one component's stronger evidence erase another component's limitations.",
+    "references": []
+  },
+  "iclr-2026": {
+    "name": "ICLR 2026 评议 / ICLR 2026 review",
+    "applies_to": "Optional venue-specific review of work relevant to ICLR; not a universal academic quality model.",
+    "inputs": ["manuscript", "supporting evidence", "review authorization and applicable confidentiality rules"],
+    "deliverables": ["contribution summary", "strengths and weaknesses", "questions", "reasoned assessment and confidence", "revision priorities"],
+    "checks": ["question_and_problem", "motivation_and_related_work", "claim_support_and_rigor", "community_value", "ethics_and_ai_disclosure", "constructive_revision"],
+    "optional_tools": ["available source lookup", "authorized bounded reproduction"],
+    "guidance": "Follow the official 2026 guide's four questions. Lack of state-of-the-art performance alone is not a reason to reject. Separate decisive concerns from improvement suggestions and unknowns. Report evidence locations and uncertainty. The official numeric review-form scale has not been verified in this package: give narrative judgments only, without invented numeric scores, acceptance probabilities or calibrated-review claims. Check current official policies before an actual submission or confidential review.",
+    "references": ["https://iclr.cc/Conferences/2026/ReviewerGuide"]
+  }
+}

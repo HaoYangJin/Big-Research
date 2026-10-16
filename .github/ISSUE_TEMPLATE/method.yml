@@ -1,0 +1,13 @@
+name: Suggest a method or case
+description: Support an underserved research approach
+body:
+  - type: textarea
+    attributes:
+      label: Research need and method
+      description: Explain the paradigm, task, applicability and current gap.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Primary guidance or a shareable case
+      description: Link primary sources and explain limitations; share only material you may publish.

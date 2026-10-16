@@ -1,0 +1,10 @@
+{
+  "name": "research-workflow-marketplace",
+  "interface": {"displayName": "Research Workflow"},
+  "plugins": [{
+    "name": "research-workflow",
+    "source": {"source": "local", "path": "./"},
+    "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+    "category": "Productivity"
+  }]
+}

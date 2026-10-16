@@ -1,0 +1,4 @@
+interface:
+  display_name: "research design"
+  short_description: "Human-led research assistance"
+  default_prompt: "Use $research-design to help with my research task."

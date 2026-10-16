@@ -1,6 +1,6 @@
 # 合成时序研究示例 / Synthetic drift study
 
-这是实际 0.1.0 基线科研闭环使用的公开合成实验，作为 1.0.0 的可复现研究示例保留。只移除了平台依赖并加入空输出目录保护；它不是新的预测方法，也不是现实数据上的性能证明。完整 v1 工作流还包含状态、证据台账、短稿、自审、修改与就绪判断，见 [版本验证报告](../../docs/validation-v1.0.0.md)。
+这个可复现的合成实验展示协议冻结、对照、阴性结果及结论边界。它不是新的预测方法，也不是现实数据上的性能证明。可使用当前研究工作台记录实验和评议；旧验证记录保存在[历史版本](../../docs/history.md)中。
 
 ## Run
 
@@ -33,4 +33,4 @@ Python 3.10+，标准库；默认 300 个独立种子 × 6 种情形 × 2 个模
 
 方向依赖生成机制和模型；不支持“随机划分总是低估未来风险”。随机与时间协议分别拟合不同模型，不能把它们的误差差异解释为固定同一模型的纯评价方法效应。正确指定交互模型已利用生成机制知识，不代表它能预测未知漂移。未完成真实数据验证、新颖性查证、具体 venue 匹配、独立外审或实际投稿。
 
-This example reproduces a synthetic experiment from the actual baseline workflow. It demonstrates protocol freezing, controlled comparisons, negative results, and bounded claims. It does not establish new methodology, real-world generalization, or submission readiness. Use the canonical skill to build a complete checkpointed project around a concrete research task.
+This synthetic example demonstrates protocol freezing, controlled comparisons, negative results and bounded claims. It does not establish new methodology, real-world generalization or submission readiness. Use the current research workspace to record its evidence and build a complete research project.

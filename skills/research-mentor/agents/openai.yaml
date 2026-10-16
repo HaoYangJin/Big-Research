@@ -1,4 +1,0 @@
-interface:
-  display_name: "Research Mentor"
-  short_description: "科研九阶段导师与审稿助手：追踪证据、复现实验、恢复进度并审查结论"
-  default_prompt: "使用 $research-mentor，以混合模式从当前证据出发推进我的科研任务，并给出下一步验收标准。"

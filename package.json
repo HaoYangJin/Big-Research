@@ -1,0 +1,12 @@
+{
+  "name": "research-workflow-ui",
+  "version": "2.1.0",
+  "private": true,
+  "scripts": {
+    "build": "esbuild ui/bridge.js --bundle --format=esm --minify --outfile=src/research_workflow/bridge.js"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.0.0",
+    "esbuild": "^0.25.0"
+  }
+}

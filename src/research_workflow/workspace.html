@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Research Workflow</title>
+  <style>
+    :root{font-family:Inter,"Segoe UI","Microsoft YaHei",sans-serif;color:#24332e;background:#f7f8f4;font-size:15px}
+    *{box-sizing:border-box}body{margin:0}main{max-width:1080px;margin:auto;padding:28px}
+    header{border-bottom:1px solid #dce2d9;padding:12px 0 24px}.brand{letter-spacing:.12em;color:#526b5d;font-size:12px}
+    h1{overflow-wrap:anywhere;font-size:29px;letter-spacing:-.04em;font-weight:600;margin:14px 0}p{line-height:1.7}
+    .muted{color:#64716a;font-size:13px}nav{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}
+    button,input{font:inherit}button{border:1px solid #ccd7cd;background:white;color:#243b30;padding:10px 14px;border-radius:8px;cursor:pointer}
+    button[aria-selected=true]{background:#294d3e;color:white}button:focus-visible,input:focus-visible{outline:3px solid #bb8b40;outline-offset:3px}
+    button:disabled{cursor:default;opacity:.55}input{width:100%;padding:12px;border:1px solid #ccd7cd;background:white;border-radius:8px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin-top:18px}
+    article{background:white;border:1px solid #dce2d9;border-radius:12px;padding:20px;overflow-wrap:anywhere}
+    article h2{font-size:17px;margin:0 0 12px}.tag{font-size:12px;padding:4px 8px;border-radius:20px;background:#edf2e9;display:inline-block}
+    .warning{background:#fff1d8;color:#71501c}.rows{display:grid;gap:12px;margin:16px 0}.row{font-size:13px;white-space:pre-wrap;line-height:1.65}
+    .row strong{display:block;color:#637169;font-size:11px;font-weight:500;margin-bottom:3px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+    #notice{min-height:24px;line-height:1.5}footer{margin-top:24px;border-top:1px solid #dce2d9;padding-top:18px}
+    details{margin-top:14px;font-size:13px}summary{cursor:pointer;color:#365b49}a{color:#245e49}
+    @media(max-width:520px){main{padding:16px}h1{font-size:25px}nav{display:grid;grid-template-columns:1fr 1fr}nav button{padding:10px 8px}}
+  </style>
+</head>
+<body><main>
+  <header><span class="brand">RESEARCH WORKFLOW · HUMAN-LED INQUIRY</span><h1 id="title">研究工作台 / Research workspace</h1>
+    <p class="muted" id="context">问题由你提出，判断由你掌握。 / Your questions. Your judgment.</p><span id="integrity" class="tag"></span></header>
+  <nav role="tablist" aria-label="研究视图 / Research views">
+    <button role="tab" aria-selected="true" data-view="tasks">研究地图 / Map</button>
+    <button role="tab" aria-selected="false" data-view="evidence">论据 / Evidence</button>
+    <button role="tab" aria-selected="false" data-view="candidates">方案 / Compare</button>
+    <button role="tab" aria-selected="false" data-view="decisions">决定与修订 / Decisions</button>
+  </nav>
+  <label for="filter" class="muted">筛选当前视图 / Filter this view</label><input id="filter" placeholder="输入关键词 / Search records">
+  <div id="notice" role="status" aria-live="polite"></div><section id="cards" class="cards" role="tabpanel" aria-label="研究记录 / Research records"></section>
+  <footer><div class="actions"><button id="refresh" disabled>刷新 / Refresh</button></div>
+    <p class="muted" id="mode">本地只读快照；修改研究记录请回到对话。 / Read-only snapshot; return to the conversation to make changes.</p>
+    <p class="muted">完整性检查核对记录与文件，不认证科学结论。 / Integrity checks verify records and files, not scientific truth.</p></footer>
+</main>
+<script id="workspace-data" type="application/json">/*WORKSPACE_DATA*/{}</script>
+<script>
+(()=>{
+  'use strict';
+  let snapshot=JSON.parse(document.getElementById('workspace-data').textContent),view='tasks',send=null,refresh=null;
+  const cards=document.getElementById('cards'),notice=document.getElementById('notice');
+  const labels={planned:'待开始 / Planned',active:'进行中 / Active',blocked:'待解决 / Blocked',complete:'已完成 / Complete',stale:'需复核 / Revisit',out_of_scope:'范围外 / Outside scope',verified:'已核验来源 / Inspected source',unverified:'待核验 / Unverified',supported:'有支持材料 / Evidence linked',hypothesis:'待研究 / Hypothesis',unsupported:'尚无支持 / Unsupported',needs_review:'需复核 / Review needed',pending:'待你决定 / Your decision',confirmed:'已记录选择 / Choice recorded',resolved:'已回应 / Addressed',open:'待回应 / Open',executed:'已记录运行 / Run recorded',failed:'未成功 / Failed',documented:'已记录 / Documented'};
+  const fields={summary:'进展 / Progress',reason:'待解决事项 / What needs attention',locator:'材料位置 / Source location',accessed:'核验日期 / Inspected',path:'本地材料 / Local material',url:'原始来源 / Source',original_url:'原始来源 / Source',limits:'结论边界 / Limits',value:'研究价值 / Research value',evidence:'依据 / Evidence',cost:'所需资源 / Resources',feasibility:'可行性 / Feasibility',choice:'研究者选择 / Researcher choice',researcher_statement:'研究者判断 / Researcher statement',resolution:'回应与修改 / Response',environment:'运行环境 / Environment',command:'实际命令记录 / Recorded command'};
+  const element=(tag,text,cls)=>{const node=document.createElement(tag);node.textContent=String(text??'');if(cls)node.className=cls;return node};
+  const describe=value=>Array.isArray(value)?value.map(v=>typeof v==='object'?JSON.stringify(v):v).join('\n'):typeof value==='object'?JSON.stringify(value,null,2):String(value);
+  function row(parent,label,value){if(value===undefined||value===null||value===''||(Array.isArray(value)&&!value.length))return;const node=element('div','','row');node.append(element('strong',label),element('span',describe(value)));parent.append(node)}
+  function sourceRows(parent,record){for(const key of ['locator','path','url','original_url','accessed','limits'])row(parent,fields[key],record[key]);}
+  function recordCard(record){
+    const card=element('article');card.append(element('h2',record.id+' · '+(record.title||record.question||record.text||record.summary||'')));
+    const state=(snapshot.stale_reviews||[]).includes(record.id)?'stale':record.status;
+    if(state)card.append(element('span',labels[state]||state,'tag'+(['stale','needs_review','blocked','open'].includes(state)?' warning':'')));
+    const rows=element('div','','rows');
+    if(view==='tasks'){
+      row(rows,fields.summary,record.summary||'尚未记录成果 / No result recorded yet');
+      row(rows,'依赖 / Depends on',(record.depends_on||[]).map(id=>snapshot.project.tasks[id]?.title||id).join('\n')||'可以独立开始 / Can start independently');
+      row(rows,'已保存成果 / Saved outputs',record.outputs);row(rows,fields.evidence,record.evidence);row(rows,fields.reason,record.reason);
+    }else if(view==='candidates'){
+      for(const key of ['value','evidence','cost','feasibility'])row(rows,fields[key],record[key]);
+    }else if(view==='decisions'){
+      for(const key of ['choice','researcher_statement','resolution','summary'])row(rows,fields[key],record[key]);
+      if(record.coverage)row(rows,'评议范围 / Review coverage',record.coverage.reviewed+' / '+record.coverage.total+' · '+record.coverage.selection);
+      if(record.confidence)row(rows,'判断信心 / Confidence',record.confidence.level+' · '+record.confidence.reason);
+      if(record.criteria){const details=element('details');details.append(element('summary','逐项评议 / Criterion-level assessment'));for(const [key,c]of Object.entries(record.criteria))row(details,key,(labels[c.verdict]||c.verdict)+' · '+c.reason+(c.locators?.length?'\n'+c.locators.join('\n'):''));rows.append(details);}
+    }else{
+      sourceRows(rows,record);row(rows,'支持材料 / Supporting material',record.supports);row(rows,'反证与不同观点 / Counterevidence',record.contradicts);
+      if(record.kind==='run'){const details=element('details');details.append(element('summary','过程与产物 / Process and outputs'));for(const key of ['command','environment'])row(details,fields[key],record[key]);row(details,'产物 / Artifacts',(record.artifacts||[]).map(a=>a.path));rows.append(details);}
+      for(const id of [...(record.supports||[]),...(record.contradicts||[])]){const source=snapshot.project.evidence[id];if(source){const details=element('details');details.append(element('summary',id+' · '+source.title));sourceRows(details,source);rows.append(details);}}
+    }
+    card.append(rows);return card;
+  }
+  function action(card,text,prompt){if(!send)return;const button=element('button',text);button.onclick=async()=>{button.disabled=true;try{await send(prompt);notice.textContent='已发送到对话 / Sent to the conversation'}catch(error){notice.textContent='操作失败 / Action failed: '+error.message}finally{button.disabled=false}};card.append(button);}
+  function render(){
+    cards.replaceChildren();const p=snapshot.project;
+    if(!p){cards.append(element('p','请从对话打开一个研究项目。 / Open a research project in the conversation.'));return;}
+    document.getElementById('title').textContent=p.title;document.getElementById('context').textContent=[p.field,p.paradigm].filter(Boolean).join(' · ');
+    const integrity=document.getElementById('integrity');integrity.textContent=snapshot.integrity?.structural_valid?'记录完整 / Records intact':'需检查完整性 / Check integrity';integrity.className='tag'+(snapshot.integrity?.structural_valid?'':' warning');
+    const query=document.getElementById('filter').value.toLocaleLowerCase();
+    let records=view==='tasks'?Object.values(p.tasks):view==='evidence'?[...Object.values(p.claims),...Object.values(p.evidence)]:view==='candidates'?Object.values(p.candidates):[...Object.values(p.decisions),...Object.values(p.concerns),...Object.values(p.reviews||{})];
+    records=records.filter(record=>JSON.stringify(record).toLocaleLowerCase().includes(query));
+    for(const record of records){const card=recordCard(record);
+      if(view==='tasks')action(card,'继续此任务 / Continue',`继续研究项目 ${snapshot.workspace||p.title} 的任务 ${record.id}，先核对依赖、证据和预算。`);
+      if(view==='decisions'&&record.status==='pending')for(const choice of record.options||[])action(card,'选择 / Choose: '+choice,`在项目 ${snapshot.workspace||p.title} 的决定 ${record.id} 中，我选择 ${choice}。请记录我的选择，并说明后续影响。`);
+      cards.append(card);
+    }
+    if(!records.length)cards.append(element('p','暂无匹配记录 / No matching records.'));
+  }
+  document.querySelectorAll('[data-view]').forEach(button=>button.onclick=()=>{view=button.dataset.view;document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-selected',String(b===button)));render()});
+  document.getElementById('filter').oninput=render;
+  document.getElementById('refresh').onclick=async()=>{try{const data=await refresh();if(data)snapshot=data;render()}catch(error){notice.textContent=error.message}};
+  window.researchWorkspace={update(data){snapshot=data;render()},connect(handlers){send=handlers.send;refresh=handlers.refresh;document.getElementById('refresh').disabled=false;document.getElementById('mode').textContent='交互视图：重要选择返回对话确认并记录。 / Interactive: decisions return to the conversation for recording.';render()},current(){return snapshot}};
+  render();
+})();
+</script><script type="module">/*MCP_BRIDGE*/</script>
+</body></html>

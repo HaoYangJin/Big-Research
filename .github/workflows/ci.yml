@@ -1,33 +1,76 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches: [main, 'codex/**']
   pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  python:
+  verify:
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        python: ['3.10', '3.12']
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ['3.11', '3.14']
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v6
         with:
+          version: '0.13.1'
           python-version: ${{ matrix.python }}
-      - run: python -m unittest discover -s tests -v
-      - run: python -m unittest discover -s examples/drift-study -p test_experiment.py -v
-      - run: python scripts/validate_repo.py
-      - run: python scripts/build_release.py --output dist
-  claude-manifests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install -g @anthropic-ai/claude-code@2.1.301
-      - run: claude plugin validate .claude-plugin/plugin.json --strict
-      - run: claude plugin validate .claude-plugin/marketplace.json --strict
+      - run: uv sync --frozen
+      - run: npm ci
+      - run: npm run build
+      - run: git diff --exit-code -- src/research_workflow/bridge.js src/research_workflow/bridge.js.LEGAL.txt
+      - run: uv run ruff check src tests scripts examples/run_examples.py
+      - run: uv run coverage run -m unittest discover -s tests -v
+      - run: uv run coverage report
+      - run: uv run python -m unittest discover -s examples/drift-study -p test_experiment.py -v
+      - run: uv run python examples/run_examples.py --out .cache/example-studies
+      - run: uv run python scripts/validate_repo.py
+      - run: uv run python scripts/build_release.py --output dist
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.13.1'
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: uv sync --frozen
+      - run: npm ci
+      - run: npm run build
+      - run: git diff --exit-code -- src/research_workflow/bridge.js src/research_workflow/bridge.js.LEGAL.txt
+      - run: uv run playwright install --with-deps chromium
+      - run: uv run python scripts/check_ui.py
+      - run: npm install --prefix .cache/client @anthropic-ai/claude-code@2.1.301 @openai/codex@0.163.0
+      - run: .cache/client/node_modules/.bin/claude plugin validate .claude-plugin/plugin.json --strict
+      - run: .cache/client/node_modules/.bin/claude plugin validate .claude-plugin/marketplace.json --strict
+      - name: Clean Claude installation on disposable CI runner
+        env:
+          CLAUDE_CONFIG_DIR: ${{ runner.temp }}/research-claude-test
+        run: |
+          .cache/client/node_modules/.bin/claude plugin marketplace add "$GITHUB_WORKSPACE"
+          .cache/client/node_modules/.bin/claude plugin install research-workflow@research-workflow-marketplace --scope user
+          .cache/client/node_modules/.bin/claude plugin list
+      - name: Clean Codex installation on disposable CI runner
+        env:
+          CODEX_HOME: ${{ runner.temp }}/research-codex-test
+        run: |
+          mkdir -p "$CODEX_HOME"
+          .cache/client/node_modules/.bin/codex plugin marketplace add "$GITHUB_WORKSPACE"
+          .cache/client/node_modules/.bin/codex plugin add research-workflow@research-workflow-marketplace
+          .cache/client/node_modules/.bin/codex plugin list
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-verification
+          path: .cache/ui-check

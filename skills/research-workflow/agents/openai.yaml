@@ -1,0 +1,4 @@
+interface:
+  display_name: "research workflow"
+  short_description: "Human-led research assistance"
+  default_prompt: "Use $research-workflow to help with my research task."

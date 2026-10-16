@@ -1,0 +1,4 @@
+{
+  "mcpServers": {"research-workspace": {"command": "uv",
+    "args": ["run", "--isolated", "--frozen", "--no-dev", "--project", "${CLAUDE_PLUGIN_ROOT}", "research-workflow-mcp"]}}
+}

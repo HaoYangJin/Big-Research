@@ -1,16 +1,34 @@
+> 本项目旨在利用 AI 工具辅助人类科学家进行科学研究，而非一个 AI 科学家项目。人类科学家的科研品味以及伦理道德是科研过程中不可替代的东西。希望各位研究者为全人类的理想奋斗，一起突破未知边界。
+
 # Research Workflow
 
-[简体中文](README.md) · [English](README.en.md) · [快速上手](docs/quickstart.md) · [更新记录](CHANGELOG.md)
+**人类主导的 AI 辅助科研工作台。把想法变成可以推进、检查和持续完善的研究。**
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![CI](https://github.com/HaoYangJin/Research-workflow-Skill/actions/workflows/ci.yml/badge.svg)
+[English](README.en.md) · [开始使用](docs/quickstart.md) · [研究方法与评议](docs/methods.md) · [参与贡献](CONTRIBUTING.md)
 
-**科研导师与审稿插件：直接说任务，自动选择模式，用清晰行动和真实证据推进研究。**
+![Version](https://img.shields.io/badge/version-2.1.0-355b48) ![License](https://img.shields.io/badge/license-MIT-355b48)
 
-![从任务到行动卡的使用流程](assets/workflow-overview.svg)
+你不必先掌握一套复杂命令。带来一个想法、一组材料、一份草稿，或者一个卡住的问题，说明你希望完成什么，Research Workflow 会帮助你找到下一步。
 
-## 三分钟开始
+## 从你所在的位置开始
+
+| 你想做什么 | 一起完成什么 |
+| --- | --- |
+| “这个想法值得研究吗？” | 梳理问题、已有工作、竞争解释与可行路径 |
+| “我不知道该选什么方法。” | 根据问题和研究范式比较方法、资源与限制 |
+| “请帮我推进这项研究。” | 开展已授权的分析，保留材料、过程和实际结果 |
+| “这份稿件哪里还需要改进？” | 找到有依据的问题，形成修改与复核计划 |
+| “继续上次的项目。” | 恢复研究地图、证据和待决定事项 |
+
+## 为不同的研究方式留出空间
+
+问题、方法和判断属于研究者。通用框架连接研究问题、资料、分析和论断，方法模块负责提供适用的检查：定量与实验、质性研究、解释与人文研究、形式化与理论、文献综合、混合方法。
+
+你可以从已有材料进入，调整路线、并行探索，也可以回到早先的选择。一个阴性结果、一条未能成立的推导或尚有分歧的解释，都值得如实保存。
+
+## 安装最新版本
+
+完整本地体验需要 [uv](https://docs.astral.sh/uv/getting-started/installation/) 和 Python 3.11+，uv 可以管理 Python。无需为本插件配置模型 API 密钥；AI 与检索使用你当前客户端的能力。
 
 Claude Code：
 
@@ -22,92 +40,28 @@ Claude Code：
 然后输入：
 
 ```text
-/research-workflow:research-mentor
-我想研究时间序列漂移。请用合成数据和 Python 标准库做一个低成本实验，先给我三步行动。
+/research-workflow:research-workflow
+我刚开始研究这个问题。请帮我梳理已有材料，比较可行方向，并给出下一步。
 ```
 
-Codex CLI（0.163.0 安装链路曾核验；本版尚未做账户端到端验证）：
+Codex 的本地安装、首次设置和其他使用方式见[快速上手](docs/quickstart.md)。正式发行包统一从 [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest) 获取。
 
-```bash
-codex plugin marketplace add HaoYangJin/Research-workflow-Skill --ref v1.1.0
-codex plugin add research-workflow@research-workflow-marketplace
-```
+## 一份看得见来路的研究
 
-新会话中用 `$research-mentor` 加上你的任务即可。桌面与云端导入见 [安装指南](docs/openai-install.md)，其他方式见 [USAGE](USAGE.md)。
+研究地图连接任务与依赖；论据浏览器连接论断与材料；方案比较帮助你做选择；决定与修订面板保留重要判断及修改过程。支持 MCP Apps 的客户端提供交互视图，其他环境仍可使用文本、表格和本地快照。
 
-## 三档模式，不用记命令
+评议结合通用研究质量、方法要求与可选的期刊或会议标准。ICLR、NeurIPS、APA JARS、健康研究报告规范和人文评议各有适用范围。没有统一量表的领域，也能获得明确标准、证据位置、理由和修改建议。[了解评议方式](docs/methods.md)
 
-| ① 导师 mentor | ② 混合 mixed | ③ 审稿 reviewer |
-| --- | --- | --- |
-| 选题、学习、设计下一步 | 推进方案并检查关键问题 | 检查已有材料的明显方法错误 |
-| 目标 → 操作 → 验收 | 两个短视角＋共享行动 | 证据位置 → 修复 → 验证 |
+本项目不替代研究者、伦理审查或正式同行评审。记录完整性检查不认证科学结论；没有经过校准的跨学科总分，也不预测录用概率。
 
-默认按当前任务、项目偏好和阶段判断。随时说“导师模式 / 混合模式 / 审稿模式 / 自动”。支持选择控件的平台可展示三选一；其余平台显示文本选择条，并直接开始工作。项目保存偏好与切换历史；没有持久存储时仅保留当前对话上下文。
+## 试一段完整研究
 
-**指导原则**：优先沿你的可行方向尝试；不凑缺陷数量，不把材料缺失当成错误。只有明确原理/方法错误或不可执行时才阻断，并给出修复路径。要求“严格审查并复现”后，才扩大到全流程核查，按需请求数据和代码。
+查看[可运行案例](examples/README.md)：计算研究、解释性文本研究和理论推导，展示从问题到材料、分析、草稿、评议与修订的过程。
 
-## 你会得到什么
+## 一起完善它
 
-| 任务 | 主要交付 |
-| --- | --- |
-| 选题与文献 | 有边界的问题、来源与文献图谱 |
-| 假设与实验 | 可证伪假设、对照、指标和预算 |
-| 数据与结果 | 复现命令、实际输出、消融与不确定性 |
-| 写作与修改 | 证据关联草稿、问题修复表、回应稿 |
-| 投稿判断 | ready / not_ready、剩余问题和下一步 |
+欢迎贡献方法模块、研究案例、翻译和使用反馈。我们尤其希望听到：哪个科研环节没有被好好支持，哪些检查不适合你的研究传统。[贡献指南](CONTRIBUTING.md) · [问题反馈](https://github.com/HaoYangJin/Research-workflow-Skill/issues)
 
-小问题直接回答；持续项目才创建检查点。回答默认是简短任务卡，需要时补表格或流程图。[可复制对话与教程](docs/quickstart.md) · [详细示例](docs/conversation-examples.md)。
+用户安装入口只提供最新版。已有项目可以[迁移数据](docs/quickstart.md#迁移已有项目)，开发者可以从[历史索引](docs/history.md)查看旧实现。
 
-## v1.1.0 修复
-
-- 操作系统锁自动随进程释放，修复异常退出后无法写入。
-- 新增模式切换命令、历史记录与自动阶段选择。
-- v1.0.0 项目可显式迁移，先验证并保存备份。
-- 删除根目录重复技能入口；发布 ZIP 带使用指南。
-
-[发布说明与缺陷对应](docs/RELEASE-v1.1.0.md) · [验证与未覆盖范围](docs/validation-v1.1.0.md) · [v1.0.0 原缺陷报告](docs/limitations-v1.0.0.md)。
-
-## 为什么保留 Skill 和仓库名
-
-插件是分发方式，`skills/research-mentor/` 是唯一技能源码，两者配合使用。保留仓库地址和 `research-workflow` 插件标识，避免打断旧安装；界面名称统一为 Research Workflow。独立 Skill 仍可安装，但不要与插件重复启用。[结构参考与整理依据](docs/repository-design.md)。
-
-```text
-.claude-plugin/          Claude 插件与 marketplace
-.codex-plugin/           Codex 插件
-skills/research-mentor/  唯一技能入口、阶段参考、本地 CLI
-scripts/                安装、验证、可重复打包
-tests/                  工作流与发布回归测试
-examples/drift-study/   可重跑的合成研究
-docs/                   教程、版本说明和验证记录
-assets/                 图标和使用流程图
-```
-
-## 本地试用与升级
-
-Python 3.10+；标准库，无需付费 API。
-
-```bash
-python examples/drift-study/experiment.py --out /tmp/drift-demo
-python skills/research-mentor/scripts/workflow.py init /tmp/my-study --title "我的问题"
-python skills/research-mentor/scripts/workflow.py mode /tmp/my-study --select reviewer
-# 仅升级已有 v1.0.0 项目时执行：
-python skills/research-mentor/scripts/workflow.py migrate /path/to/old-study
-```
-
-CLI 负责记录和结构校验；论文检索、实验与研究判断由 AI 客户端及可用工具完成。它不能认证科学正确性或保证录用。单机本地锁已验证，共享文件系统和跨机器写入不在支持范围内。
-
-```bash
-python -m unittest discover -s tests -v
-python scripts/validate_repo.py
-python scripts/build_release.py --output dist
-```
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=HaoYangJin/Research-workflow-Skill&type=Date)](https://www.star-history.com/#HaoYangJin/Research-workflow-Skill&Date)
-
-图表由 Star History 在线生成，可能因第三方可用性或 GitHub API 限额暂时无法加载。
-
-## 贡献与许可
-
-[贡献指南](CONTRIBUTING.md) · [MIT](LICENSE) · [历史版本](https://github.com/HaoYangJin/Research-workflow-Skill/releases)
+[更新记录](CHANGELOG.md) · [参考与致谢](docs/research-basis.md) · [MIT](LICENSE)

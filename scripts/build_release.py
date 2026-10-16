@@ -1,58 +1,86 @@
-#!/usr/bin/env python3
-"""Build deterministic, allowlisted standalone-skill and cross-host-plugin ZIPs."""
+"""Create a deterministic, allowlisted current-plugin archive; no research data or old runtime."""
+
 import argparse
 import hashlib
-from pathlib import Path
+import subprocess
 import zipfile
+from pathlib import Path
 
 from validate_repo import ROOT, validate
 
-
-def archive(path, entries):
-    with zipfile.ZipFile(path, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
-        for target, source in sorted(entries):
-            info = zipfile.ZipInfo(target, date_time=(2026, 1, 1, 0, 0, 0))
-            info.compress_type = zipfile.ZIP_DEFLATED
-            info.external_attr = 0o100644 << 16
-            z.writestr(info, source.read_bytes())
+FILES = [
+    "plugin.json",
+    "mcp.json",
+    ".mcp.json",
+    ".codex-plugin/plugin.json",
+    ".agents/plugins/marketplace.json",
+    ".claude-plugin/plugin.json",
+    ".claude-plugin/marketplace.json",
+    "pyproject.toml",
+    "uv.lock",
+    "LICENSE",
+    "VERSION",
+    "README.md",
+    "README.en.md",
+]
 
 
 def build(output, root=ROOT):
+    root, output = Path(root), Path(output)
     version = validate(root)
-    output = Path(output).resolve()
+    # A clean release checkout contains only tracked source plus ignored caches/data.
+    # Match the acceptance digest's candidate set, never recursively package ignored research output.
+    listing = subprocess.run(
+        ["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
+        cwd=root,
+        capture_output=True,
+        check=True,
+    ).stdout
+    eligible = {name.decode("utf-8") for name in listing.split(b"\0") if name}
+    entries = [(name, root / name) for name in FILES]
+    for directory in ("skills", "src/research_workflow", "assets", "examples"):
+        for path in (root / directory).rglob("*"):
+            relative = path.relative_to(root)
+            if (
+                path.is_file()
+                and not path.name.startswith("test_")
+                and not any(part.startswith(".") or part == "__pycache__" for part in relative.parts)
+                and path.suffix in {".py", ".md", ".yaml", ".json", ".html", ".js", ".txt", ".svg", ".png"}
+            ):
+                assert not path.is_symlink(), "Package symlinks are not permitted"
+                entries.append((relative.as_posix(), path))
+    for name in (
+        "docs/quickstart.md",
+        "docs/methods.md",
+        "docs/compatibility.md",
+        "docs/development.md",
+        "docs/history.md",
+        "docs/research-basis.md",
+        "docs/release-notes.md",
+        "CONTRIBUTING.md",
+        "CHANGELOG.md",
+        "CODE_OF_CONDUCT.md",
+        "NOTICE.md",
+        "CITATION.cff",
+    ):
+        entries.append((name, root / name))
     output.mkdir(parents=True, exist_ok=True)
-    skill = root / "skills/research-mentor"
-    allowed = {"references", "scripts", "agents", "examples", "assets"}
-    files = []
-    for p in skill.rglob("*"):
-        rel = p.relative_to(skill)
-        if not p.is_file() or any(part.startswith(".") or part == "__pycache__" for part in rel.parts):
-            continue
-        if p.suffix == ".pyc" or p.name in {"project.json", "evidence.json"}:
-            continue
-        if rel.as_posix() == "SKILL.md" or rel.parts[0] in allowed:
-            files.append(p)
-    standalone = [("research-mentor/" + p.relative_to(skill).as_posix(), p) for p in files]
-    standalone.append(("research-mentor/LICENSE", root / "LICENSE"))
-    plugin = [(p.relative_to(root).as_posix(), p) for p in files]
-    plugin += [(p, root / p) for p in [".claude-plugin/plugin.json", ".claude-plugin/marketplace.json", ".codex-plugin/plugin.json", "assets/plugin-icon.svg", "LICENSE", "VERSION"]]
-    docs = [p for p in (root / "docs").rglob("*") if p.is_file()]
-    docs += [p for folder in ["examples", "scripts", "tests"] for p in (root / folder).rglob("*") if p.is_file() and p.suffix in {".py", ".md", ".json"}]
-    docs += [root / "CODE_OF_CONDUCT.md"]
-    docs += [root / name for name in ["README.md", "README.en.md", "USAGE.md", "CHANGELOG.md", "CONTRIBUTING.md"]]
-    plugin += [(p.relative_to(root).as_posix(), p) for p in docs]
-    plugin += [(p.relative_to(root).as_posix(), p) for p in (root / "assets").glob("*.svg") if p.name != "plugin-icon.svg"]
-    paths = [output / f"research-mentor-{version}.zip", output / f"research-workflow-{version}.zip"]
-    archive(paths[0], standalone)
-    archive(paths[1], plugin)
+    target = output / f"research-workflow-{version}.zip"
+    with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
+        for name, path in sorted(entries):
+            if name not in eligible:
+                continue
+            assert path.resolve().is_relative_to(root.resolve()) and not path.is_symlink(), "Unsafe package path"
+            info = zipfile.ZipInfo(name, date_time=(2026, 1, 1, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.external_attr = 0o100644 << 16
+            archive.writestr(info, path.read_bytes())
     sums = output / "SHA256SUMS.txt"
-    sums.write_text("".join(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n" for p in paths), encoding="utf-8")
-    print("\n".join(str(p) for p in paths + [sums]))
-    return paths
+    sums.write_text(f"{hashlib.sha256(target.read_bytes()).hexdigest()}  {target.name}\n", encoding="utf-8")
+    return target
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", default="dist")
-    build(parser.parse_args().output)
-
+    print(build(parser.parse_args().output))

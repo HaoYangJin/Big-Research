@@ -1,0 +1,5 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {"research-workspace": {"type": "stdio", "command": "uv",
+    "args": ["run", "--isolated", "--frozen", "--no-dev", "--project", "${PLUGIN_ROOT}", "research-workflow-mcp"]}}
+}

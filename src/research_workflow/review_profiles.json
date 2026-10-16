@@ -1,0 +1,51 @@
+{
+  "iclr-2026": {
+    "name": "ICLR 2026", "kind": "venue_review", "accessed": "2026-10-16",
+    "source": "https://iclr.cc/Conferences/2026/ReviewerGuide",
+    "applies_to": "Learning representations research; use the official target-year policy for actual submission.",
+    "checks": ["problem", "motivation", "claims_supported", "community_contribution", "constructive_feedback", "ethics_and_disclosure"],
+    "limits": "Original qualitative mapping, not a verified official numeric review form. No SOTA requirement by itself."
+  },
+  "neurips-2026": {
+    "name": "NeurIPS 2026", "kind": "venue_review", "accessed": "2026-10-16",
+    "source": "https://neurips.cc/Conferences/2026/ReviewerGuidelines",
+    "applies_to": "Select general, theory, use-inspired, concept-and-feasibility, or negative-results contribution before interpreting criteria.",
+    "checks": ["contribution_type_fit", "quality", "clarity", "significance", "originality"],
+    "limits": "Theory does not require empirical validation. Originality includes insights and problem framing, not just new algorithms."
+  },
+  "acm-artifacts": {
+    "name": "ACM artifact evaluation", "kind": "artifact_assessment", "accessed": "2026-10-16",
+    "source": "https://sigsim.acm.org/conf/pads/2022/blog/artifact-evaluation/",
+    "applies_to": "Computational artifacts; check the target venue's current badge policy separately.",
+    "checks": ["documented", "consistent", "complete", "exercisable", "reuse_conditions", "independent_reproduction_status"],
+    "limits": "Self-assessment does not award an ACM badge. Availability, functionality and independent reproduction are separate."
+  },
+  "medical-reporting": {
+    "name": "Health research reporting selector", "kind": "reporting_guidance", "accessed": "2026-10-16",
+    "source": "https://www.equator-network.org/library/",
+    "applies_to": "Choose CONSORT for randomized trials, STROBE for observational studies, PRISMA for systematic reviews, SRQR/COREQ for applicable qualitative designs, STARD/TRIPOD for diagnostic/prediction research, ARRIVE for animal research.",
+    "checks": ["study_type_and_guideline_selected", "current_checklist_retrieved", "item_level_reporting_audit", "missing_reporting_vs_method_defect", "clinical_and_ethics_limits"],
+    "limits": "Selector only, not an embedded full checklist. Fetch and cite the exact guideline/version. Reporting completeness is not risk-of-bias assessment, evidence certainty, clinical advice or ethical approval."
+  },
+  "apa-jars": {
+    "name": "APA JARS", "kind": "reporting_guidance", "accessed": "2026-10-16",
+    "source": "https://apastyle.apa.org/jars",
+    "applies_to": "Psychological research: choose JARS-Quant, JARS-Qual or JARS-Mixed according to method; consider JARS-REC where applicable.",
+    "checks": ["appropriate_jars_family", "question_and_design_reporting", "sampling_and_material_reporting", "analysis_traceability", "researcher_position_and_context", "limits_and_transparency"],
+    "limits": "Original summary, not a complete APA checklist or a numerical quality scale. Use the official checklist for full reporting audit."
+  },
+  "public-humanities": {
+    "name": "Public Humanities review guidance", "kind": "venue_review", "accessed": "2026-10-16",
+    "source": "https://www.cambridge.org/core/journals/public-humanities/information/peer-review-information/instructions-for-peer-reviewers",
+    "applies_to": "Context-sensitive humanities review; check fit to the journal and the relevant call for papers. Do not generalize one journal's editorial priorities to all humanities.",
+    "checks": ["question_and_contribution", "source_context_and_argument", "engagement_with_scholarship", "audience_and_accessibility", "ethical_context", "constructive_revision"],
+    "limits": "Original working adaptation of reviewer guidance, not an official numeric form. Interpretive disagreement requires reasoned engagement, not automatic rejection."
+  },
+  "stanford-agentic-reference": {
+    "name": "Stanford Agentic Reviewer inspired dimensions", "kind": "system_reference", "accessed": "2026-10-16",
+    "source": "https://paperreview.ai/tech-overview",
+    "applies_to": "Optional structured feedback lens. Seven dimensions are adapted qualitatively; experiment soundness applies only when experiments are part of the work.",
+    "checks": ["originality", "question_importance", "claim_support", "experiment_soundness_if_applicable", "writing_clarity", "community_value", "prior_work_context"],
+    "limits": "No Stanford service integration, endorsement, model weights or calibration are included. Their ICLR-2025 result used 150 training and 147 test submissions and does not validate this implementation or other fields."
+  }
+}

@@ -1,0 +1,14 @@
+name: Report a problem
+description: Help make a research task work reliably
+body:
+  - type: textarea
+    attributes:
+      label: What research task were you trying to complete?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What happened, and what did you expect?
+      description: Include client/version and minimal reproduction. Remove private materials, credentials and participant information.
+    validations:
+      required: true

@@ -1,0 +1,12 @@
+{
+  "verified_at": null,
+  "checks": {
+    "independent_code_review": false,
+    "behavioral_skill_evaluation": false,
+    "cross_disciplinary_examples": false,
+    "interactive_ui": false,
+    "claude_clean_install": false,
+    "codex_clean_install": false
+  },
+  "evidence": {}
+}

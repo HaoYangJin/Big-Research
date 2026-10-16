@@ -1,0 +1,4 @@
+interface:
+  display_name: "research review"
+  short_description: "Human-led research assistance"
+  default_prompt: "Use $research-review to help with my research task."
