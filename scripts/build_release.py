@@ -36,6 +36,12 @@ def build(output, root=ROOT):
     standalone.append(("research-mentor/LICENSE", root / "LICENSE"))
     plugin = [(p.relative_to(root).as_posix(), p) for p in files]
     plugin += [(p, root / p) for p in [".claude-plugin/plugin.json", ".claude-plugin/marketplace.json", ".codex-plugin/plugin.json", "assets/plugin-icon.svg", "LICENSE", "VERSION"]]
+    docs = [p for p in (root / "docs").rglob("*") if p.is_file()]
+    docs += [p for folder in ["examples", "scripts", "tests"] for p in (root / folder).rglob("*") if p.is_file() and p.suffix in {".py", ".md", ".json"}]
+    docs += [root / "CODE_OF_CONDUCT.md"]
+    docs += [root / name for name in ["README.md", "README.en.md", "USAGE.md", "CHANGELOG.md", "CONTRIBUTING.md"]]
+    plugin += [(p.relative_to(root).as_posix(), p) for p in docs]
+    plugin += [(p.relative_to(root).as_posix(), p) for p in (root / "assets").glob("*.svg") if p.name != "plugin-icon.svg"]
     paths = [output / f"research-mentor-{version}.zip", output / f"research-workflow-{version}.zip"]
     archive(paths[0], standalone)
     archive(paths[1], plugin)
@@ -49,3 +55,4 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", default="dist")
     build(parser.parse_args().output)
+

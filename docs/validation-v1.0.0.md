@@ -14,7 +14,7 @@
 
 基线提交 `b089a37bfd9143426bf00f5cdf7eeff78db73568`，声明版本 0.1.0。
 
-使用原 Skill 的独立任务从合成时序研究开始，实际运行实验而非仅列计划。它可以在有能力的宿主中完成科学推理和文件产出，因此“没有 CLI”不意味着“原 Skill 完全不能工作”。差距在于：输出格式依赖执行代理，没有标准状态恢复、证据台账、阶段门槛、插件清单、发布构建或回归校验。
+使用原 Skill 的独立任务从合成时序研究开始，实际运行实验而非仅列计划。它可以在有能力的运行平台中完成科学推理和文件产出，因此“没有 CLI”不意味着“原 Skill 完全不能工作”。差距在于：输出格式依赖执行代理，没有标准状态恢复、证据台账、阶段门槛、插件清单、发布构建或回归校验。
 
 试跑也说明科研结论必须有限定：强漂移构造可出现乐观偏差，噪声下降构造可出现相反方向。不能把示例变成“随机划分总是低估误差”的普遍结论。
 
@@ -37,7 +37,7 @@
 
 改进：明确计划与实际运行使用独立 ID、假设与结果结论使用独立 ID；纠正旧记录时显式重开。该试跑中主代理更新过 CLI，因此只作为迭代证据，不列作最终冻结版本通过证据。
 
-非冻结会话还曾出现一次检查点返回与后续状态读取不一致的观察，原因未确定；重新记录后两次校验均成功。本地另做 30 轮顺序 checkpoint/status 持久化检查，未复现回退。该观察不被宣称为已定位或修复的代码缺陷；最终验收以独立冻结副本为准，持久化记录也不宣称是防篡改或跨宿主故障恢复系统。
+非冻结会话还曾出现一次检查点返回与后续状态读取不一致的观察，原因未确定；重新记录后两次校验均成功。本地另做 30 轮顺序 checkpoint/status 持久化检查，未复现回退。该观察不被宣称为已定位或修复的代码缺陷；最终验收以独立冻结副本为准，持久化记录也不宣称是防篡改或跨运行平台故障恢复系统。
 
 ### 最终冻结版验证
 
@@ -69,7 +69,7 @@ python tools/workflow.py validate .
 
 在临时项目模拟持锁进程 `os._exit(17)`，观察到 `.workflow.lock` 遗留，下一次 checkpoint 以锁定错误退出。该异常恢复缺陷在原标签中仍存在；详见 [缺陷与限制](limitations-v1.0.0.md)。原先冻结科研闭环的验收结果不因此扩展到强制退出恢复。
 
-插件安装后，本会话宿主技能清单还同时暴露根兼容入口与正式目录的两个 `research-mentor` 条目。根入口转读正式技能；本次没有调用模型，不判断其对实际自动选择的影响，也不将该宿主观察推广到所有客户端。
+插件安装后，本会话运行平台技能清单还同时暴露根兼容入口与正式目录的两个 `research-mentor` 条目。根入口转读正式技能；本次没有调用模型，不判断其对实际自动选择的影响，也不将该运行平台观察推广到所有客户端。
 
 以下边界仍成立：
 
@@ -78,3 +78,4 @@ python tools/workflow.py validate .
 - A successful synthetic example tests workflow mechanics and bounded statistical reasoning, not real-world generalization or novelty.
 - An independent skill task tests observed behavior in this host. It is not a statistical model comparison, broad benchmark, or reproducible guarantee of future agent outputs.
 - Native Claude checks and installation, plus the post-release Codex CLI installation check above, were exercised here. Full desktop/Work cloud imports, runtime research behavior in those surfaces, and directory review remain separate acceptance work and are not established by package validation.
+

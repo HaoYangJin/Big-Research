@@ -10,9 +10,10 @@ from pathlib import Path
 import re
 import sys
 import tempfile
+import socket
 from urllib.parse import urlparse
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 PHASES = {
     1: ("scope", ("question", "scope", "literature", "constraints")),
     2: ("hypothesis", ("hypotheses", "falsification", "contribution_boundary")),
@@ -91,22 +92,42 @@ def atomic_json(path, obj):
 
 @contextmanager
 def locked(root):
+    # Keep the inode: unlinking an advisory lock allows two independent writers.
     lock = root / ".workflow.lock"
-    try:
-        fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
-    except FileExistsError as exc:
-        raise WorkflowError("Project is locked; finish the other writer before retrying") from exc
-    try:
-        os.close(fd)
-        yield
-    finally:
-        lock.unlink()
+    require(not lock.is_symlink(), "Refuse symlink lock file")
+    with open(lock, "a+b") as handle:
+        try:
+            if os.name == "nt":
+                import msvcrt
+                handle.seek(0)
+                if not handle.read(1):
+                    handle.write(b" ")
+                    handle.flush()
+                handle.seek(0)
+                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+                fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as exc:
+            raise WorkflowError("Project is locked; finish the other writer before retrying") from exc
+        try:
+            handle.seek(0)
+            handle.truncate()
+            handle.write(json.dumps({"pid": os.getpid(), "host": socket.gethostname(), "started": now()}).encode())
+            handle.flush()
+            yield
+        finally:
+            if os.name == "nt":
+                handle.seek(0)
+                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
 
 
-def load(root):
+def load(root, allow_legacy=False):
     state = read_json(inside(root, "project.json"))
     require(isinstance(state, dict) and state.get("schema_version") == 1, "Unsupported project schema")
-    require(state.get("workflow_version") == VERSION, "Project version differs; migrate explicitly before writing")
+    require(state.get("workflow_version") in ({VERSION, "1.0.0"} if allow_legacy else {VERSION}), "Project version differs; migrate explicitly before writing")
     require(nonempty(state.get("title")), "Missing project title")
     require(state.get("mode") in {"mentor", "reviewer", "mixed"}, "Invalid mode")
     require(state.get("kind") in {"empirical", "theoretical", "review"}, "Invalid research kind")
@@ -241,7 +262,7 @@ def init(args):
         require(not any(p.name != ".workflow.lock" for p in root.iterdir()), "Init requires an empty project directory; existing files are never overwritten")
         (root / "artifacts").mkdir()
         stages = {str(n): ({"status": "not_requested", "reason": "Entry phase chosen by user"} if n < args.phase else {"status": "pending"}) for n in PHASES}
-        state = {"schema_version": 1, "workflow_version": VERSION, "title": args.title, "kind": args.kind, "mode": args.mode, "current_phase": args.phase, "stages": stages, "history": [{"at": now(), "action": "init", "phase": args.phase}]}
+        state = {"schema_version": 1, "workflow_version": VERSION, "title": args.title, "kind": args.kind, "mode": resolve_mode(args.mode, args.phase), "mode_policy": "auto" if args.mode == "auto" else "manual", "current_phase": args.phase, "stages": stages, "history": [{"at": now(), "action": "init", "phase": args.phase}]}
         atomic_json(root / "evidence.json", {"sources": [], "experiments": [], "claims": []})
         atomic_json(root / "project.json", state)
     return state
@@ -271,7 +292,48 @@ def change(args):
                 record["reason"] = args.reason
             state["stages"][str(args.phase)] = record
             state["current_phase"] = next((n for n in PHASES if state["stages"][str(n)]["status"] in {"pending", "blocked"}), None)
+        if state.get("mode_policy") == "auto":
+            previous = state["mode"]
+            state["mode"] = resolve_mode("auto", state["current_phase"])
+            if previous != state["mode"]:
+                state["history"].append({"at": now(), "action": "mode", "from": previous, "to": state["mode"], "policy": "auto", "reason": "Phase changed"})
         state["history"].append({"at": now(), "action": args.command, "phase": args.phase, "reason": args.reason})
+        atomic_json(root / "project.json", state)
+    return state
+
+
+def resolve_mode(selection, phase, task=None):
+    if selection != "auto":
+        return selection
+    if task == "review":
+        return "reviewer"
+    if task == "revise":
+        return "mixed"
+    if task == "plan":
+        return "mentor"
+    return "reviewer" if phase in {7, 9} else "mixed" if phase in {5, 8} else "mentor"
+
+
+def preferences(args):
+    root = Path(args.project).resolve()
+    with locked(root):
+        state = load(root, allow_legacy=args.command == "migrate")
+        validate(root, state)
+        if args.command == "migrate":
+            if state["workflow_version"] == VERSION:
+                return state
+            backup = root / "project.v1.0.0.backup.json"
+            require(not backup.exists(), "Migration backup already exists; preserve it before retrying")
+            atomic_json(backup, state)
+            state["workflow_version"] = VERSION
+            state.setdefault("mode_policy", "manual")
+            event = {"at": now(), "action": "migrate", "from": "1.0.0", "to": VERSION}
+        else:
+            previous = state["mode"]
+            state["mode"] = resolve_mode(args.select, state["current_phase"], args.task)
+            state["mode_policy"] = "auto" if args.select == "auto" else "manual"
+            event = {"at": now(), "action": "mode", "from": previous, "to": state["mode"], "policy": state["mode_policy"], "task": args.task, "reason": args.reason}
+        state["history"].append(event)
         atomic_json(root / "project.json", state)
     return state
 
@@ -283,17 +345,21 @@ def main(argv=None):
     p = sub.add_parser("init")
     p.add_argument("project")
     p.add_argument("--title", required=True)
-    p.add_argument("--mode", choices=["mentor", "reviewer", "mixed"], default="mentor")
+    p.add_argument("--mode", choices=["auto", "mentor", "reviewer", "mixed"], default="auto")
     p.add_argument("--kind", choices=["empirical", "theoretical", "review"], default="empirical")
     p.add_argument("--phase", type=int, choices=PHASES, default=1)
     p = sub.add_parser("template")
     p.add_argument("--phase", type=int, choices=PHASES, required=True)
-    for command in ["status", "validate", "checkpoint", "reopen"]:
+    for command in ["status", "validate", "checkpoint", "reopen", "mode", "migrate"]:
         p = sub.add_parser(command)
         p.add_argument("project")
         if command in {"checkpoint", "reopen"}:
             p.add_argument("--phase", type=int, choices=PHASES, required=True)
             p.add_argument("--reason", default="")
+        if command == "mode":
+            p.add_argument("--select", choices=["auto", "mentor", "reviewer", "mixed"], required=True)
+            p.add_argument("--task", choices=["plan", "review", "revise"])
+            p.add_argument("--reason", default="User selection or current task")
         if command == "checkpoint":
             p.add_argument("--status", choices=["done", "blocked", "skipped"], default="done")
             p.add_argument("--artifact")
@@ -310,6 +376,8 @@ def main(argv=None):
         elif args.command == "init":
             require(nonempty(args.title), "Title cannot be blank")
             out = init(args)
+        elif args.command in {"mode", "migrate"}:
+            out = preferences(args)
         elif args.command in {"checkpoint", "reopen"}:
             out = change(args)
         else:
@@ -318,7 +386,7 @@ def main(argv=None):
             validate(root, state)
             final = state["stages"]["9"]
             decision = read_json(inside(root, final["artifact"]))["decision"] if final["status"] == "done" else None
-            out = {"valid": True, "validation": "structural_only", "title": state["title"], "mode": state["mode"], "kind": state["kind"], "current_phase": state["current_phase"], "workflow_complete": state["current_phase"] is None, "submission_decision": decision, "stages": state["stages"]}
+            out = {"valid": True, "validation": "structural_only", "title": state["title"], "mode": state["mode"], "mode_policy": state.get("mode_policy", "manual"), "kind": state["kind"], "current_phase": state["current_phase"], "workflow_complete": state["current_phase"] is None, "submission_decision": decision, "stages": state["stages"]}
         print(json.dumps(out, ensure_ascii=False, indent=2, allow_nan=False))
         return 0
     except (WorkflowError, OSError, ValueError, TypeError, KeyError) as exc:
@@ -328,3 +396,4 @@ def main(argv=None):
 
 if __name__ == "__main__":
     sys.exit(main())
+

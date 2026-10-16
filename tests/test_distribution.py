@@ -32,6 +32,11 @@ class DistributionTests(unittest.TestCase):
             with zipfile.ZipFile(first[1]) as z:
                 manifest = json.loads(z.read(".codex-plugin/plugin.json"))
                 self.assertIn("skills/research-mentor/SKILL.md", z.namelist())
+                self.assertNotIn("SKILL.md", z.namelist())
+                self.assertIn("README.en.md", z.namelist())
+                self.assertIn("docs/quickstart.md", z.namelist())
+                self.assertIn("assets/workflow-overview.svg", z.namelist())
+                self.assertEqual(sum(n.endswith("SKILL.md") for n in z.namelist()), 1)
                 self.assertIn(manifest["interface"]["logo"].removeprefix("./"), z.namelist())
 
     def test_installer_refuses_existing_destination(self):
@@ -49,3 +54,4 @@ class DistributionTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

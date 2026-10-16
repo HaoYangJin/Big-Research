@@ -1,11 +1,11 @@
 # Self-review and simulated peer review / 自审与模拟同行评议
 
-English summary: Evaluate the paper before submission as a skeptical reviewer would.
+English summary: Identify evidenced methodological errors and concrete repairs; expand to a full audit when explicitly requested.
 
 ## Checklist
 
 - 用目标 venue 的标准评估 novelty、technical quality、significance、clarity、reproducibility。
-- 写 3 条可能的 major concerns，并逐条准备证据或修改计划。
+- 只记录有证据的原理性或方法性 major concerns，不设数量配额；每条附修复操作和验收方式。
 - 检查论文是否有清楚的 problem-method-experiment-conclusion 闭环。
 - 检查所有表图、公式、引用、附录、代码和数据声明。
 - 做一次 "reject case" 模拟：如果要拒稿，最强理由是什么？
@@ -31,3 +31,4 @@ English summary: Evaluate the paper before submission as a skeptical reviewer wo
 ## 交接与验收
 
 为 concern 分配稳定 ID，记录证据位置、严重性、修复办法和验收方式。区分确认错误、材料未说明、仍需验证的风险。没有完整稿件或目标 venue 标准时，不给伪精确总分/录用概率；说明同一代理的双视角不是独立外审。明确列出阻塞项。
+

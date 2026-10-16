@@ -9,11 +9,11 @@
 在系统终端依次执行：
 
 ```bash
-codex plugin marketplace add HaoYangJin/Research-workflow-Skill --ref v1.0.0
+codex plugin marketplace add HaoYangJin/Research-workflow-Skill --ref v1.1.0
 codex plugin add research-workflow@research-workflow-marketplace
 ```
 
-第一条注册插件来源，第二条才安装插件。`--ref v1.0.0` 固定正式版；希望跟随开发分支时，可将该值改为 `main`。
+第一条注册插件来源，第二条才安装插件。`--ref v1.1.0` 固定正式版；希望跟随开发分支时，可将该值改为 `main`。
 
 检查安装结果：
 
@@ -77,6 +77,7 @@ cd Research-workflow-Skill
 python scripts/install_skill.py --target ~/.agents/skills/research-mentor
 ```
 
-开启新会话后指定 `$research-mentor`。这会安装 Skill 文件，不会注册完整插件，也不会使网页版 Work 自动获得该技能。目标已存在时安装器拒绝覆盖；同一宿主避免同时启用插件与重复的独立 Skill。
+开启新会话后指定 `$research-mentor`。这会安装 Skill 文件，不会注册完整插件，也不会使网页版 Work 自动获得该技能。目标已存在时安装器拒绝覆盖；同一运行平台避免同时启用插件与重复的独立 Skill。
 
 三种模式的具体用法见 [用户 / AI 对话示例](conversation-examples.md)，首次运行与恢复见 [上手指南](getting-started.md)。
+

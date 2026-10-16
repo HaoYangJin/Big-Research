@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def validate(root=ROOT):
     version = (root / "VERSION").read_text().strip()
     assert re.fullmatch(r"\d+\.\d+\.\d+", version), "Invalid release version"
+    assert not (root / "SKILL.md").exists(), "Duplicate root skill entry"
     skill = root / "skills/research-mentor"
     text = (skill / "SKILL.md").read_text(encoding="utf-8")
     assert text.startswith("---\nname: research-mentor\ndescription: "), "Invalid skill metadata"
@@ -49,3 +50,4 @@ if __name__ == "__main__":
     except (AssertionError, OSError, ValueError, KeyError) as exc:
         print(str(exc), file=sys.stderr)
         sys.exit(1)
+

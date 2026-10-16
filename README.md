@@ -1,118 +1,100 @@
 # Research Workflow
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+[简体中文](README.md) · [English](README.en.md) · [快速上手](docs/quickstart.md) · [更新记录](CHANGELOG.md)
+
+![Version](https://img.shields.io/badge/version-1.1.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![CI](https://github.com/HaoYangJin/Research-workflow-Skill/actions/workflows/ci.yml/badge.svg)
 
-**面向科研九阶段的导师与审稿插件：用真实产物、证据关联和可恢复检查点推进研究。**
+**科研导师与审稿插件：直接说任务，自动选择模式，用清晰行动和真实证据推进研究。**
 
-An evidence-aware research mentor/reviewer plugin with nine research phases, reproducible artifacts, and resumable checkpoints.
+![从任务到行动卡的使用流程](assets/workflow-overview.svg)
 
-## 中文
+## 三分钟开始
 
-### 先选一条使用路径
-
-| 你的目标 | 从这里开始 | 完成后得到什么 |
-| --- | --- | --- |
-| 先看看它能跑出什么 | [本地运行示例](docs/getting-started.md#1-先跑一个不需要-ai-的示例) | 合成实验的结果表、摘要和运行环境记录；不需要安装插件 |
-| 让 AI 帮我推进研究 | [安装并发起任务](docs/getting-started.md#2-安装技能并发起第一次任务) | 在宿主 AI 中调用技能，按阶段生成研究产物 |
-| 只审论文、设计实验或继续旧项目 | [按需使用与恢复](docs/getting-started.md#4-只做一个阶段或继续已有项目) | 聚焦当前任务，不必从头跑九阶段 |
-
-第一次使用建议阅读 **[上手指南：从安装到看到结果](docs/getting-started.md)**。安装细节与命令参考见 [USAGE.md](USAGE.md)。
-
-常用入口：**[Codex / ChatGPT Work 快速安装](docs/openai-install.md)** · **[三种模式的用户 / AI 对话示例](docs/conversation-examples.md)** · **[v1.0.0 缺陷与限制](docs/limitations-v1.0.0.md)**。
-
-### 使用时会发生什么
-
-```mermaid
-flowchart TD
-    A["向宿主 AI 提供问题、材料、预算与模式"] --> B{"任务范围？"}
-    B -->|单次任务| C["读取相关阶段资料，交付分析或审查意见"]
-    B -->|持续研究项目| D["读取已有状态，或初始化空项目目录"]
-    D --> E["完成当前阶段：查来源、做实验或写文件"]
-    E --> F{"产物和证据是否满足阶段要求？"}
-    F -->|满足| G["保存检查点，进入下一阶段"]
-    F -->|缺少资源或证据| H["记录 blocked 和缺口，补齐后继续"]
-    H --> E
-    G --> I{"是否完成本次任务？"}
-    I -->|否| E
-    I -->|是| J["交付结果、限制与下一步；评估投稿时给出 ready / not_ready"]
-```
-
-图中的研究工作由**宿主 AI 及其可用工具**完成；Python CLI 负责记录与校验。单次任务可以直接回答，不创建项目。
-
-### v1.0.0 能做什么
-
-- 保留 `research-mentor` 技能与 `mentor / reviewer / mixed` 三种模式；只加载当前阶段需要的参考资料。
-- 覆盖选题与文献、假设、实验设计、数据复现、结果消融、写作、自审、修改回应、投稿就绪判断。
-- 用 `project.json` 保存进度，用 `evidence.json` 关联来源、实际实验与结论；缺证据时记录阻塞。
-- 提供 Python 标准库 CLI：初始化、检查点、验证、恢复，以及产物变更检测。
-- 提供 Claude 与 Codex 插件清单、Claude marketplace、独立 Skill 安装与可重复构建的发布包。
-- 按能力连接宿主已有的搜索、论文、执行、文件与 Git 工具；工具不可用时明确降级。
-
-**适用边界**：它是需要宿主 AI 和工具执行的科研工作流，不是独立训练/检索服务。CLI 检查结构、关联和文件完整性，不认证科学正确性，不保证创新性或录用。没有绑定或假装实现远程 MCP 服务。
-
-### 快速开始
-
-Codex CLI（已实测 0.163.0）：在终端执行，然后开启新会话。
-
-```bash
-codex plugin marketplace add HaoYangJin/Research-workflow-Skill --ref v1.0.0
-codex plugin add research-workflow@research-workflow-marketplace
-```
-
-在新对话中指定 `$research-mentor`。ChatGPT Work 桌面本地来源与网页版工作区导入的步骤、权限及验证范围，见 [OpenAI 宿主安装指南](docs/openai-install.md)。
-
-Claude Code 插件安装：
+Claude Code：
 
 ```text
 /plugin marketplace add HaoYangJin/Research-workflow-Skill
 /plugin install research-workflow@research-workflow-marketplace
 ```
 
-也可在已克隆的仓库中本地试用：
-
-```bash
-claude --plugin-dir .
-```
-
-调用插件技能：
+然后输入：
 
 ```text
 /research-workflow:research-mentor
-混合模式。请用可复现的低成本实验推进我的研究：<问题、已有材料、预算、输出目录>。
+我想研究时间序列漂移。请用合成数据和 Python 标准库做一个低成本实验，先给我三步行动。
 ```
 
-单独安装 Skill（Python 3.10+，不覆盖已有目录）：
+Codex CLI（0.163.0 安装链路曾核验；本版尚未做账户端到端验证）：
 
 ```bash
-git clone https://github.com/HaoYangJin/Research-workflow-Skill.git
-cd Research-workflow-Skill
-python scripts/install_skill.py --target ~/.claude/skills/research-mentor
+codex plugin marketplace add HaoYangJin/Research-workflow-Skill --ref v1.1.0
+codex plugin add research-workflow@research-workflow-marketplace
 ```
 
-更多安装方式见 [USAGE.md](USAGE.md)。宿主支持、账户权限与目录审核是各平台自己的机制；仓库发布不等于官方插件目录上架。
+新会话中用 `$research-mentor` 加上你的任务即可。桌面与云端导入见 [安装指南](docs/openai-install.md)，其他方式见 [USAGE](USAGE.md)。
 
-### 第一次运行
+## 三档模式，不用记命令
+
+| ① 导师 mentor | ② 混合 mixed | ③ 审稿 reviewer |
+| --- | --- | --- |
+| 选题、学习、设计下一步 | 推进方案并检查关键问题 | 检查已有材料的明显方法错误 |
+| 目标 → 操作 → 验收 | 两个短视角＋共享行动 | 证据位置 → 修复 → 验证 |
+
+默认按当前任务、项目偏好和阶段判断。随时说“导师模式 / 混合模式 / 审稿模式 / 自动”。支持选择控件的平台可展示三选一；其余平台显示文本选择条，并直接开始工作。项目保存偏好与切换历史；没有持久存储时仅保留当前对话上下文。
+
+**指导原则**：优先沿你的可行方向尝试；不凑缺陷数量，不把材料缺失当成错误。只有明确原理/方法错误或不可执行时才阻断，并给出修复路径。要求“严格审查并复现”后，才扩大到全流程核查，按需请求数据和代码。
+
+## 你会得到什么
+
+| 任务 | 主要交付 |
+| --- | --- |
+| 选题与文献 | 有边界的问题、来源与文献图谱 |
+| 假设与实验 | 可证伪假设、对照、指标和预算 |
+| 数据与结果 | 复现命令、实际输出、消融与不确定性 |
+| 写作与修改 | 证据关联草稿、问题修复表、回应稿 |
+| 投稿判断 | ready / not_ready、剩余问题和下一步 |
+
+小问题直接回答；持续项目才创建检查点。回答默认是简短任务卡，需要时补表格或流程图。[可复制对话与教程](docs/quickstart.md) · [详细示例](docs/conversation-examples.md)。
+
+## v1.1.0 修复
+
+- 操作系统锁自动随进程释放，修复异常退出后无法写入。
+- 新增模式切换命令、历史记录与自动阶段选择。
+- v1.0.0 项目可显式迁移，先验证并保存备份。
+- 删除根目录重复技能入口；发布 ZIP 带使用指南。
+
+[发布说明与缺陷对应](docs/RELEASE-v1.1.0.md) · [验证与未覆盖范围](docs/validation-v1.1.0.md) · [v1.0.0 原缺陷报告](docs/limitations-v1.0.0.md)。
+
+## 为什么保留 Skill 和仓库名
+
+插件是分发方式，`skills/research-mentor/` 是唯一技能源码，两者配合使用。保留仓库地址和 `research-workflow` 插件标识，避免打断旧安装；界面名称统一为 Research Workflow。独立 Skill 仍可安装，但不要与插件重复启用。[结构参考与整理依据](docs/repository-design.md)。
 
 ```text
-使用 research-mentor，mixed 模式。
-问题：时间序列发生漂移时，随机划分是否会低估未来预测误差？
-资源：Python 标准库，合成数据，不调用付费 API。
-输出：<一个空的项目目录>。请实际执行一个最小实验，写短稿、自审、修改，最后判断是否具备投稿条件。
+.claude-plugin/          Claude 插件与 marketplace
+.codex-plugin/           Codex 插件
+skills/research-mentor/  唯一技能入口、阶段参考、本地 CLI
+scripts/                安装、验证、可重复打包
+tests/                  工作流与发布回归测试
+examples/drift-study/   可重跑的合成研究
+docs/                   教程、版本说明和验证记录
+assets/                 图标和使用流程图
 ```
 
-不需要完整流程时，直接提供论文/草稿或指定阶段。单次提问不强制初始化项目。
+## 本地试用与升级
 
-手动检查项目：
+Python 3.10+；标准库，无需付费 API。
 
 ```bash
-python skills/research-mentor/scripts/workflow.py init ./my-study --title "Bounded question" --mode mixed
-python skills/research-mentor/scripts/workflow.py template --phase 1
-python skills/research-mentor/scripts/workflow.py status ./my-study
+python examples/drift-study/experiment.py --out /tmp/drift-demo
+python skills/research-mentor/scripts/workflow.py init /tmp/my-study --title "我的问题"
+python skills/research-mentor/scripts/workflow.py mode /tmp/my-study --select reviewer
+# 仅升级已有 v1.0.0 项目时执行：
+python skills/research-mentor/scripts/workflow.py migrate /path/to/old-study
 ```
 
-### 验证与复现
+CLI 负责记录和结构校验；论文检索、实验与研究判断由 AI 客户端及可用工具完成。它不能认证科学正确性或保证录用。单机本地锁已验证，共享文件系统和跨机器写入不在支持范围内。
 
 ```bash
 python -m unittest discover -s tests -v
@@ -120,42 +102,12 @@ python scripts/validate_repo.py
 python scripts/build_release.py --output dist
 ```
 
-真实试跑、已知限制与验收证据见 [验证报告](docs/validation-v1.0.0.md)。阶段 JSON 和证据格式见 [状态协议](skills/research-mentor/references/project-state.md)，扩展服务见 [能力适配](skills/research-mentor/references/tool-adapters.md)。
+## Star History
 
-可直接重跑的 [合成时序研究示例](examples/drift-study/README.md) 包含冻结协议、代码和数学/时间隔离检查；发布文件见 [v1.0.0 Release](https://github.com/HaoYangJin/Research-workflow-Skill/releases/tag/v1.0.0)。
+[![Star History Chart](https://api.star-history.com/svg?repos=HaoYangJin/Research-workflow-Skill&type=Date)](https://www.star-history.com/#HaoYangJin/Research-workflow-Skill&Date)
 
-### 从 0.1.0 迁移
+图表由 Star History 在线生成，可能因第三方可用性或 GitHub API 限额暂时无法加载。
 
-正式 Skill 源码移至 `skills/research-mentor/`。根 `SKILL.md` 保留兼容入口；旧的 `references/` 与示例已迁入正式 Skill。推荐备份旧安装后只复制正式 Skill 目录，或切换为插件，避免同时启用两份。0.1.0 没有状态格式，因此不存在旧项目状态的自动迁移。
+## 贡献与许可
 
-## English
-
-Start with the [step-by-step guide (Chinese)](docs/getting-started.md): run the standalone synthetic demo, install the skill in an AI host, or resume an existing project. The demo produces experiment files; the host agent performs the broader research workflow; the local CLI only records and validates checkpoints.
-
-See [Codex / ChatGPT Work installation](docs/openai-install.md), [mode-by-mode conversations](docs/conversation-examples.md), and [v1.0.0 limitations](docs/limitations-v1.0.0.md). Native Codex CLI 0.163.0 marketplace registration, installation, and enabled-state inspection have been exercised; desktop Work and workspace cloud imports remain separate untested paths.
-
-Research Workflow supports nine phases: scope/literature, hypotheses, design, data/reproducibility, results/ablations, drafting, self-review, revision/rebuttal, and submission readiness. Choose mentor, reviewer, or mixed mode; short requests do not require a project.
-
-Install the Claude Code plugin using the two marketplace commands above, or run `claude --plugin-dir .` from a clone. Invoke `/research-workflow:research-mentor`. For a standalone skill, run `python scripts/install_skill.py --target <your-skill-directory>/research-mentor`. See [USAGE.md](USAGE.md) for Codex/ChatGPT Work and ZIP import details.
-
-Python 3.10+ is required only for the local CLI. There are no runtime dependencies, credentials, bundled remote MCP servers, or paid model calls. Search, paper access, execution, and export depend on tools available in your host. Checkpoints track real files and evidence IDs; structural validation is not scientific validation or a publication guarantee. A completed assessment may correctly conclude `not_ready`.
-
-Run the three validation/build commands above. The [validation report](docs/validation-v1.0.0.md) distinguishes observed checks from untested host behavior. See the [release notes](docs/RELEASE-v1.0.0.md) and [CHANGELOG](CHANGELOG.md).
-
-## Structure
-
-```text
-.claude-plugin/        Claude plugin and marketplace manifests
-.codex-plugin/         Codex plugin manifest
-skills/research-mentor/ canonical skill, references, examples, and local CLI
-scripts/               install, repository checks, deterministic release builder
-tests/                 lifecycle and distribution regression tests
-examples/              reproducible research demonstration
-docs/                  release and validation evidence
-.github/workflows/     CI and tagged release packaging
-SKILL.md               legacy compatibility entry
-```
-
-## Contributing and license
-
-Read [CONTRIBUTING.md](CONTRIBUTING.md). Keep the core domain-agnostic, preserve source integrity, and include real validation evidence when changing workflow behavior. MIT © 2026 JinhAo Yang; see [LICENSE](LICENSE).
+[贡献指南](CONTRIBUTING.md) · [MIT](LICENSE) · [历史版本](https://github.com/HaoYangJin/Research-workflow-Skill/releases)

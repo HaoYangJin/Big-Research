@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.1.0 — 2026-10-16
+
+- Fix crash-held locks using OS advisory locking.
+- Add persisted manual/automatic mode routing and history.
+- Add validated v1.0.0 migration with a preserved backup.
+- Deliver compact action cards and evidence-based, direction-supporting guidance; strict audit on request.
+- Remove duplicate root skill discovery; include guides in plugin archives.
+- Add bilingual READMEs, visual onboarding and Star History.
+
+See [release notes](docs/RELEASE-v1.1.0.md) and [validation](docs/validation-v1.1.0.md).
+
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
@@ -44,3 +56,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Chinese and English example invocations under `examples/`.
 - Bilingual `README.md` and `USAGE.md`.
 - MIT license, contributing guide, code of conduct, and general `.gitignore`.
+

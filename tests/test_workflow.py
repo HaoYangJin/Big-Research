@@ -178,10 +178,69 @@ class WorkflowTests(unittest.TestCase):
         (self.root / "project.json").write_text('{"schema_version":1,"schema_version":2}')
         self.assertIn("Duplicate", self.run_cli("status", self.root, ok=False)["error"])
 
-    def test_lock_prevents_concurrent_write(self):
-        (self.root / ".workflow.lock").touch()
-        self.assertIn("locked", self.run_cli("checkpoint", self.root, "--phase", 1, "--status", "skipped", "--reason", "Scope", ok=False)["error"])
+    def test_lock_prevents_concurrent_write_and_recovers_after_crash(self):
+        code = "import importlib.util,os,sys; s=importlib.util.spec_from_file_location('w',sys.argv[1]); w=importlib.util.module_from_spec(s); s.loader.exec_module(w); ctx=w.locked(w.Path(sys.argv[2])); ctx.__enter__(); print('locked',flush=True); sys.stdin.readline(); os._exit(17)"
+        child = subprocess.Popen([sys.executable, "-c", code, str(CLI), str(self.root)], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+        try:
+            self.assertEqual(child.stdout.readline().strip(), "locked")
+            error = self.run_cli("mode", self.root, "--select", "reviewer", ok=False)
+            self.assertIn("locked", error["error"])
+            child.communicate("exit\n", timeout=10)
+            self.assertEqual(child.returncode, 17)
+            self.assertTrue((self.root / ".workflow.lock").exists())
+            self.run_cli("mode", self.root, "--select", "reviewer")
+            self.assertEqual(self.run_cli("status", self.root)["mode"], "reviewer")
+        finally:
+            if child.poll() is None:
+                child.kill()
+                child.communicate()
+
+    def test_mode_memory_and_auto_phase_progress(self):
+        self.assertEqual(self.run_cli("status", self.root)["mode_policy"], "auto")
+        self.run_cli("mode", self.root, "--select", "reviewer", "--reason", "User choice")
+        self.checkpoint(1)
+        self.assertEqual(self.run_cli("status", self.root)["mode"], "reviewer")
+        selected = self.run_cli("mode", self.root, "--select", "auto", "--task", "revise")
+        self.assertEqual(selected["mode"], "mixed")
+        self.checkpoint(2)
+        self.assertEqual(self.run_cli("status", self.root)["mode"], "mentor")
+        for n in [3, 4]:
+            self.checkpoint(n)
+        self.assertEqual(self.run_cli("status", self.root)["mode"], "mixed")
+        state = json.loads((self.root / "project.json").read_text())
+        self.assertTrue(any(e.get("reason") == "User choice" for e in state["history"]))
+
+    def test_explicit_migration_preserves_checkpoints_and_backup(self):
+        self.checkpoint(1)
+        state = json.loads((self.root / "project.json").read_text())
+        state["workflow_version"] = "1.0.0"
+        state.pop("mode_policy")
+        self.write("project.json", state)
+        self.run_cli("status", self.root, ok=False)
+        self.run_cli("migrate", self.root)
+        backup = json.loads((self.root / "project.v1.0.0.backup.json").read_text())
+        self.assertEqual(backup, state)
+        current = self.run_cli("status", self.root)
+        self.assertEqual(current["current_phase"], 2)
+        self.assertEqual(current["mode_policy"], "manual")
+        before = (self.root / "project.json").read_bytes()
+        self.run_cli("migrate", self.root)
+        self.assertEqual(before, (self.root / "project.json").read_bytes())
+
+    def test_migration_refuses_corrupt_or_unknown_projects(self):
+        self.checkpoint(1)
+        state = json.loads((self.root / "project.json").read_text())
+        state["workflow_version"] = "1.0.0"
+        self.write("project.json", state)
+        (self.root / "artifacts/01.json").write_text("{}")
+        self.run_cli("migrate", self.root, ok=False)
+        self.assertFalse((self.root / "project.v1.0.0.backup.json").exists())
+        state["workflow_version"] = "0.9.0"
+        self.write("project.json", state)
+        self.run_cli("migrate", self.root, ok=False)
+
 
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -1,12 +1,12 @@
 # 上手指南：从安装到看到结果
 
-这个仓库把科研过程组织成一个可调用的技能：你向宿主 AI 提供任务，它读取相应阶段的指导，使用宿主已有的工具完成研究工作，再把产物、证据和进度保存下来。
+这个仓库把科研过程组织成一个可调用的技能：你向运行平台 AI 提供任务，它读取相应阶段的指导，使用运行平台已有的工具完成研究工作，再把产物、证据和进度保存下来。
 
 先分清三个入口：
 
 | 入口 | 你在哪里操作 | 实际作用 |
 | --- | --- | --- |
-| `research-mentor` 技能 | Claude Code、Codex 等支持技能的宿主对话中 | 指导 AI 阅读、分析、执行实验、写作和审查 |
+| `research-mentor` 技能 | Claude Code、Codex 等支持技能的运行平台对话中 | 指导 AI 阅读、分析、执行实验、写作和审查 |
 | `examples/drift-study/experiment.py` | 本地终端 | 运行仓库附带的一个合成实验，查看真实结果文件 |
 | `skills/research-mentor/scripts/workflow.py` | 本地终端，通常由 AI 调用 | 初始化项目、保存检查点、校验文件与恢复进度；不会调用模型或执行实验 |
 
@@ -43,16 +43,16 @@ python examples/drift-study/experiment.py --out ./outputs/first-demo
 
 ### 2.1 选择一种安装方式
 
-同一宿主只需启用一种方式。
+同一运行平台只需启用一种方式。
 
 **Codex 插件**：在系统终端执行以下两条命令，再开启新会话并指定 `$research-mentor`：
 
 ```bash
-codex plugin marketplace add HaoYangJin/Research-workflow-Skill --ref v1.0.0
+codex plugin marketplace add HaoYangJin/Research-workflow-Skill --ref v1.1.0
 codex plugin add research-workflow@research-workflow-marketplace
 ```
 
-ChatGPT Work 需要区分桌面本地来源与网页工作区导入；具体界面步骤、权限及已测范围见 [OpenAI 宿主快速安装](openai-install.md)。
+ChatGPT Work 需要区分桌面本地来源与网页工作区导入；具体界面步骤、权限及已测范围见 [OpenAI 运行平台快速安装](openai-install.md)。
 
 **Claude Code 插件**：在 Claude Code 中依次输入，以下不是终端命令：
 
@@ -67,7 +67,7 @@ ChatGPT Work 需要区分桌面本地来源与网页工作区导入；具体界�
 /research-workflow:research-mentor
 ```
 
-**独立 Skill**：在已克隆的仓库根目录中，根据宿主实际使用的技能目录安装：
+**独立 Skill**：在已克隆的仓库根目录中，根据运行平台实际使用的技能目录安装：
 
 ```bash
 # Claude Code 的独立 Skill 目录
@@ -77,9 +77,9 @@ python scripts/install_skill.py --target ~/.claude/skills/research-mentor
 python scripts/install_skill.py --target ~/.agents/skills/research-mentor
 ```
 
-这两条是替代选项，只运行与你的宿主对应的一条。目标目录已有内容时，安装脚本会拒绝覆盖。其他宿主的 ZIP 导入、Windows 路径和更新方式见 [安装参考](../USAGE.md)。
+这两条是替代选项，只运行与你的运行平台对应的一条。目标目录已有内容时，安装脚本会拒绝覆盖。其他运行平台的 ZIP 导入、Windows 路径和更新方式见 [安装参考](../USAGE.md)。
 
-**完成标志**：宿主能加载 `research-mentor`。能够克隆仓库或运行 Python 脚本，只说明文件可用，还需要在宿主中启用技能。Codex CLI 安装链路已补测；Work 桌面和云端导入的验证范围分别见 [安装指南](openai-install.md) 与 [版本验证报告](validation-v1.0.0.md)。
+**完成标志**：运行平台能加载 `research-mentor`。能够克隆仓库或运行 Python 脚本，只说明文件可用，还需要在运行平台中启用技能。Codex CLI 安装链路已补测；Work 桌面和云端导入的验证范围分别见 [安装指南](openai-install.md) 与 [版本验证报告](validation-v1.0.0.md)。
 
 ### 2.2 复制这段话开始
 
@@ -102,7 +102,7 @@ python scripts/install_skill.py --target ~/.agents/skills/research-mentor
 本轮先完成阶段 1 的真实产物和检查点，并报告结果，等待我继续。
 ```
 
-**完成标志**：AI 报告当前阶段、实际文件位置、来源或证据缺口，以及下一步行动。若宿主没有执行或写文件能力，应明确说明限制；对话中的草稿不等于已落盘的项目。
+**完成标志**：AI 报告当前阶段、实际文件位置、来源或证据缺口，以及下一步行动。若运行平台没有执行或写文件能力，应明确说明限制；对话中的草稿不等于已落盘的项目。
 
 ## 3. 从第一个阶段推进到研究交付
 
@@ -144,7 +144,7 @@ python scripts/install_skill.py --target ~/.agents/skills/research-mentor
 
 ### 只需要单次帮助
 
-直接在启用技能的宿主对话中发送，不必先初始化项目：
+直接在启用技能的运行平台对话中发送，不必先初始化项目：
 
 ```text
 使用 research-mentor，导师模式。把下面的研究兴趣收敛成一个可检验问题：<兴趣与资源>。
@@ -193,10 +193,11 @@ python skills/research-mentor/scripts/workflow.py reopen ./my-study --phase 3 --
 | 现象 | 下一步 |
 | --- | --- |
 | 输入 `/plugin` 后终端提示命令不存在 | marketplace 命令应在 Claude Code 内输入；本地实验命令才在终端运行 |
-| 输出只有建议，没有文件 | 确认宿主具有写入与执行能力，并提供可写输出目录；要求报告实际文件路径 |
+| 输出只有建议，没有文件 | 确认运行平台具有写入与执行能力，并提供可写输出目录；要求报告实际文件路径 |
 | `template` 只打印 JSON | 这是正常行为；保存模板、填写真实内容，再 `checkpoint`，不要把未填写模板当成果 |
 | 检索或算力不可用 | 缩小研究范围或记录 `blocked`；明确哪些结论尚未验证 |
 | 初始化或示例拒绝写入目录 | 使用新的空目录；恢复项目时使用 `status`，不要重复 `init` |
 | `valid: true`，但结论仍不可靠 | 校验只覆盖结构、引用关联与文件完整性；另查来源支持程度、实验公平性和统计方法 |
 
 手动创建阶段 JSON、证据台账及检查点时，先读 [状态协议](../skills/research-mentor/references/project-state.md)。需要了解搜索、论文、执行和导出工具如何衔接，见 [能力适配说明](../skills/research-mentor/references/tool-adapters.md)。
+

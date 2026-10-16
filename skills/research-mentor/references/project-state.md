@@ -63,3 +63,12 @@ Keep checkpointed records immutable during normal progression. Give an experimen
 - Phase 6 needs a draft and at least one supported claim. This is a minimum structural gate, not a full citation/claim audit.
 - `ready` at phase 9 needs stages 1–8 done, no unresolved blocking concern IDs, and no unsupported claims. Mark `not_ready` if these fail. Skipped/midway stages cannot qualify for full submission readiness without revisiting them.
 - `valid: true` / `structural_only` verifies shape, references, and recorded file integrity. It does not certify that commands were run, findings are true, a proof is correct, a venue is suitable, or the manuscript will be accepted. Keep the scientific review separate and explicit.
+
+
+## v1.1.0：模式、锁与迁移
+
+`init --mode auto` 是默认值；当前 mode 保持 mentor/reviewer/mixed，新增 mode_policy 为 auto/manual。自动阶段映射为 1–4/6 mentor、5/8 mixed、7/9 reviewer。明确任务可用 `mode <dir> --select auto --task plan|review|revise`；手动选择 `mode <dir> --select reviewer --reason "用户要求审稿"`，会保存历史但不修改证据和阶段。status 返回策略。
+
+旧 v1.0.0 项目使用 `migrate <dir>` 显式升级：先验证所有记录与哈希，保存 project.v1.0.0.backup.json，再更新版本和历史。旧 mode 默认 manual，保留原偏好。重复迁移无副作用。回滚时停止写入、保留升级后的项目副本，再用备份替换 project.json 并运行 v1.0.0 CLI；升级后新建的检查点不会出现在旧备份中。未知版本拒绝迁移。
+
+锁改为操作系统 advisory lock；进程退出自动释放，.workflow.lock 文件保留，不能按文件存在判断持锁，也不要手动删除。旧版 CLI 不能与新版同时写同一目录。只支持单机本地文件系统；共享磁盘/跨主机并发未验证。Windows 使用 msvcrt，POSIX 使用 flock。
