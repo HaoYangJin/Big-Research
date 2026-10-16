@@ -26,3 +26,7 @@ python skills/research-mentor/scripts/workflow.py migrate /path/to/project
 ## 验证与边界
 
 见 [验证记录](validation-v1.1.0.md)。科研语义认证、跨领域效果评估、工具自动适配和跨机器共享写入仍未实现。文本交互规则需要真实客户端行为验收；结构测试不能证明 AI 永远遵循提示词。Release 不等于官方插件目录收录。
+
+## 发布过程更正
+
+本次发布过程中，原流水线在 Windows CI 完成前生成过初始下载包。随后发现 Windows 缓冲文件偏移导致锁操作失败，已改为无缓冲、非追加文件句柄，并增加发布前 Linux/Windows × Python 3.10/3.12 的全部测试门槛。本次 v1.1.0 标签和包在检查全部成功后更正；早于更正下载的副本请重新下载并核对 SHA256SUMS。v1.0.0 和其他历史发布保持原样。

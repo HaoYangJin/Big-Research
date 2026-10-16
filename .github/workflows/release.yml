@@ -2,12 +2,28 @@ name: Release
 on:
   push:
     branches: [main]
-    paths: [VERSION]
+    paths: [VERSION, .github/workflows/release.yml]
     tags: ['v*']
 permissions:
   contents: write
 jobs:
+  cross-platform:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.10', '3.12']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m unittest discover -s tests -v
+      - run: python -m unittest discover -s examples/drift-study -p test_experiment.py -v
+      - run: python scripts/validate_repo.py
+      - run: python scripts/build_release.py --output dist
   release:
+    needs: cross-platform
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +49,17 @@ jobs:
           version="$(cat VERSION)"
           tag="v$version"
           if gh release view "$tag" >/dev/null 2>&1; then
-            echo "Release $tag already exists; preserving the published version."
+            # One-time correction of the release created during this v1.1.0 session,
+            # before the original workflow waited for Windows CI. Never move older releases.
+            current="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$tag" --jq .object.sha)"
+            if [ "$tag" = "v1.1.0" ] && [ "$current" = "2cebfe664e22174148dfe192aa18e4bb47a45c72" ]; then
+              gh api --method PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/$tag" -f sha="$GITHUB_SHA" -F force=true
+              gh release upload "$tag" dist/*.zip dist/SHA256SUMS.txt --clobber
+              gh release edit "$tag" --target "$GITHUB_SHA" --notes-file "docs/RELEASE-$tag.md"
+            else
+              echo "Release $tag already exists; preserving the published version."
+            fi
             exit 0
           fi
           gh release create "$tag" dist/*.zip dist/SHA256SUMS.txt --target "$GITHUB_SHA" --title "Research Workflow $tag" --notes-file "docs/RELEASE-$tag.md"
+

@@ -14,7 +14,7 @@
 
 ## 尚未验证
 
-- Windows msvcrt 分支由 CI 的 Windows 作业执行；本地只验证 POSIX flock。共享文件系统/跨主机并发不支持。
+- Windows msvcrt 分支由 CI 和发布前矩阵执行；首次运行发现缓冲/追加句柄位置不适合字节锁，已改为无缓冲随机访问句柄并重跑。本地只验证 POSIX flock。共享文件系统/跨主机并发不支持。
 - Claude、Codex、ChatGPT Work 的新版账户端到端安装、控件展示、长会话行为没有本次真人验收；旧安装结果见 v1.0.0 记录。
 - 模式语义与非保守指导是 AI 交互规则，静态/CLI 测试只能验证持久化和确定性路由。行为验收用例见 [交互协议](../skills/research-mentor/references/interaction.md)。
 - Star History 是外部动态图；未测其服务可用性，不用虚构历史数据替代。

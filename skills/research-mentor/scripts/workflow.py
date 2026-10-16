@@ -95,14 +95,11 @@ def locked(root):
     # Keep the inode: unlinking an advisory lock allows two independent writers.
     lock = root / ".workflow.lock"
     require(not lock.is_symlink(), "Refuse symlink lock file")
-    with open(lock, "a+b") as handle:
+    fd = os.open(lock, os.O_CREAT | os.O_RDWR, 0o600)
+    with os.fdopen(fd, "r+b", buffering=0) as handle:
         try:
             if os.name == "nt":
                 import msvcrt
-                handle.seek(0)
-                if not handle.read(1):
-                    handle.write(b" ")
-                    handle.flush()
                 handle.seek(0)
                 msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
             else:
