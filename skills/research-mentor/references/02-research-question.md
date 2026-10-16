@@ -25,3 +25,7 @@ English summary: Turn motivation into answerable research questions, testable hy
 - 贡献声称过大，但实验只覆盖单一数据集、单一场景或弱 baseline。
 - Novelty 依赖过度包装，和已有工作差异不清。
 - 研究问题与方法、结果、结论之间不闭环。
+
+## 交接与验收
+
+为主假设预先写出方向、效应尺度、对照条件和推翻它的观察。将来源事实、机制推断和待验证假设分开；记录发现假设与验证假设是否使用了同一数据。交付贡献边界，不能仅用“提高性能”作验收条件。

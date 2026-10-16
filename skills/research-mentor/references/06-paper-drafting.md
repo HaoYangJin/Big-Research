@@ -28,3 +28,7 @@ English summary: Draft each section as part of one coherent argument rather than
 - Methods 缺少实现细节、参数、训练流程或数据划分。
 - Results 只堆表格，不解释机制或失败情况。
 - Discussion 只重复结果，没有限制和外部有效性分析。
+
+## 交接与验收
+
+交付实际短稿/章节文件及结论—证据对照。数字来自运行产物，引用来自已读来源；缺项使用明确占位符，不编造实验或文献填空。把合成/探索性发现的限定条件写进摘要。修改已检查点的上游稿件时先 reopen，再复核下游审查。

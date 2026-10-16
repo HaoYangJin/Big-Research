@@ -14,17 +14,17 @@ We propose a Transformer-based model for building energy consumption forecasting
 ### Major concerns
 
 1. **The claim is too broad for the evidence.** One campus dataset and two baselines do not justify the statement that attention mechanisms are effective for energy systems forecasting in general.
-2. **The baseline set is weak.** LSTM and ARIMA are useful but insufficient. You need stronger modern baselines such as XGBoost/LightGBM, Temporal Fusion Transformer, N-BEATS/N-HiTS, or recent domain-specific load forecasting models.
-3. **The experiment design is underspecified.** The paragraph omits forecasting horizon, train/validation/test split, seasonality handling, weather variables, hyperparameter budget, and repeated runs.
+2. **Baseline adequacy is unresolved.** The excerpt does not justify why LSTM and ARIMA answer the research question fairly. Check simple seasonal/statistical controls and relevant task-specific methods under matched data and tuning budgets. Do not add a model zoo or call a named method current-best without checking primary evidence.
+3. **The experiment design is underspecified in this excerpt.** It omits forecasting horizon, train/validation/test split, seasonality handling, weather variables, hyperparameter budget, and repeated runs. These may exist elsewhere in the paper; request or inspect them before declaring them absent.
 4. **The mechanism is untested.** Better RMSE does not prove attention is the reason. Add ablations that remove attention, change context length, and compare against parameter-matched alternatives.
 
 ### Required fixes
 
 - Narrow the claim to the tested dataset and horizon.
 - Add a fair baseline table and justify why each baseline matters.
-- Report MAE/RMSE/MAPE where appropriate, plus confidence intervals or repeated seeds.
+- Justify the primary metric; use MAE/RMSE as appropriate and avoid undefined/unstable percentage errors near zero. Match uncertainty estimates to independent experimental units.
 - Add ablation and error analysis for peak demand, weekends, holidays, and extreme weather.
 
 ### Verdict
 
-High rejection risk unless the experimental design is strengthened and the claims are narrowed.
+This excerpt is not ready: narrow its claim and supply the missing evidence. It is insufficient to assign a full-paper score or acceptance probability.

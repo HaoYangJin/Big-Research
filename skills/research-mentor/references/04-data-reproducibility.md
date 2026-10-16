@@ -27,3 +27,7 @@ English summary: Audit data quality, analysis validity, and reproducibility befo
 - 预处理规则不透明，可能人为增强结果。
 - 代码、配置和数据版本无法对应论文中的表格。
 - 复现实验依赖人工步骤或未记录的本地文件。
+
+## 交接与验收
+
+保留实际代码、配置、运行命令、环境、种子、原始指标与日志，并记录文件哈希。预处理在训练集拟合；逐项检查时间、实体和重复样本泄漏。将 planned、failed、executed 明确分开；未运行时记录 blocked。合成数据注明构造机制及其无法覆盖的真实场景。

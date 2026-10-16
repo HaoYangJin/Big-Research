@@ -27,3 +27,7 @@ English summary: Convert reviewer comments into a prioritized revision plan and 
 - 对关键 concern 只说 "future work"。
 - 新实验引入更多未解释问题。
 - 多位 reviewer 的交叉 concern 没有统一处理。
+
+## 交接与验收
+
+输出 concern ID → 已做修改 → 实际文件/章节/表格 → 证据 → 未解决限制的矩阵。只有检查过修订产物，才写“已修改”；计划中的补实验用将来时。保留初稿和修订稿的独立文件，避免覆盖导致旧阶段哈希失效；实质改变主张时重开受影响阶段。

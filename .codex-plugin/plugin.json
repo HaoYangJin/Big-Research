@@ -1,0 +1,24 @@
+{
+  "name": "research-workflow",
+  "version": "1.0.0",
+  "description": "Evidence-aware research mentoring, critique, and resumable project checkpoints.",
+  "author": {"name": "JinhAo Yang", "url": "https://github.com/HaoYangJin"},
+  "homepage": "https://github.com/HaoYangJin/Research-workflow-Skill",
+  "repository": "https://github.com/HaoYangJin/Research-workflow-Skill",
+  "license": "MIT",
+  "keywords": ["research", "reproducibility", "peer-review"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Research Workflow",
+    "shortDescription": "Evidence-aware research mentor",
+    "longDescription": "Plan, execute, critique, and resume research across nine phases. Includes a local Python checkpoint CLI and optional capability adapters. Requires a capable host for search and execution. Structural validation does not certify scientific validity or publication readiness.",
+    "developerName": "JinhAo Yang",
+    "category": "Productivity",
+    "capabilities": ["Research planning", "Evidence tracking", "Reproducibility review"],
+    "websiteURL": "https://github.com/HaoYangJin/Research-workflow-Skill",
+    "supportURL": "https://github.com/HaoYangJin/Research-workflow-Skill/issues",
+    "defaultPrompt": ["Help me scope a research question and design a falsifiable experiment.", "Review my method and identify evidence gaps before submission."],
+    "composerIcon": "./assets/plugin-icon.svg",
+    "logo": "./assets/plugin-icon.svg"
+  }
+}

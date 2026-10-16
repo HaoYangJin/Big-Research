@@ -1,42 +1,32 @@
 # Contributing
 
-感谢你改进 Research Workflow Skill。Please keep contributions practical, evidence-aware, and useful for real research workflows.
+Keep changes practical, evidence-aware, and domain-agnostic. 保持简体中文优先的阶段参考；公开安装和使用说明保持中英双语。
 
-## What to contribute
+## Source layout
 
-- Better phase checklists under `references/`.
-- Stronger mentor or reviewer prompts.
-- Realistic examples in `examples/`.
-- Documentation improvements in `README.md` or `USAGE.md`.
-- Bug reports about unclear routing, missing references, or invalid skill metadata.
+- Edit the canonical skill under `skills/research-mentor/`; root `SKILL.md` is only a legacy entry.
+- Keep the main skill concise; add phase details or provider contracts to its references.
+- Change CLI behavior with meaningful lifecycle/evidence regression coverage.
+- Keep all release versions consistent with `VERSION`, both plugin manifests, the marketplace entry, CLI, and release documentation.
+- Never commit private drafts, unpublished reviewer comments, credentials, copyrighted paper bodies, or real research data without authorization. Synthetic public demonstrations must be labeled and reproducible.
 
-## Contribution rules
+## Required checks
 
-- Keep the core skill domain-agnostic.
-- Put subfield-specific guidance in examples unless it is broadly applicable.
-- Do not add private data, unpublished reviewer comments, API keys, credentials, or copyrighted paper text.
-- Preserve Simplified Chinese as the primary language for reference files.
-- Keep `README.md` and `USAGE.md` bilingual when changing user-facing instructions.
-- Ensure every path mentioned in `SKILL.md` exists.
-
-## Local checklist
-
-Before opening a pull request:
-
-```powershell
-python -c "import pathlib; p=pathlib.Path('SKILL.md').read_text(encoding='utf-8'); fm=p.split('---')[1]; print(fm)"
-git status --short
+```bash
+python -m unittest discover -s tests -v
+python -m unittest discover -s examples/drift-study -p test_experiment.py -v
+python scripts/validate_repo.py
+python scripts/build_release.py --output dist
+claude plugin validate .claude-plugin/plugin.json --strict
+claude plugin validate .claude-plugin/marketplace.json --strict
 ```
 
-Also read the changed Markdown files once in rendered preview or a Markdown viewer.
+Read changed Markdown in a rendered viewer. For substantial skill behavior changes, run a realistic isolated task and preserve a concise public validation summary; do not pass the intended answer to a forward-testing agent. Distinguish static checks, actual host installation, scientific assessment, and untested capabilities.
 
-## Pull request style
+## Main-only maintenance
 
-- Explain the research workflow problem you are solving.
-- List changed files.
-- Mention whether you changed routing behavior in `SKILL.md`.
-- Include at least one example prompt when changing mode or phase behavior.
+This repository is maintained directly on `main`. Do not create routine `feature/*` or `codex-*` maintenance branches. Keep maintenance logs, snapshots, temporary drafts, project state, and local sessions out of version control. The tagged release workflow builds allowlisted packages and publishes assets only after validation. Do not force-push over concurrent work or move an existing release tag.
 
-## Main-only maintenance workflow
+## Change descriptions
 
-This repository is maintained directly on `main`. Do not create `feature/*` or `codex-*` branches for routine maintenance. Maintenance logs, package snapshots, temporary drafts, and local `plans/`, `memory/`, `sessions/`, or `transcripts/` directories should stay out of version control.
+Explain the concrete workflow problem, resulting behavior, and validation. Identify behavior/routing changes and include a realistic prompt when relevant. Report unresolved limitations rather than claiming a successful experiment, host import, or submission that was not performed.

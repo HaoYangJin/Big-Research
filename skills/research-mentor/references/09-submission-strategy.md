@@ -27,3 +27,7 @@ English summary: Choose venues based on fit, contribution type, evidence strengt
 - 格式、伦理、数据可用性或 reproducibility 要求未满足。
 - 投稿策略只看影响因子或排名，不看读者和审稿标准。
 - 没有被拒后的 revision/fallback 计划。
+
+## 交接与验收
+
+先判断 ready / not_ready，再给下一步。证据或创新性不足时，可完成就绪评估但必须保持 not_ready，不必凑出三个具体 venue。需要具体投稿决策时核验当年官网的 scope、截止时间/时区、费用、匿名、伦理及 AI 使用要求，附访问日期。未核验项不得标记满足；真正投稿、上传稿件或联系编辑须在用户授权范围内进行。

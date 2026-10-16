@@ -1,202 +1,114 @@
-# Research Workflow Skill Usage Guide
+# Installation and usage / 安装与使用
 
-本指南教你安装、调用、切换模式并定制 `research-mentor`。中文在前，English follows.
+## 中文
 
-官方参考：[Anthropic Agent Skills docs](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) 说明 Skill 需要带有 `name` 和 `description` 的 YAML frontmatter；[Claude Help Center: Use Skills in Claude](https://support.claude.com/en/articles/12512180-using-skills-in-claude) 说明自定义 Skills 可通过 zip 上传并在 `Customize > Skills` 启用。
+### 1. 选择安装方式
 
-## 中文指南
+同一宿主优先只启用一种方式，避免两份技能重复触发。
 
-### 1. 安装到 Claude Code
-
-如果你的 Claude Code 使用本地 skills 目录，推荐把本仓库作为一个独立 skill 文件夹复制进去：
-
-```powershell
-$src = "C:\Users\JInhAoYang\Desktop\科研工作流skill"
-$dst = "$HOME\.claude\skills\research-mentor"
-New-Item -ItemType Directory -Force -Path (Split-Path $dst) | Out-Null
-Copy-Item -Recurse -Force $src $dst
-```
-
-确认目标目录中有：
-
-```text
-research-mentor/
-├── SKILL.md
-├── references/
-└── examples/
-```
-
-重启 Claude Code，或开启一个新会话，然后用自然语言触发：
-
-```text
-使用 research-mentor。导师模式：我想做一个关于城市能源系统负荷预测的研究，请帮我收敛选题。
-```
-
-### 2. 上传到 Claude.ai
-
-1. 确保仓库根目录包含 `SKILL.md`。
-2. 将文件夹压缩成 zip。zip 内部应包含名为 `research-mentor/` 的 skill 文件夹，而不是把所有文件直接散放在 zip 根目录。
-
-```powershell
-$repo = "C:\Users\JInhAoYang\Desktop\科研工作流skill"
-$pkgRoot = Join-Path $env:TEMP "research-mentor-skill-package"
-$skillDir = Join-Path $pkgRoot "research-mentor"
-Remove-Item -Recurse -Force $pkgRoot -ErrorAction SilentlyContinue
-New-Item -ItemType Directory -Force -Path $skillDir | Out-Null
-Copy-Item -Recurse -Force "$repo\*" $skillDir -Exclude ".git"
-Compress-Archive -Path $skillDir -DestinationPath "$HOME\Desktop\research-mentor.zip" -Force
-```
-
-3. 在 Claude.ai 打开 `Customize > Skills`。
-4. 点击 `+` 或 `Create skill`，选择 `Upload a skill`。
-5. 上传 `research-mentor.zip`，然后启用该 Skill。
-
-### 3. First run / 第一次运行
-
-建议第一次这样调用：
-
-```text
-使用 research-mentor，mentor 模式。
-我的研究领域是 <你的领域>，我目前处于 <选题/方法/实验/写作/投稿> 阶段。
-我已有 <数据/代码/文献/草稿>，目标是 <会议/期刊/毕业论文/项目申请>。
-请先判断我处于哪个科研阶段，再给我下一步计划。
-```
-
-如果你已经有草稿，可以这样调用：
-
-```text
-使用 research-mentor，reviewer 模式。
-请严格审查下面的方法论段落，指出会导致拒稿的 major concerns，并给出修改方案：
-<粘贴你的方法论>
-```
-
-### 4. 阶段调用速查
-
-| 阶段 | 你可以这样说 |
-| --- | --- |
-| 1. 选题 / 文献调研 | `我应该读哪些文献？帮我做 literature review plan。` |
-| 2. 问题与假设 | `帮我把这个方向改成 research question 和 hypothesis。` |
-| 3. 方法与实验设计 | `帮我设计实验；帮我审一下这段方法论。` |
-| 4. 数据 / 复现性 | `检查我的数据划分有没有 leakage；帮我写 reproducibility plan。` |
-| 5. 结果 / 消融 | `这些结果能支持我的 claim 吗？还需要哪些 ablation？` |
-| 6. 论文写作 | `帮我改 abstract/introduction/related work/methods/results/discussion。` |
-| 7. 自审 / 模拟同行评议 | `请模拟 reviewer 给出 major concerns 和评分。` |
-| 8. 修改与 rebuttal | `帮我回应 reviewer comment，并制定 revision plan。` |
-| 9. 投稿策略 | `帮我判断这篇论文适合投哪个 venue。` |
-
-### 5. 模式切换速查
-
-| 模式 | 适合何时使用 | 触发说法 |
+| 使用环境 | 安装方式 | 调用 |
 | --- | --- | --- |
-| `mentor` | 你需要规划、收敛、学习路径、下一步建议 | `导师模式`、`mentor mode`、`帮我规划`、`下一步怎么做` |
-| `reviewer` | 你需要挑错、审稿、找拒稿风险、回应审稿人 | `reviewer mode`、`reviewer 模式`、`审查模式`、`严格审查`、`挑刺`、`major concerns`、`rebuttal` |
-| `mixed` | 你既想得到导师建议，也想看到审稿人风险清单 | `mixed mode`、`混合模式`、`mentor + reviewer`、`导师加审稿人`、`both modes`、`两种模式` |
+| Claude Code | 下方 marketplace 命令，或 `claude --plugin-dir .` | `/research-workflow:research-mentor` |
+| Claude Code 独立 Skill | 复制 `skills/research-mentor/` 到宿主 skills 目录 | 自然语言或 `/research-mentor` |
+| Claude.ai 自定义 Skill | 上传 Release 中 `research-mentor-1.0.0.zip` 并启用 | 自然语言指定 `research-mentor` |
+| Codex / ChatGPT Work 插件 | 在宿主支持的插件导入中使用本仓库或 Release 插件 ZIP；按官方入口操作 | 自然语言指定技能 |
+| 其他 Agent Skills 宿主 | 仅安装 `skills/research-mentor/` | 按宿主方式触发 |
 
-### 6. 定制到你的子领域
-
-你可以直接修改 `references/` 中对应阶段的文件：
-
-- 做强化学习：在 `03-methodology-experimental-design.md` 增加 environment、reward、policy、seed、offline/online evaluation 的 checklist。
-- 做能源系统：在 `04-data-reproducibility.md` 增加时间序列划分、极端天气、节假日、拓扑、负荷泄漏检查。
-- 做社会科学：在 `02-research-question.md` 和 `04-data-reproducibility.md` 增加识别策略、混杂变量、稳健性检验。
-
-修改后检查：
-
-```powershell
-Select-String -Path .\SKILL.md -Pattern "references/"
-Get-ChildItem .\references
-```
-
-## English Guide
-
-### 1. Install in Claude Code
-
-If your Claude Code setup uses a local skills directory, copy this repository as one skill folder:
-
-```powershell
-$src = "C:\Users\JInhAoYang\Desktop\科研工作流skill"
-$dst = "$HOME\.claude\skills\research-mentor"
-New-Item -ItemType Directory -Force -Path (Split-Path $dst) | Out-Null
-Copy-Item -Recurse -Force $src $dst
-```
-
-Open a new Claude Code session and invoke it naturally:
+Claude Code：
 
 ```text
-Use research-mentor in mentor mode. I need to scope a publishable research topic in ML for energy systems.
+/plugin marketplace add HaoYangJin/Research-workflow-Skill
+/plugin install research-workflow@research-workflow-marketplace
 ```
 
-### 2. Upload to Claude.ai
+独立安装脚本支持 Linux、macOS、Windows 的 Python 3.10+，必须指定精确目标目录：
 
-1. Make sure the repository root contains `SKILL.md`.
-2. Zip the skill folder. The zip should contain a top-level `research-mentor/` folder:
+```bash
+python scripts/install_skill.py --target ~/.claude/skills/research-mentor
+```
+
+对于使用 `~/.agents/skills/` 目录的 Codex 配置：
+
+```bash
+python scripts/install_skill.py --target ~/.agents/skills/research-mentor
+```
+
+Windows PowerShell 示例：
 
 ```powershell
-$repo = "C:\Users\JInhAoYang\Desktop\科研工作流skill"
-$pkgRoot = Join-Path $env:TEMP "research-mentor-skill-package"
-$skillDir = Join-Path $pkgRoot "research-mentor"
-Remove-Item -Recurse -Force $pkgRoot -ErrorAction SilentlyContinue
-New-Item -ItemType Directory -Force -Path $skillDir | Out-Null
-Copy-Item -Recurse -Force "$repo\*" $skillDir -Exclude ".git"
-Compress-Archive -Path $skillDir -DestinationPath "$HOME\Desktop\research-mentor.zip" -Force
+python scripts/install_skill.py --target "$HOME\.claude\skills\research-mentor"
 ```
 
-3. In Claude.ai, open `Customize > Skills`.
-4. Choose `Create skill` or the `+` button, then `Upload a skill`.
-5. Upload the zip and enable the Skill.
+目标已存在时脚本拒绝覆盖。更新前审阅、备份旧目录，再安装新版本。不要直接把 `.git`、研究数据和本地会话日志当作 Skill 打包。
 
-### 3. First Run
+ChatGPT Work / Codex 各入口的可用性受产品与账户影响。此仓库提供 `.codex-plugin/plugin.json` 和 Claude 兼容 marketplace；未承诺已经通过平台目录审核。若宿主不提供插件导入，独立 Skill 是降级路径，不要虚构一个安装命令。
 
-Start with:
+### 2. 模式与阶段
 
 ```text
-Use research-mentor in mentor mode.
-My field is <field>. I am currently at the <topic/method/experiment/writing/submission> stage.
-I have <data/code/papers/draft>. My target is <venue or outcome>.
-Please identify my current research phase and give me a next-step plan.
+导师模式：帮我把这个兴趣收敛为一个能验证的研究问题。
+审稿模式：审查下面的实验设计，区分确认的问题与缺少的信息。
+混合模式：先给行动建议，再指出最可能推翻结论的证据缺口。
 ```
 
-For critique:
+明确的模式优先；引用中的 reviewer 不会自动切模式。`literature review` 仍可在导师模式中完成。阶段可从中间进入，不要求先完成九阶段。
 
-```text
-Use research-mentor in reviewer mode.
-Critique the following methodology section. Lead with major concerns and rejection risks:
-<paste your method section>
+### 3. 实际研究项目
+
+提供问题、材料、预算和一个空输出目录。Skill 会先读取现有状态，按需调用宿主工具，并产出真实文件。也可手动使用 CLI：
+
+```bash
+python skills/research-mentor/scripts/workflow.py init ./my-study --title "Research question" --mode mixed
+python skills/research-mentor/scripts/workflow.py template --phase 1
+python skills/research-mentor/scripts/workflow.py checkpoint ./my-study --phase 1 --artifact artifacts/01-scope.json
+python skills/research-mentor/scripts/workflow.py validate ./my-study
 ```
 
-### 4. Phase Invocation Cheat Sheet
+`template` 只向终端打印模板，不创建或填写研究结论；先保存并填写，再运行 `checkpoint`。完整格式见 [项目状态协议](skills/research-mentor/references/project-state.md)。
 
-| Phase | Example prompt |
-| --- | --- |
-| 1. Topic and literature review | `What papers should I read, and how should I map this literature?` |
-| 2. Research question and hypothesis | `Turn this topic into research questions and hypotheses.` |
-| 3. Method and experiment design | `Help me design the experiment and critique my methodology.` |
-| 4. Data and reproducibility | `Check my data split for leakage and write a reproducibility plan.` |
-| 5. Results and ablations | `Do these results support my claim? What ablations are missing?` |
-| 6. Paper drafting | `Improve my abstract/introduction/related work/methods/results/discussion.` |
-| 7. Simulated peer review | `Simulate peer review and give major concerns.` |
-| 8. Revision and rebuttal | `Help me answer reviewer comments and plan revisions.` |
-| 9. Submission strategy | `Which venues fit this paper and why?` |
+- `done`：阶段产物已生成并通过结构检查。
+- `blocked`：缺数据/计算/来源，留在当前阶段并说明原因。
+- `skipped`：明确不在任务范围内，记录原因后继续。
+- `reopen`：修改上游时清除该阶段及下游检查点，保留文件待复核。
+- `not_ready`：已完成投稿条件判断，但研究还未达到要求。
 
-### 5. Mode Switching Cheat Sheet
+`valid: true` 只检查结构、证据关联和文件哈希。AI/研究者仍须判断来源是否支持结论、实验是否公平、统计是否正确。脚本既不自动打开文献，也不执行台账中记录的命令。
 
-| Mode | Use when | Trigger phrases |
-| --- | --- | --- |
-| `mentor` | You need guidance, planning, tradeoffs, or next steps. | `mentor mode`, `guide me`, `help me plan`, `what should I do next` |
-| `reviewer` | You need critique, rejection risks, or rebuttal help. | `reviewer mode`, `审查模式`, `critique`, `peer review`, `major concerns`, `rebuttal` |
-| `mixed` | You need both mentor guidance and reviewer stress testing in one response. | `mixed mode`, `混合模式`, `mentor + reviewer`, `导师加审稿人`, `both modes`, `两种模式` |
+### 4. 插件化与权限
 
-### 6. Customize for Your Subfield
+一个插件封装一个主技能、九阶段按需参考、状态 CLI 和能力适配协议。搜索、论文读取、实验执行、Git、文档导出可使用宿主已有的插件或工具；没有这些服务时明确记录限制。核心没有网络副作用、自动 hooks、后台进程或固定 MCP 端点。不要把“已写适配协议”解释为“所有第三方服务已集成并通过认证”。
 
-Edit the relevant file in `references/`:
+### 5. 构建与校验
 
-- Reinforcement learning: add environment, reward, policy, seed, and offline/online evaluation checks to `03-methodology-experimental-design.md`.
-- Energy systems: add time-series splits, topology, weather, holiday, and leakage checks to `04-data-reproducibility.md`.
-- Social science: add identification strategy, confounders, and robustness checks to `02-research-question.md` and `04-data-reproducibility.md`.
-
-Then verify:
-
-```powershell
-Select-String -Path .\SKILL.md -Pattern "references/"
-Get-ChildItem .\references
+```bash
+python -m unittest discover -s tests -v
+python scripts/validate_repo.py
+python scripts/build_release.py --output dist
+claude plugin validate .claude-plugin/plugin.json --strict
+claude plugin validate .claude-plugin/marketplace.json --strict
 ```
+
+发布包：
+
+- `research-mentor-1.0.0.zip`：顶层 `research-mentor/`，可作独立 Skill。
+- `research-workflow-1.0.0.zip`：插件根目录直接包含清单与 `skills/`，不含研究数据、凭据或 Git 元数据。
+- `SHA256SUMS.txt`：校验和。
+
+## English
+
+Choose one install route per host: Claude marketplace plugin, standalone `skills/research-mentor/`, or the corresponding release ZIP. Claude plugin invocation is `/research-workflow:research-mentor`. Use the commands and destination examples above; the installer refuses existing destinations. Product-specific plugin import availability depends on the host/account. See the current official documentation linked below rather than assuming directory publication or an unverified command.
+
+For a research project, provide the question, available artifacts, constraints, budget, and an empty output directory. The local CLI uses Python 3.10+ without dependencies. It supports `init`, `template`, `status`, `checkpoint`, `validate`, and `reopen`. Fill printed templates with real evidence before checkpointing. Resume from `project.json` and `evidence.json`; reopening invalidates downstream checkpoints. A blocked run is not a successful experiment, and a completed readiness assessment may be `not_ready`.
+
+The plugin packages instructions, phase modules, capability handoffs, and a local state CLI. It has no remote MCP server, credentials, automatic hooks, or background process. Tool availability and permissions belong to the host. Structure/hash validation does not prove execution, entailment, scientific correctness, or publication readiness.
+
+## Official format references / 官方格式依据
+
+Checked on 2026-10-16; host behavior may change.
+
+- [Claude Code plugins](https://code.claude.com/docs/en/plugins)
+- [Claude manifest reference](https://code.claude.com/docs/en/plugins/manifest-reference)
+- [Claude marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
+- [OpenAI plugin packaging and submission](https://developers.openai.com/plugins/deploy/submission)
+- [ChatGPT Work plugin development](https://learn.chatgpt.com/docs/build-plugins)
+- [Skills documentation](https://learn.chatgpt.com/docs/build-skills)

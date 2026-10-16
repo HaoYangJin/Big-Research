@@ -1,168 +1,117 @@
-# Research Workflow Skill
+# Research Workflow
 
-![Version](https://img.shields.io/badge/version-0.1.0-blue)
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Skill](https://img.shields.io/badge/skill-research--workflow-purple)
+![CI](https://github.com/HaoYangJin/Research-workflow-Skill/actions/workflows/ci.yml/badge.svg)
 
-一个面向学术研究全生命周期的开源 Skill：让 Claude 像资深导师一样提出问题、给出路径，也能像严格同行评审一样审稿、挑错、逼近薄弱环节。
+**面向科研九阶段的导师与审稿插件：用真实产物、证据关联和可恢复检查点推进研究。**
 
-This is an open-source research workflow Skill for the full academic lifecycle. It helps Claude act as a senior research mentor and a critical peer reviewer.
+An evidence-aware research mentor/reviewer plugin with nine research phases, reproducible artifacts, and resumable checkpoints.
 
-> 本 README 合并并扩展了仓库原始愿景：覆盖科研环境搭建、课题初始化、文献调研、技术方案设计、实验与数据处理、论文写作、投稿与修回等完整科研流程。
+## 中文
 
-## Table of Contents
+### v1.0.0 能做什么
 
-- [中文说明](#中文说明)
-  - [使用图示](#使用图示)
-  - [适用场景](#适用场景)
-  - [快速开始](#快速开始)
-  - [How It Works: 9 个科研阶段](#how-it-works-9-个科研阶段)
-  - [示例](#示例)
-- [English](#english)
-  - [Use Cases](#use-cases)
-  - [Quick Start](#quick-start)
-  - [How It Works: 9 Research Phases](#how-it-works-9-research-phases)
-  - [Example](#example)
-- [Repository Structure](#repository-structure)
-- [Contributing](#contributing)
-- [License](#license)
+- 保留 `research-mentor` 技能与 `mentor / reviewer / mixed` 三种模式；只加载当前阶段需要的参考资料。
+- 覆盖选题与文献、假设、实验设计、数据复现、结果消融、写作、自审、修改回应、投稿就绪判断。
+- 用 `project.json` 保存进度，用 `evidence.json` 关联来源、实际实验与结论；缺证据时记录阻塞。
+- 提供 Python 标准库 CLI：初始化、检查点、验证、恢复，以及产物变更检测。
+- 提供 Claude 与 Codex 插件清单、Claude marketplace、独立 Skill 安装与可重复构建的发布包。
+- 按能力连接宿主已有的搜索、论文、执行、文件与 Git 工具；工具不可用时明确降级。
 
-## 中文说明
-
-### 使用图示
-
-下面两张图帮助你快速理解 `research-mentor` 的安装路径、模式选择和一次典型输入到输出的过程。
-
-![Research Workflow Skill 使用流程图](assets/research-workflow-usage-flow.png)
-
-![Research Workflow Skill 使用实例图](assets/research-workflow-usage-example.png)
-
-### 适用场景
-
-使用 `research-mentor` 帮你完成：
-
-- 选题、缩小研究范围、制定文献调研计划。
-- 形成研究问题、假设、贡献点和可验证命题。
-- 设计方法、实验、数据流程、复现方案和消融实验。
-- 起草或审阅摘要、引言、相关工作、方法、结果、讨论。
-- 进行自审、模拟同行评议、修改论文和回应 reviewer comments。
-- 选择投稿 venue、制定投稿节奏和风险预案。
+**适用边界**：它是需要宿主 AI 和工具执行的科研工作流，不是独立训练/检索服务。CLI 检查结构、关联和文件完整性，不认证科学正确性，不保证创新性或录用。没有绑定或假装实现远程 MCP 服务。
 
 ### 快速开始
 
-1. 确认仓库根目录包含 `SKILL.md`。
-2. 将整个仓库文件夹作为一个 Skill 文件夹使用，或按 [USAGE.md](USAGE.md) 生成带 `research-mentor/` 顶层目录的 zip 后上传到 Claude.ai。
-3. 在对话中直接说明阶段和模式，例如：
+Claude Code 插件安装：
 
 ```text
-使用 research-mentor，mentor 模式。我的方向是基于图神经网络的配电网负荷预测，请帮我做选题收敛和文献调研计划。
+/plugin marketplace add HaoYangJin/Research-workflow-Skill
+/plugin install research-workflow@research-workflow-marketplace
 ```
 
-更多安装、调用、模式切换和定制细节见 [USAGE.md](USAGE.md)。
+也可在已克隆的仓库中本地试用：
 
-### How It Works: 9 个科研阶段
+```bash
+claude --plugin-dir .
+```
 
-1. **Topic scoping & literature review / 选题与文献调研**：从兴趣域收敛到可研究问题，建立文献地图。
-2. **Research question & hypothesis formulation / 问题与假设**：把动机转化为可检验研究问题和假设。
-3. **Methodology and experimental design / 方法与实验设计**：选择方法、基线、实验矩阵和评价指标。
-4. **Data collection, analysis, and reproducibility / 数据与复现性**：检查数据来源、处理链路、可复现性和泄漏风险。
-5. **Results interpretation and ablation thinking / 结果分析与消融**：解释结果、设计消融、识别过度结论。
-6. **Paper drafting / 论文写作**：分章节打磨 abstract、intro、related work、methods、results、discussion。
-7. **Self-review and simulated peer review / 自审与模拟同行评议**：用 reviewer 标准提前发现拒稿风险。
-8. **Revision and rebuttal / 修改与 rebuttal**：制定修改计划并回应审稿意见。
-9. **Submission strategy and venue selection / 投稿策略**：匹配期刊/会议、范围、贡献、周期和风险。
-
-每个阶段都有对应的 `references/` 文件，包含 checklist、mentor prompts 和 reviewer red flags。
-
-### 示例
+调用插件技能：
 
 ```text
-输入：
-导师模式。我的研究方向是 ML for energy systems，想做配电网短期负荷预测，但不知道如何把题目收敛到能投稿的研究问题。
-
-预期输出：
-- 先追问数据粒度、预测时间尺度、可用 baseline、目标 venue。
-- 给出 3 个可行选题方向，并指出每个方向的 novelty 风险。
-- 建议优先阅读综述、经典 baseline、最新 GNN/Transformer 负荷预测论文和能源系统约束建模论文。
-- 给出下一步一周文献调研清单。
+/research-workflow:research-mentor
+混合模式。请用可复现的低成本实验推进我的研究：<问题、已有材料、预算、输出目录>。
 ```
+
+单独安装 Skill（Python 3.10+，不覆盖已有目录）：
+
+```bash
+git clone https://github.com/HaoYangJin/Research-workflow-Skill.git
+cd Research-workflow-Skill
+python scripts/install_skill.py --target ~/.claude/skills/research-mentor
+```
+
+Codex / ChatGPT Work 的插件导入与独立 Skill 路径见 [USAGE.md](USAGE.md)。宿主支持、账户权限与目录审核是各平台自己的机制；仓库发布不等于官方插件目录上架。
+
+### 第一次运行
+
+```text
+使用 research-mentor，mixed 模式。
+问题：时间序列发生漂移时，随机划分是否会低估未来预测误差？
+资源：Python 标准库，合成数据，不调用付费 API。
+输出：<一个空的项目目录>。请实际执行一个最小实验，写短稿、自审、修改，最后判断是否具备投稿条件。
+```
+
+不需要完整流程时，直接提供论文/草稿或指定阶段。单次提问不强制初始化项目。
+
+手动检查项目：
+
+```bash
+python skills/research-mentor/scripts/workflow.py init ./my-study --title "Bounded question" --mode mixed
+python skills/research-mentor/scripts/workflow.py template --phase 1
+python skills/research-mentor/scripts/workflow.py status ./my-study
+```
+
+### 验证与复现
+
+```bash
+python -m unittest discover -s tests -v
+python scripts/validate_repo.py
+python scripts/build_release.py --output dist
+```
+
+真实试跑、已知限制与验收证据见 [验证报告](docs/validation-v1.0.0.md)。阶段 JSON 和证据格式见 [状态协议](skills/research-mentor/references/project-state.md)，扩展服务见 [能力适配](skills/research-mentor/references/tool-adapters.md)。
+
+可直接重跑的 [合成时序研究示例](examples/drift-study/README.md) 包含冻结协议、代码和数学/时间隔离检查；发布文件见 [v1.0.0 Release](https://github.com/HaoYangJin/Research-workflow-Skill/releases/tag/v1.0.0)。
+
+### 从 0.1.0 迁移
+
+正式 Skill 源码移至 `skills/research-mentor/`。根 `SKILL.md` 保留兼容入口；旧的 `references/` 与示例已迁入正式 Skill。推荐备份旧安装后只复制正式 Skill 目录，或切换为插件，避免同时启用两份。0.1.0 没有状态格式，因此不存在旧项目状态的自动迁移。
 
 ## English
 
-### Use Cases
+Research Workflow supports nine phases: scope/literature, hypotheses, design, data/reproducibility, results/ablations, drafting, self-review, revision/rebuttal, and submission readiness. Choose mentor, reviewer, or mixed mode; short requests do not require a project.
 
-Use `research-mentor` when you want Claude to help you:
+Install the Claude Code plugin using the two marketplace commands above, or run `claude --plugin-dir .` from a clone. Invoke `/research-workflow:research-mentor`. For a standalone skill, run `python scripts/install_skill.py --target <your-skill-directory>/research-mentor`. See [USAGE.md](USAGE.md) for Codex/ChatGPT Work and ZIP import details.
 
-- Scope a research topic and plan a literature review.
-- Form research questions, hypotheses, and claims.
-- Design methods, experiments, baselines, metrics, and ablations.
-- Audit data collection, analysis, and reproducibility.
-- Draft or review academic paper sections.
-- Run a simulated peer review before submission.
-- Revise a paper and write rebuttals to reviewers.
-- Choose a submission venue and publication strategy.
+Python 3.10+ is required only for the local CLI. There are no runtime dependencies, credentials, bundled remote MCP servers, or paid model calls. Search, paper access, execution, and export depend on tools available in your host. Checkpoints track real files and evidence IDs; structural validation is not scientific validation or a publication guarantee. A completed assessment may correctly conclude `not_ready`.
 
-### Quick Start
+Run the three validation/build commands above. The [validation report](docs/validation-v1.0.0.md) distinguishes observed checks from untested host behavior. See the [release notes](docs/RELEASE-v1.0.0.md) and [CHANGELOG](CHANGELOG.md).
 
-1. Make sure the repository root contains `SKILL.md`.
-2. Use the full folder as a Skill folder, or create a zip with a top-level `research-mentor/` directory as shown in [USAGE.md](USAGE.md).
-3. Ask for a phase and a mode:
+## Structure
 
 ```text
-Use research-mentor in reviewer mode. Please critique this methodology section and identify the strongest rejection risks.
+.claude-plugin/        Claude plugin and marketplace manifests
+.codex-plugin/         Codex plugin manifest
+skills/research-mentor/ canonical skill, references, examples, and local CLI
+scripts/               install, repository checks, deterministic release builder
+tests/                 lifecycle and distribution regression tests
+examples/              reproducible research demonstration
+docs/                  release and validation evidence
+.github/workflows/     CI and tagged release packaging
+SKILL.md               legacy compatibility entry
 ```
 
-See [USAGE.md](USAGE.md) for installation, invocation, mode switching, and customization details.
+## Contributing and license
 
-### How It Works: 9 Research Phases
-
-1. Topic scoping & literature review.
-2. Research question & hypothesis formulation.
-3. Methodology and experimental design.
-4. Data collection, analysis, and reproducibility.
-5. Results interpretation and ablation thinking.
-6. Paper drafting: abstract, introduction, related work, methods, results, discussion.
-7. Self-review and simulated peer review.
-8. Revision and rebuttal to reviewers.
-9. Submission strategy and venue selection.
-
-Each phase has a focused reference file under `references/` with checklists, mentor prompts, and reviewer-style red flags.
-
-### Example
-
-```text
-Input:
-Use research-mentor in mentor mode. I am studying ML for energy systems and want to build a publishable project around distribution-grid load forecasting.
-
-Expected response:
-- Clarify the forecasting horizon, data granularity, available baselines, and target venue.
-- Propose several narrowed research directions.
-- Flag novelty and evaluation risks early.
-- Recommend a staged literature-review plan.
-```
-
-## Repository Structure
-
-```text
-.
-├── SKILL.md
-├── USAGE.md
-├── README.md
-├── references/
-├── examples/
-├── assets/
-│   └── readme/
-├── CONTRIBUTING.md
-├── CODE_OF_CONDUCT.md
-├── CHANGELOG.md
-├── LICENSE
-└── .gitignore
-```
-
-## Contributing
-
-Issues and pull requests are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and keep the core Skill domain-agnostic unless a subfield example is clearly labeled as optional.
-
-## License
-
-MIT © 2026 JinhAo Yang. See [LICENSE](LICENSE).
+Read [CONTRIBUTING.md](CONTRIBUTING.md). Keep the core domain-agnostic, preserve source integrity, and include real validation evidence when changing workflow behavior. MIT © 2026 JinhAo Yang; see [LICENSE](LICENSE).

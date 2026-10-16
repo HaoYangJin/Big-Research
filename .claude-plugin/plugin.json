@@ -1,0 +1,10 @@
+{
+  "name": "research-workflow",
+  "version": "1.0.0",
+  "description": "Evidence-aware research mentor and reviewer across nine resumable research phases.",
+  "author": {"name": "JinhAo Yang", "url": "https://github.com/HaoYangJin"},
+  "homepage": "https://github.com/HaoYangJin/Research-workflow-Skill",
+  "repository": "https://github.com/HaoYangJin/Research-workflow-Skill",
+  "license": "MIT",
+  "keywords": ["research", "reproducibility", "peer-review", "literature-review"]
+}

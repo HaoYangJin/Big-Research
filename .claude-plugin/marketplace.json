@@ -1,0 +1,11 @@
+{
+  "name": "research-workflow-marketplace",
+  "description": "Evidence-aware, reproducible research workflow tools",
+  "owner": {"name": "HaoYangJin"},
+  "plugins": [{
+    "name": "research-workflow",
+    "source": "./",
+    "description": "Nine-phase research mentor/reviewer with evidence and reproducible checkpoints",
+    "version": "1.0.0"
+  }]
+}

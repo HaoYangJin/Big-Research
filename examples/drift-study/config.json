@@ -1,0 +1,14 @@
+{
+  "history_size": 800,
+  "future_size": 160,
+  "holdout_size": 160,
+  "replicates": 300,
+  "seed_start": 1000,
+  "split_seed_offset": 20000000,
+  "rho": 0.6,
+  "models": ["static", "trend_interaction"],
+  "protocols": ["random_holdout", "chronological_holdout"],
+  "scenarios": ["stationary", "gradual_mild", "gradual_strong", "gradual_strong_iid_x", "future_jump", "noise_cooling"],
+  "ci_z": 1.96,
+  "practical_equivalence_margin": 0.1
+}
