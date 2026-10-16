@@ -1,12 +1,17 @@
 {
   "verified_at": null,
   "checks": {
-    "independent_code_review": false,
-    "behavioral_skill_evaluation": false,
-    "cross_disciplinary_examples": false,
-    "interactive_ui": false,
+    "independent_code_review": true,
+    "behavioral_skill_evaluation": true,
+    "cross_disciplinary_examples": true,
+    "interactive_ui": true,
     "claude_clean_install": false,
     "codex_clean_install": false
   },
-  "evidence": {}
+  "evidence": {
+    "cross_disciplinary_examples": "examples/run_examples.py completed computational negative-result, public-domain interpretive and formal-proof cases; tests/test_core_v2.py covers six discipline/paradigm routes.",
+    "behavioral_skill_evaluation": "Independent humanities manuscript task evaluation verified method-sensitive review, missing-material handling, source uncertainty and researcher authority; regression tests cover budget exhaustion and contradictory/unsupported evidence.",
+    "interactive_ui": "scripts/check_ui.py passed static tabs, filtering, provenance, text safety, mobile layout and real MCP Apps SDK bridge message/tool interactions.",
+    "independent_code_review": "Independent code and Python reviews of 6a96ec3 approved; release/controller/distribution regressions passed; docs/development.md."
+  }
 }
