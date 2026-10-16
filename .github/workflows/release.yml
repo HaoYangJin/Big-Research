@@ -1,65 +1,37 @@
-name: Release
+name: Guarded release
 on:
-  push:
-    branches: [main]
-    paths: [VERSION, .github/workflows/release.yml]
-    tags: ['v*']
+  schedule:
+    - cron: '37,52 6 * * *'
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: 'Prepare a draft or check the guarded midnight release'
+        type: choice
+        options: [prepare, tick, status]
+        default: tick
 permissions:
   contents: write
+  actions: read
+concurrency:
+  group: release-v2.1.0
+  cancel-in-progress: false
 jobs:
-  cross-platform:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        python: ['3.10', '3.12']
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python }}
-      - run: python -m unittest discover -s tests -v
-      - run: python -m unittest discover -s examples/drift-study -p test_experiment.py -v
-      - run: python scripts/validate_repo.py
-      - run: python scripts/build_release.py --output dist
   release:
-    needs: cross-platform
     runs-on: ubuntu-latest
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
+      - name: Read the candidate reference
+        id: plan
+        run: python -c "import json,os; p=json.load(open('.github/release-plan.json')); f=open(os.environ['GITHUB_OUTPUT'],'a'); print('ref='+p['candidate_ref'],file=f)"
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.plan.outputs.ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Check explicit tag matches source version
-        run: python -c "import os,pathlib; assert os.environ['GITHUB_REF_TYPE'] != 'tag' or os.environ['GITHUB_REF_NAME'] == 'v'+pathlib.Path('VERSION').read_text().strip()"
-      - run: python -m unittest discover -s tests -v
-      - run: python -m unittest discover -s examples/drift-study -p test_experiment.py -v
-      - run: python scripts/validate_repo.py
-      - run: npm install -g @anthropic-ai/claude-code@2.1.301
-      - run: claude plugin validate .claude-plugin/plugin.json --strict
-      - run: claude plugin validate .claude-plugin/marketplace.json --strict
-      - run: python scripts/build_release.py --output dist
-      - name: Publish versioned packages
+      - name: Prepare or publish only an accepted candidate
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          version="$(cat VERSION)"
-          tag="v$version"
-          if gh release view "$tag" >/dev/null 2>&1; then
-            # One-time correction of the release created during this v1.1.0 session,
-            # before the original workflow waited for Windows CI. Never move older releases.
-            current="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$tag" --jq .object.sha)"
-            if [ "$tag" = "v1.1.0" ] && [ "$current" = "2cebfe664e22174148dfe192aa18e4bb47a45c72" ]; then
-              gh api --method PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/$tag" -f sha="$GITHUB_SHA" -F force=true
-              gh release upload "$tag" dist/*.zip dist/SHA256SUMS.txt --clobber
-              gh release edit "$tag" --target "$GITHUB_SHA" --notes-file "docs/RELEASE-$tag.md"
-            else
-              echo "Release $tag already exists; preserving the published version."
-            fi
-            exit 0
-          fi
-          gh release create "$tag" dist/*.zip dist/SHA256SUMS.txt --target "$GITHUB_SHA" --title "Research Workflow $tag" --notes-file "docs/RELEASE-$tag.md"
-
+          OPERATION: ${{ inputs.operation || 'tick' }}
+        run: python scripts/release.py "$OPERATION"
