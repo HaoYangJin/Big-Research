@@ -63,8 +63,18 @@ python tools/workflow.py validate .
 
 ## Scope of confidence
 
+### Post-release follow-up / 发布后补测
+
+2026-10-16，使用官方 npm 包 `@openai/codex@0.163.0`，实际从公开仓库的 `v1.0.0` 标签运行 `codex plugin marketplace add`、`codex plugin add` 和 `codex plugin list`。结果识别 marketplace `research-workflow-marketplace`、插件 `research-workflow`、版本 `1.0.0`，并返回 `installed=true`、`enabled=true`。测试后移除本次新增的安装与来源。该结果补足 CLI 安装链路，不包含模型调用、桌面 UI 或 Work 云端工作区导入。
+
+在临时项目模拟持锁进程 `os._exit(17)`，观察到 `.workflow.lock` 遗留，下一次 checkpoint 以锁定错误退出。该异常恢复缺陷在原标签中仍存在；详见 [缺陷与限制](limitations-v1.0.0.md)。原先冻结科研闭环的验收结果不因此扩展到强制退出恢复。
+
+插件安装后，本会话宿主技能清单还同时暴露根兼容入口与正式目录的两个 `research-mentor` 条目。根入口转读正式技能；本次没有调用模型，不判断其对实际自动选择的影响，也不将该宿主观察推广到所有客户端。
+
+以下边界仍成立：
+
 - A source marked verified records agent inspection; the CLI does not fetch the URL or authenticate scholarly claims.
 - Matching experiment hashes verifies recorded files, not that an arbitrary command was truly run or that a conclusion follows.
 - A successful synthetic example tests workflow mechanics and bounded statistical reasoning, not real-world generalization or novelty.
 - An independent skill task tests observed behavior in this host. It is not a statistical model comparison, broad benchmark, or reproducible guarantee of future agent outputs.
-- Native Claude manifest checks and local installation can be exercised here. A full authenticated Codex/ChatGPT Work plugin import and directory review require their respective product surfaces and are not claimed by static validation.
+- Native Claude checks and installation, plus the post-release Codex CLI installation check above, were exercised here. Full desktop/Work cloud imports, runtime research behavior in those surfaces, and directory review remain separate acceptance work and are not established by package validation.

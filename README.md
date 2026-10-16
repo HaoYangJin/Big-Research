@@ -20,6 +20,8 @@ An evidence-aware research mentor/reviewer plugin with nine research phases, rep
 
 第一次使用建议阅读 **[上手指南：从安装到看到结果](docs/getting-started.md)**。安装细节与命令参考见 [USAGE.md](USAGE.md)。
 
+常用入口：**[Codex / ChatGPT Work 快速安装](docs/openai-install.md)** · **[三种模式的用户 / AI 对话示例](docs/conversation-examples.md)** · **[v1.0.0 缺陷与限制](docs/limitations-v1.0.0.md)**。
+
 ### 使用时会发生什么
 
 ```mermaid
@@ -52,6 +54,15 @@ flowchart TD
 
 ### 快速开始
 
+Codex CLI（已实测 0.163.0）：在终端执行，然后开启新会话。
+
+```bash
+codex plugin marketplace add HaoYangJin/Research-workflow-Skill --ref v1.0.0
+codex plugin add research-workflow@research-workflow-marketplace
+```
+
+在新对话中指定 `$research-mentor`。ChatGPT Work 桌面本地来源与网页版工作区导入的步骤、权限及验证范围，见 [OpenAI 宿主安装指南](docs/openai-install.md)。
+
 Claude Code 插件安装：
 
 ```text
@@ -80,7 +91,7 @@ cd Research-workflow-Skill
 python scripts/install_skill.py --target ~/.claude/skills/research-mentor
 ```
 
-Codex / ChatGPT Work 的插件导入与独立 Skill 路径见 [USAGE.md](USAGE.md)。宿主支持、账户权限与目录审核是各平台自己的机制；仓库发布不等于官方插件目录上架。
+更多安装方式见 [USAGE.md](USAGE.md)。宿主支持、账户权限与目录审核是各平台自己的机制；仓库发布不等于官方插件目录上架。
 
 ### 第一次运行
 
@@ -120,6 +131,8 @@ python scripts/build_release.py --output dist
 ## English
 
 Start with the [step-by-step guide (Chinese)](docs/getting-started.md): run the standalone synthetic demo, install the skill in an AI host, or resume an existing project. The demo produces experiment files; the host agent performs the broader research workflow; the local CLI only records and validates checkpoints.
+
+See [Codex / ChatGPT Work installation](docs/openai-install.md), [mode-by-mode conversations](docs/conversation-examples.md), and [v1.0.0 limitations](docs/limitations-v1.0.0.md). Native Codex CLI 0.163.0 marketplace registration, installation, and enabled-state inspection have been exercised; desktop Work and workspace cloud imports remain separate untested paths.
 
 Research Workflow supports nine phases: scope/literature, hypotheses, design, data/reproducibility, results/ablations, drafting, self-review, revision/rebuttal, and submission readiness. Choose mentor, reviewer, or mixed mode; short requests do not require a project.
 

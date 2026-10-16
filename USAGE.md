@@ -13,8 +13,20 @@
 | Claude Code | 下方 marketplace 命令，或 `claude --plugin-dir .` | `/research-workflow:research-mentor` |
 | Claude Code 独立 Skill | 复制 `skills/research-mentor/` 到宿主 skills 目录 | 自然语言或 `/research-mentor` |
 | Claude.ai 自定义 Skill | 上传 Release 中 `research-mentor-1.0.0.zip` 并启用 | 自然语言指定 `research-mentor` |
-| Codex / ChatGPT Work 插件 | 在宿主支持的插件导入中使用本仓库或 Release 插件 ZIP；按官方入口操作 | 自然语言指定技能 |
+| Codex CLI 插件 | `codex plugin marketplace add` 后 `codex plugin add`，详见下方命令 | 新会话指定 `$research-mentor` |
+| ChatGPT Work 桌面本地插件 | 注册本地 marketplace，在桌面 Plugins 来源中安装；界面链路待实测 | 从 `@` 菜单选择 Research Workflow |
+| ChatGPT Work 网页工作区插件 | 管理员 Admin → Plugins → Add → Import marketplace；真实导入待验收 | 安装后从 `@` 菜单选择插件 |
 | 其他 Agent Skills 宿主 | 仅安装 `skills/research-mentor/` | 按宿主方式触发 |
+
+**Codex CLI 快速安装**（原生 0.163.0 已实测，终端执行）：
+
+```bash
+codex plugin marketplace add HaoYangJin/Research-workflow-Skill --ref v1.0.0
+codex plugin add research-workflow@research-workflow-marketplace
+codex plugin list --marketplace research-workflow-marketplace --json
+```
+
+安装后开启新会话。ChatGPT Work 桌面、网页管理员导入、权限和失败分支见 [Codex / ChatGPT Work 安装指南](docs/openai-install.md)，不要把本机 Skill 复制当作云端安装。
 
 Claude Code：
 
@@ -43,9 +55,11 @@ python scripts/install_skill.py --target "$HOME\.claude\skills\research-mentor"
 
 目标已存在时脚本拒绝覆盖。更新前审阅、备份旧目录，再安装新版本。不要直接把 `.git`、研究数据和本地会话日志当作 Skill 打包。
 
-ChatGPT Work / Codex 各入口的可用性受产品与账户影响。此仓库提供 `.codex-plugin/plugin.json` 和 Claude 兼容 marketplace；未承诺已经通过平台目录审核。若宿主不提供插件导入，独立 Skill 是降级路径，不要虚构一个安装命令。
+ChatGPT Work / Codex 各入口的可用性受产品与账户影响。此仓库提供 `.codex-plugin/plugin.json` 和 Claude 兼容 marketplace；未承诺已经通过平台公开目录审核。独立 Skill 是支持本地技能目录的宿主的备用路径，不会自动注册云端插件。
 
 ### 2. 模式与阶段
+
+先按需求选择：[导师模式：收敛问题与设计下一步](docs/conversation-examples.md#1-导师模式把兴趣变成可以执行的问题) · [审稿模式：检查已有材料](docs/conversation-examples.md#2-审稿模式检查已有实验不替缺失证据背书) · [混合模式：推进并自审](docs/conversation-examples.md#3-混合模式推进实验同时保留推翻结论的检查)。示例采用“用户：…；AI：…”多轮对话，标明预期行为与实际执行的区别。
 
 ```text
 导师模式：帮我把这个兴趣收敛为一个能验证的研究问题。
@@ -112,5 +126,8 @@ Checked on 2026-10-16; host behavior may change.
 - [Claude manifest reference](https://code.claude.com/docs/en/plugins/manifest-reference)
 - [Claude marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
 - [OpenAI plugin packaging and submission](https://developers.openai.com/plugins/deploy/submission)
+- [OpenAI local plugin and marketplace packaging](https://developers.openai.com/plugins/build/plugins)
+- [Codex plugin browser](https://learn.chatgpt.com/docs/plugins)
+- [ChatGPT workspace marketplace import](https://learn.chatgpt.com/docs/enterprise/plugin-management)
 - [ChatGPT Work plugin development](https://learn.chatgpt.com/docs/build-plugins)
 - [Skills documentation](https://learn.chatgpt.com/docs/build-skills)

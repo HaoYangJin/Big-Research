@@ -45,6 +45,15 @@ python examples/drift-study/experiment.py --out ./outputs/first-demo
 
 同一宿主只需启用一种方式。
 
+**Codex 插件**：在系统终端执行以下两条命令，再开启新会话并指定 `$research-mentor`：
+
+```bash
+codex plugin marketplace add HaoYangJin/Research-workflow-Skill --ref v1.0.0
+codex plugin add research-workflow@research-workflow-marketplace
+```
+
+ChatGPT Work 需要区分桌面本地来源与网页工作区导入；具体界面步骤、权限及已测范围见 [OpenAI 宿主快速安装](openai-install.md)。
+
 **Claude Code 插件**：在 Claude Code 中依次输入，以下不是终端命令：
 
 ```text
@@ -70,9 +79,11 @@ python scripts/install_skill.py --target ~/.agents/skills/research-mentor
 
 这两条是替代选项，只运行与你的宿主对应的一条。目标目录已有内容时，安装脚本会拒绝覆盖。其他宿主的 ZIP 导入、Windows 路径和更新方式见 [安装参考](../USAGE.md)。
 
-**完成标志**：宿主能加载 `research-mentor`。能够克隆仓库或运行 Python 脚本，只说明文件可用，还需要在宿主中启用技能。插件导入是否可用取决于宿主与账户；Codex 完整插件导入的验证范围见 [版本验证报告](validation-v1.0.0.md)。
+**完成标志**：宿主能加载 `research-mentor`。能够克隆仓库或运行 Python 脚本，只说明文件可用，还需要在宿主中启用技能。Codex CLI 安装链路已补测；Work 桌面和云端导入的验证范围分别见 [安装指南](openai-install.md) 与 [版本验证报告](validation-v1.0.0.md)。
 
 ### 2.2 复制这段话开始
+
+想先看完整对话？阅读 [导师、审稿与混合模式示例](conversation-examples.md)，包含多轮追问、模式切换和恢复项目。
 
 在已启用技能的 AI 对话中发送。将输出目录替换成你有写权限的空目录；有现成研究时，把问题和材料换成自己的。
 

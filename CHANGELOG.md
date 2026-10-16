@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
+- Document tested Codex CLI plugin installation, separate desktop and workspace-cloud Work routes, and multi-turn conversations for all three modes.
+- Publish a v1.0.0 limitations assessment, including a reproduced orphan-lock defect, mode persistence gaps, scientific-validation boundaries, and remaining host acceptance work.
 - Add a task-based README entry, a rendered Mermaid usage flow, and a step-by-step Chinese guide covering the local demo, host installation, research deliverables, and checkpoint recovery.
 - Clarify the separate roles of the host agent, synthetic experiment, and state CLI, with copyable prompts and observable completion criteria.
 
