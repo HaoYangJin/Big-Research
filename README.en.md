@@ -26,21 +26,47 @@ The full local plugin needs [uv](https://docs.astral.sh/uv/getting-started/insta
 
 ### Claude Code
 
+Run these commands in the **Claude Code conversation input**:
+
 ```text
 /plugin marketplace add HaoYangJin/Research-workflow-Skill
 /plugin install research-workflow@research-workflow-marketplace
 ```
 
-After installation, enter `/research-workflow:research-workflow` to start.
+Start a new session and enter `/research-workflow:research-workflow`.
+
+**Update the plugin** in your system terminal, then start a new Claude Code session:
+
+```shell
+claude plugin marketplace update research-workflow-marketplace
+claude plugin update research-workflow@research-workflow-marketplace
+```
 
 ### Codex CLI
 
-```text
+Open **Windows PowerShell, macOS Terminal or a Linux terminal**. Check that `codex --version` and `uv --version` print version numbers. If Codex CLI is missing, follow the [official installation guide](https://learn.chatgpt.com/docs/codex/cli). Check the terminal command even if you already have the desktop app.
+
+Run these commands in that terminal; you do not need to clone this repository:
+
+```shell
 codex plugin marketplace add HaoYangJin/Research-workflow-Skill
 codex plugin add research-workflow@research-workflow-marketplace
+codex plugin list --marketplace research-workflow-marketplace
 ```
 
-Start a new session, then enter `$research-setup` for initial setup or `$research-workflow` to begin research.
+The third command should list `research-workflow` as `installed, enabled` with a version number. Run `codex`, complete sign-in if prompted, then enter `$research-setup` or `$research-workflow` in the **Codex conversation input**. Restart any existing session to load the plugin.
+
+For the Codex desktop app, follow the [desktop activation steps](docs/quickstart.md#3-开启新会话并开始使用) and check that the CLI and app use the same user configuration before restarting the app.
+
+**Update the plugin** by refreshing its source, installing the current catalog version and checking the result. Start a new Codex session afterward:
+
+```shell
+codex plugin marketplace upgrade research-workflow-marketplace
+codex plugin add research-workflow@research-workflow-marketplace
+codex plugin list --marketplace research-workflow-marketplace
+```
+
+If `codex` is missing or the `plugin` subcommand is unavailable, install or update Codex CLI using the [quickstart preparation steps](docs/quickstart.md#1-准备终端与工具).
 
 Then describe your research task, for example:
 

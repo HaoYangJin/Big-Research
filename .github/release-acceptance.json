@@ -1,5 +1,5 @@
 {
-  "verified_at": "2026-10-17T03:40:05.555169+00:00",
+  "verified_at": "2026-10-17T03:49:38.052453+00:00",
   "checks": {
     "independent_code_review": true,
     "behavioral_skill_evaluation": true,
@@ -16,5 +16,5 @@
     "claude_clean_install": "https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580 — browser job: Claude Code 2.1.301 strict plugin/marketplace validation, clean isolated marketplace add, install and listing passed.",
     "codex_clean_install": "https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580 — browser job: Codex CLI 0.163.0 clean isolated marketplace add, plugin add and listing passed."
   },
-  "content_sha256": "35c5ce9e47dfb1c507a052b51653bc4f89b519951a2f5f0debf09793f465f6fb"
+  "content_sha256": "5a7940b3134a38aeb7fdd771e935b9874187477edc905875a8cb9205d2d5fdce"
 }

@@ -8,16 +8,87 @@ For a concise experience: “Use concise guidance. My question is …, my materi
 
 ## 安装 / Installation
 
-完整本地体验需要 uv 和 Python 3.11+，uv 可以管理 Python。先按 [uv 官方安装说明](https://docs.astral.sh/uv/getting-started/installation/) 配置 uv，再按照[首页安装指南](../README.md#安装最新版本)选择 Claude Code 或 Codex CLI，两种方式均提供完整命令。
+以下步骤可以直接照做，无需先克隆本仓库。Codex CLI 的 `codex ...` 命令在系统终端运行；Claude Code 的 `/plugin ...` 命令在 Claude Code 对话中运行。
 
-安装完成后：
+### 1. 准备终端与工具
 
-- **Claude Code**：输入 `/research-workflow:research-workflow` 开始研究。
-- **Codex CLI**：开启新会话，输入 `$research-setup` 完成首次设置，或输入 `$research-workflow` 开始研究。
+Windows 用户打开 PowerShell；macOS 和 Linux 用户打开终端。完整本地体验需要 uv 和 Python 3.11+，uv 可以管理 Python。先按 [uv 官方安装说明](https://docs.astral.sh/uv/getting-started/installation/) 配置 uv，然后在终端检查：
+
+```shell
+uv --version
+codex --version
+```
+
+两条命令都应显示版本号。使用 Claude Code 的研究者只需检查 uv，并准备好可用的 Claude Code。
+
+如果找不到 `codex`，请按 [Codex CLI 官方安装说明](https://learn.chatgpt.com/docs/codex/cli)安装命令行工具。若已有 Node.js 和 npm，也可以在终端安装：
+
+```shell
+npm install -g @openai/codex@latest
+codex --version
+```
+
+如果 Codex CLI 是通过 npm 安装的，上面同一条 `npm install` 命令也用于更新 **Codex CLI 程序**。其他安装方式请按对应的官方说明更新。若 `codex plugin --help` 提示不支持 `plugin`，请先更新 CLI，再继续。
+
+### 2. 安装 Research Workflow
+
+**Codex CLI：在系统终端逐条执行。**
+
+```shell
+codex plugin marketplace add HaoYangJin/Research-workflow-Skill
+codex plugin add research-workflow@research-workflow-marketplace
+codex plugin list --marketplace research-workflow-marketplace
+```
+
+第一条添加插件来源，第二条安装本插件，第三条检查结果。输出中应出现 `research-workflow`、`installed, enabled` 和版本号。
+
+**Claude Code：在 Claude Code 对话输入框中逐条执行。**
+
+```text
+/plugin marketplace add HaoYangJin/Research-workflow-Skill
+/plugin install research-workflow@research-workflow-marketplace
+```
+
+安装完成后，可在同一对话输入 `/plugin`，查看 Installed 中是否已有 Research Workflow。
+
+### 3. 开启新会话并开始使用
+
+Codex 用户在终端运行 `codex`，按提示完成首次登录，再在 **Codex 对话输入框**发送：
+
+```text
+$research-setup
+我刚开始研究这个问题。请帮我梳理已有材料、选择保存位置，并给出下一步。
+```
+
+也可输入 `$research-workflow` 直接开始研究。Claude Code 用户开启新会话，输入 `/research-workflow:research-workflow`，再描述研究任务。
+
+**Codex 桌面应用用户**：用同一系统账户的 Codex CLI 完成上述安装后，完全退出并重新打开桌面应用，在插件页检查 Research Workflow 的安装与启用状态，再新建对话使用。若设置过自定义 `CODEX_HOME`，请确保 CLI 和桌面应用使用同一配置目录。桌面应用与 CLI 的具体支持情况见[兼容性说明](compatibility.md)。
 
 首次设置会帮助你确认研究目标、已有材料、保存位置和可用工具。首次启用本地工具时，uv 可能下载锁定的依赖；模型推理和检索使用当前客户端已授权的能力。已验证的客户端版本和界面支持情况见[兼容性说明](compatibility.md)。
 
-For installation commands in English, see the [English README](../README.en.md#install-latest). Official release packages are available from [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest).
+### 4. 更新 Research Workflow
+
+**Codex CLI：在系统终端刷新来源，再安装当前版本并检查。**
+
+```shell
+codex plugin marketplace upgrade research-workflow-marketplace
+codex plugin add research-workflow@research-workflow-marketplace
+codex plugin list --marketplace research-workflow-marketplace
+```
+
+**Claude Code：以下更新命令也在系统终端运行。**
+
+```shell
+claude plugin marketplace update research-workflow-marketplace
+claude plugin update research-workflow@research-workflow-marketplace
+claude plugin list
+```
+
+更新完成后重新开启客户端会话，使新版本生效。旧版研究数据需要按下方的[迁移说明](#迁移已有项目)导入；更新插件不会自动转换已有项目。
+
+如果 Codex 对话中仍找不到 `$research-workflow`，先在终端重新运行上面的 `plugin list` 检查安装与启用状态，再开启新会话。首次设置提示 uv 不可用时，重新打开终端并检查 `uv --version`。
+
+命令依据：[OpenAI 插件来源管理](https://developers.openai.com/plugins/build/plugins#add-a-marketplace-from-the-cli)、[Claude Code 插件管理](https://code.claude.com/docs/en/discover-plugins)。英文说明见[English README](../README.en.md#install-latest)。正式发行包统一从 [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest) 获取。
 
 ## 选择保存位置 / Research home
 
