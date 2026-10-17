@@ -50,6 +50,8 @@ class PersistentGitHub(FakeGitHub):
         return deepcopy(self.saved)
 
     def upload(self, tag, path):
+        if self.saved["tag_name"] != tag:
+            raise RuntimeError("Cannot upload to a draft that lost its version tag")
         self.bytes[path.name] = path.read_bytes()
         self.saved["assets"] = [{"name": name, "id": name} for name in self.bytes]
 
@@ -62,6 +64,9 @@ class PersistentGitHub(FakeGitHub):
             return deepcopy(self.saved)
         if method == "PATCH" and "/releases/" in endpoint:
             self.saved.update(payload)
+            # GitHub draft updates can reset an omitted tag_name to an untagged placeholder.
+            if "tag_name" not in payload:
+                self.saved["tag_name"] = "untagged-placeholder"
             if payload.get("draft") is False:
                 self.publications += 1
                 self.saved.update(published_at="2026-10-19T07:00:00Z", html_url="https://example.test/release")
@@ -120,6 +125,7 @@ class ControllerTests(unittest.TestCase):
             clock.now.return_value = datetime(2026, 10, 19, 7, tzinfo=UTC)
             published = tick(gh, plan, "candidate", late, once=True)
             self.assertTrue(published["published"])
+            self.assertEqual(gh.saved["tag_name"], "v2.1.0")
             self.assertEqual(gh.main, "candidate")
             tick(gh, plan, "candidate", late, once=True)
             self.assertEqual(gh.publications, 1)

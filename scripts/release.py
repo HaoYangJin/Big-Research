@@ -185,7 +185,7 @@ def prepare(github: GitHub, plan: dict, sha: str, directory: Path) -> tuple[dict
     archive = build(directory)
     package_hash = sha256(archive)
     if state.get("candidate_sha") != sha or state.get("package_sha256") != package_hash:
-        github.api(f"repos/{github.repo}/releases/{release['id']}", "PATCH", {"target_commitish": sha})
+        github.api(f"repos/{github.repo}/releases/{release['id']}", "PATCH", {"tag_name": tag, "target_commitish": sha})
         github.upload(tag, archive)
         github.upload(tag, directory / "SHA256SUMS.txt")
         state.update(candidate_sha=sha, package_sha256=package_hash, package_name=archive.name, ready_at=None)
@@ -267,7 +267,7 @@ def tick(github: GitHub, plan: dict, sha: str, acceptance: dict, *, once=False) 
                 published = github.api(
                     f"repos/{github.repo}/releases/{release['id']}",
                     "PATCH",
-                    {"draft": False, "make_latest": "true", "target_commitish": sha},
+                    {"tag_name": tag, "draft": False, "make_latest": "true", "target_commitish": sha},
                 )
                 promote_main(github, sha)
                 state.update(published=True, published_at=published["published_at"], url=published["html_url"])

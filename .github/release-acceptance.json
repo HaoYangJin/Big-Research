@@ -1,5 +1,5 @@
 {
-  "verified_at": "2026-10-16T17:01:13.121308+00:00",
+  "verified_at": "2026-10-17T03:21:39.818610+00:00",
   "checks": {
     "independent_code_review": true,
     "behavioral_skill_evaluation": true,
@@ -12,9 +12,9 @@
     "cross_disciplinary_examples": "examples/run_examples.py completed computational negative-result, public-domain interpretive and formal-proof cases; tests/test_core_v2.py covers six discipline/paradigm routes. Six OS/Python combinations passed in https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580",
     "behavioral_skill_evaluation": "Independent humanities manuscript task evaluation verified method-sensitive review, missing-material handling, source uncertainty and researcher authority; regression tests cover budget exhaustion and contradictory/unsupported evidence.",
     "interactive_ui": "scripts/check_ui.py passed static tabs, filtering, provenance, text safety, mobile layout and real MCP Apps SDK bridge message/tool interactions.",
-    "independent_code_review": "Independent code and Python reviews of 6a96ec3 approved; release/controller/distribution regressions passed; docs/development.md.",
+    "independent_code_review": "Independent code and Python reviews of 6a96ec3 approved; release/controller/distribution regressions passed; docs/development.md. Final release tag-preservation fix independently reviewed and approved on 2026-10-17; controller and timing regression suite passed.",
     "claude_clean_install": "https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580 — browser job: Claude Code 2.1.301 strict plugin/marketplace validation, clean isolated marketplace add, install and listing passed.",
     "codex_clean_install": "https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580 — browser job: Codex CLI 0.163.0 clean isolated marketplace add, plugin add and listing passed."
   },
-  "content_sha256": "65033662c79d67c0a3c5b91a7a05970f1f128bd9977f73dcad27073bfe50233a"
+  "content_sha256": "8f0a5359eddcce6506afcab72711ec6b989839ddbb0014bae299131e2394d3fb"
 }
