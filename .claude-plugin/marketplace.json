@@ -1,12 +1,12 @@
 {
-  "name": "research-workflow-marketplace",
+  "name": "big-research-marketplace",
   "description": "Human-led research with adaptable methods and traceable evidence",
   "owner": {"name": "HaoYangJin"},
   "plugins": [{
-    "name": "research-workflow",
+    "name": "big-research",
     "source": "./",
     "description": "A human-led research workspace across disciplines",
-    "version": "2.1.0"
+    "version": "2.1.1"
   }]
 }
 

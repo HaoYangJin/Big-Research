@@ -12,12 +12,12 @@ ROOT = Path(__file__).resolve().parents[1]
 def validate(root=ROOT):
     root = Path(root)
     version = (root / "VERSION").read_text().strip()
-    assert version == "2.1.0", "Unexpected candidate version"
+    assert re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", version), "Invalid version"
     project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
     assert project["project"]["version"] == version
     for relative in ("plugin.json", ".codex-plugin/plugin.json", ".claude-plugin/plugin.json"):
         manifest = json.loads((root / relative).read_text(encoding="utf-8"))
-        assert manifest["version"] == version and manifest["name"] == "research-workflow", "Manifest drift"
+        assert manifest["version"] == version and manifest["name"] == "big-research", "Manifest drift"
     marketplace = json.loads((root / ".claude-plugin/marketplace.json").read_text(encoding="utf-8"))
     assert len(marketplace["plugins"]) == 1 and marketplace["plugins"][0]["version"] == version
     codex_marketplace = json.loads((root / ".agents/plugins/marketplace.json").read_text(encoding="utf-8"))
@@ -33,10 +33,10 @@ def validate(root=ROOT):
         assert len(text.splitlines()) < 150, "Use progressive disclosure"
         assert (path.parent / "agents/openai.yaml").is_file()
     for required in (
-        "src/research_workflow/methods.json",
-        "src/research_workflow/review_profiles.json",
-        "src/research_workflow/workspace.html",
-        "src/research_workflow/bridge.js",
+        "src/big_research/methods.json",
+        "src/big_research/review_profiles.json",
+        "src/big_research/workspace.html",
+        "src/big_research/bridge.js",
         "uv.lock",
         "package-lock.json",
         "mcp.json",
@@ -48,7 +48,7 @@ def validate(root=ROOT):
     markdown = (
         list((root / "docs").rglob("*.md"))
         + list((root / "skills").rglob("*.md"))
-        + list((root / "examples").rglob("*.md"))
+        + list((root / ".github/maintainers").rglob("*.md"))
         + list(root.glob("*.md"))
     )
     for path in markdown:

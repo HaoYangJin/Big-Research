@@ -14,8 +14,8 @@ class MCPTests(unittest.TestCase):
         async def exercise(home):
             params = StdioServerParameters(
                 command=sys.executable,
-                args=["-m", "research_workflow.server"],
-                env={**os.environ, "RESEARCH_WORKFLOW_HOME": home},
+                args=["-m", "big_research.server"],
+                env={**os.environ, "BIG_RESEARCH_HOME": home},
             )
             async with stdio_client(params) as (read, write):
                 async with ClientSession(read, write) as session:
@@ -29,7 +29,7 @@ class MCPTests(unittest.TestCase):
                     )
                     self.assertFalse(result.isError)
                     self.assertEqual(result.structuredContent["project"]["schema_version"], 2)
-                    view = await session.read_resource("ui://research-workflow/workspace.html")
+                    view = await session.read_resource("ui://big-research/workspace.html")
                     self.assertEqual(view.contents[0].mimeType, "text/html;profile=mcp-app")
                     self.assertIn("Big Research", view.contents[0].text)
                     blocked = await session.call_tool("workspace_open", {"project": "../outside"})

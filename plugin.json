@@ -1,18 +1,20 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "research-workflow", "version": "2.1.0",
+  "name": "big-research",
+  "version": "2.1.1",
   "description": "Human-led research with adaptable methods, traceable evidence and an interactive workspace.",
-  "author": {"name": "JinhAo Yang", "url": "https://github.com/HaoYangJin"},
+  "author": {
+    "name": "JinhAo Yang",
+    "url": "https://github.com/HaoYangJin"
+  },
   "homepage": "https://github.com/HaoYangJin/Big-Research",
-  "repository": "https://github.com/HaoYangJin/Big-Research", "license": "MIT",
-  "keywords": ["research", "human-in-the-loop", "evidence", "peer-review", "MCP"],
-  "extensions": {"com.openai": {
-    "onboardingSkill": "./skills/research-setup/SKILL.md",
-    "interface": {"displayName": "Big Research", "shortDescription": "Human-led research workspace",
-      "longDescription": "Turn research questions into traceable work. Compose methods across disciplines, connect claims to evidence, compare approaches and revise with constructive feedback. Includes local MCP tools and optional interactive views. Researchers retain final judgment.",
-      "developerName": "JinhAo Yang", "category": "Productivity", "capabilities": ["Read", "Write"],
-      "websiteURL": "https://github.com/HaoYangJin/Big-Research",
-      "defaultPrompt": ["Help me develop this idea into a research question and a feasible approach.", "Continue my research project and show the evidence and next steps."],
-      "composerIcon": "./assets/plugin-icon.svg", "logo": "./assets/plugin-icon.svg"}
-  }}
+  "repository": "https://github.com/HaoYangJin/Big-Research",
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "human-in-the-loop",
+    "evidence",
+    "peer-review",
+    "MCP"
+  ]
 }

@@ -6,13 +6,13 @@ from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
-from research_workflow.cli import main
+from big_research.cli import main
 
 
 class CLITests(unittest.TestCase):
     def call(self, *args):
         out, err = io.StringIO(), io.StringIO()
-        with patch("sys.argv", ["research-workflow", *map(str, args)]), redirect_stdout(out), redirect_stderr(err):
+        with patch("sys.argv", ["big-research", *map(str, args)]), redirect_stdout(out), redirect_stderr(err):
             status = main()
         return status, json.loads(out.getvalue() or err.getvalue())
 

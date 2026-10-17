@@ -1,9 +1,0 @@
-{
-  "version": "2.1.0",
-  "candidate_ref": "codex/research-workflow-v2.1.0",
-  "initial_target": "2026-10-17T03:30:00+00:00",
-  "timezone": "Asia/Shanghai (UTC+08:00); daily at 11:30",
-  "required_workflow": "CI",
-  "deferral_hours": 24,
-  "maximum_deferrals": null
-}

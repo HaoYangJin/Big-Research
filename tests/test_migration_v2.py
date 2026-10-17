@@ -5,8 +5,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from research_workflow.core import WorkflowError
-from research_workflow.migration import migrate
+from big_research.core import WorkflowError
+from big_research.migration import migrate
 
 
 class MigrationTests(unittest.TestCase):
@@ -85,7 +85,7 @@ class MigrationTests(unittest.TestCase):
             onerror(PermissionError("A research material directory cannot be read"))
             return iter(())
 
-        with patch("research_workflow.migration.os.walk", side_effect=broken_walk):
+        with patch("big_research.migration.os.walk", side_effect=broken_walk):
             with self.assertRaises(PermissionError):
                 migrate(self.source, self.base / "target")
         self.assertFalse((self.base / "target").exists())

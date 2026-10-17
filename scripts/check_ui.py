@@ -11,8 +11,8 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-from research_workflow.core import Project
-from research_workflow.views import render
+from big_research.core import Project
+from big_research.views import render
 
 ROOT = Path(__file__).resolve().parents[1]
 

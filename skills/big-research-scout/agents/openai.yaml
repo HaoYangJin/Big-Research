@@ -1,0 +1,4 @@
+interface:
+  display_name: "research scout"
+  short_description: "Human-led research assistance"
+  default_prompt: "Use $big-research-scout to help with my research task."

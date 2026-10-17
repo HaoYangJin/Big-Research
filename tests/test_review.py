@@ -1,7 +1,7 @@
 import unittest
 
-from research_workflow.core import WorkflowError
-from research_workflow.review import profiles, template, validate_review
+from big_research.core import WorkflowError
+from big_research.review import profiles, template, validate_review
 
 
 class ReviewTests(unittest.TestCase):

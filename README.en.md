@@ -4,6 +4,8 @@
 
 **A human-led research workspace. Develop ideas into work you can pursue, inspect and improve.**
 
+An independent, third-party open-source plugin for Codex and Claude Code. It is not affiliated with or certified as an official OpenAI plugin.
+
 [简体中文](README.md) · [Get started](docs/quickstart.md) · [Methods and review](docs/methods.md) · [Contribute](CONTRIBUTING.md)
 
 Bring an idea, source material, a draft or a question that has stalled. Explain the result you need. Big Research helps you find and carry out the next useful step.
@@ -30,13 +32,13 @@ Run these commands in the **Claude Code conversation input**:
 
 ```text
 /plugin marketplace add HaoYangJin/Big-Research
-/plugin install research-workflow@research-workflow-marketplace
+/plugin install big-research@big-research-marketplace
 ```
 
 Start a new session and send:
 
 ```text
-/research-workflow:research-workflow
+/big-research:big-research
 Help me organize my materials, compare feasible research directions and identify the next step.
 ```
 
@@ -46,18 +48,18 @@ Run these commands in your **system terminal**, such as Windows PowerShell:
 
 ```shell
 codex plugin marketplace add HaoYangJin/Big-Research
-codex plugin add research-workflow@research-workflow-marketplace
+codex plugin add big-research@big-research-marketplace
 codex
 ```
 
 In the new **Codex conversation**, send:
 
 ```text
-$research-workflow
+$big-research
 Help me organize my materials, compare feasible research directions and identify the next step.
 ```
 
-See the [quickstart](docs/quickstart.md) for prerequisites, installation checks, desktop use and updates. The [usage guide](docs/quickstart.md#3-开启新会话并开始使用) explains the optional setup skill and the everyday entry point. Official downloads use [Latest](https://github.com/HaoYangJin/Big-Research/releases/latest).
+See the [quickstart](docs/quickstart.md) for prerequisites, installation checks, desktop use and updates. The [usage guide](docs/quickstart.md#3-开启新会话并开始使用) explains the optional setup skill and the everyday entry point. Download the latest package from [Latest](https://github.com/HaoYangJin/Big-Research/releases/latest).
 
 ## Trace the reasoning
 
@@ -67,6 +69,10 @@ Review combines general research quality, method-specific checks and optional ve
 
 This project does not replace researchers, ethics review or formal peer review. File integrity checks do not establish that research claims are true.
 
-Explore the [runnable examples](examples/README.md), [methods](docs/methods.md), and [contribution guide](CONTRIBUTING.md). The current plugin contains only the latest runtime. Import compatible historical project data into the current format; developers can inspect older code through the [history index](docs/history.md).
+See the [methods](docs/methods.md) and [contribution guide](CONTRIBUTING.md). Import existing project data using the [quickstart](docs/quickstart.md#迁移已有项目).
 
-[Changes](CHANGELOG.md) · [References and acknowledgments](docs/research-basis.md) · [MIT](LICENSE)
+[References and acknowledgments](docs/research-basis.md) · [MIT](LICENSE)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=HaoYangJin/Big-Research&type=Date)](https://www.star-history.com/#HaoYangJin/Big-Research&Date)

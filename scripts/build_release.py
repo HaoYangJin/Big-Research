@@ -29,7 +29,7 @@ def build(output, root=ROOT):
     root, output = Path(root), Path(output)
     version = validate(root)
     # A clean release checkout contains only tracked source plus ignored caches/data.
-    # Match the acceptance digest's candidate set, never recursively package ignored research output.
+    # Never recursively package ignored research output or maintainer-only files.
     listing = subprocess.run(
         ["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
         cwd=root,
@@ -38,7 +38,7 @@ def build(output, root=ROOT):
     ).stdout
     eligible = {name.decode("utf-8") for name in listing.split(b"\0") if name}
     entries = [(name, root / name) for name in FILES]
-    for directory in ("skills", "src/research_workflow", "assets", "examples"):
+    for directory in ("skills", "src/big_research", "assets"):
         for path in (root / directory).rglob("*"):
             relative = path.relative_to(root)
             if (
@@ -53,12 +53,8 @@ def build(output, root=ROOT):
         "docs/quickstart.md",
         "docs/methods.md",
         "docs/compatibility.md",
-        "docs/development.md",
-        "docs/history.md",
         "docs/research-basis.md",
-        "docs/release-notes.md",
         "CONTRIBUTING.md",
-        "CHANGELOG.md",
         "CODE_OF_CONDUCT.md",
         "NOTICE.md",
         "CITATION.cff",

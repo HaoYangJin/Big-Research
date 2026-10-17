@@ -1,6 +1,6 @@
 import { App } from '@modelcontextprotocol/ext-apps';
 
-const app = new App({ name: 'Big Research', version: '2.1.0' }, {});
+const app = new App({ name: 'Big Research', version: '2.1.1' }, {});
 app.ontoolresult = result => {
   if (result.structuredContent?.project) window.researchWorkspace.update(result.structuredContent);
 };

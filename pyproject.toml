@@ -3,8 +3,8 @@ requires = ["hatchling==1.27.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "research-workflow"
-version = "2.1.0"
+name = "big-research"
+version = "2.1.1"
 description = "Human-led research, traceable evidence, and an adaptable research workspace."
 readme = "README.en.md"
 requires-python = ">=3.11"
@@ -12,14 +12,14 @@ license = "MIT"
 dependencies = ["mcp>=1.26,<2"]
 
 [project.scripts]
-research-workflow = "research_workflow.cli:main"
-research-workflow-mcp = "research_workflow.server:main"
+big-research = "big_research.cli:main"
+big-research-mcp = "big_research.server:main"
 
 [dependency-groups]
 dev = ["coverage>=7.10,<8", "ruff>=0.14,<1", "playwright>=1.55,<2"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/research_workflow"]
+packages = ["src/big_research"]
 
 [tool.ruff]
 target-version = "py311"
@@ -29,7 +29,7 @@ line-length = 120
 select = ["E4", "E7", "E9", "F", "I", "UP"]
 
 [tool.coverage.run]
-source = ["research_workflow"]
+source = ["big_research"]
 omit = ["*/server.py"]
 
 [tool.coverage.report]

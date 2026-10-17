@@ -4,9 +4,11 @@
 
 **人类主导的 AI 辅助科研工作台。把想法变成可以推进、检查和持续完善的研究。**
 
+独立第三方开源插件，支持 Codex 和 Claude Code，与 OpenAI 官方插件无隶属或认证关系。
+
 [English](README.en.md) · [开始使用](docs/quickstart.md) · [研究方法与评议](docs/methods.md) · [参与贡献](CONTRIBUTING.md)
 
-![Version](https://img.shields.io/badge/version-2.1.0-355b48) ![License](https://img.shields.io/badge/license-MIT-355b48)
+![Version](https://img.shields.io/badge/version-2.1.1-355b48) ![License](https://img.shields.io/badge/license-MIT-355b48)
 
 你不必先掌握一套复杂命令。带来一个想法、一组材料、一份草稿，或者一个卡住的问题，说明你希望完成什么，Big Research 会帮助你找到下一步。
 
@@ -36,13 +38,13 @@
 
 ```text
 /plugin marketplace add HaoYangJin/Big-Research
-/plugin install research-workflow@research-workflow-marketplace
+/plugin install big-research@big-research-marketplace
 ```
 
 开启新会话，发送以下内容开始研究：
 
 ```text
-/research-workflow:research-workflow
+/big-research:big-research
 我刚开始研究这个问题。请帮我梳理已有材料，比较可行方向，并给出下一步。
 ```
 
@@ -52,14 +54,14 @@
 
 ```shell
 codex plugin marketplace add HaoYangJin/Big-Research
-codex plugin add research-workflow@research-workflow-marketplace
+codex plugin add big-research@big-research-marketplace
 codex
 ```
 
 进入新的 **Codex 对话**后发送：
 
 ```text
-$research-workflow
+$big-research
 我刚开始研究这个问题。请帮我梳理已有材料，比较可行方向，并给出下一步。
 ```
 
@@ -73,14 +75,14 @@ $research-workflow
 
 本项目不替代研究者、伦理审查或正式同行评审。记录完整性检查不认证科学结论；没有经过校准的跨学科总分，也不预测录用概率。
 
-## 试一段完整研究
-
-查看[可运行案例](examples/README.md)：计算研究、解释性文本研究和理论推导，展示从问题到材料、分析、草稿、评议与修订的过程。
-
 ## 一起完善它
 
-欢迎贡献方法模块、研究案例、翻译和使用反馈。我们尤其希望听到：哪个科研环节没有被好好支持，哪些检查不适合你的研究传统。[贡献指南](CONTRIBUTING.md) · [问题反馈](https://github.com/HaoYangJin/Big-Research/issues)
+欢迎贡献方法模块、翻译和使用反馈。我们尤其希望听到：哪个科研环节没有被好好支持，哪些检查不适合你的研究传统。[贡献指南](CONTRIBUTING.md) · [问题反馈](https://github.com/HaoYangJin/Big-Research/issues)
 
-用户安装入口只提供最新版。已有项目可以[迁移数据](docs/quickstart.md#迁移已有项目)，开发者可以从[历史索引](docs/history.md)查看旧实现。
+已有项目可以按[数据导入说明](docs/quickstart.md#迁移已有项目)继续使用。
 
-[更新记录](CHANGELOG.md) · [参考与致谢](docs/research-basis.md) · [MIT](LICENSE)
+[参考与致谢](docs/research-basis.md) · [MIT](LICENSE)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=HaoYangJin/Big-Research&type=Date)](https://www.star-history.com/#HaoYangJin/Big-Research&Date)

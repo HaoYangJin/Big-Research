@@ -1,4 +1,0 @@
-interface:
-  display_name: "research analysis"
-  short_description: "Human-led research assistance"
-  default_prompt: "Use $research-analysis to help with my research task."

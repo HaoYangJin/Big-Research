@@ -25,4 +25,4 @@
 
 我们参考 Stanford Agentic Reviewer 的来源检索与分维度反馈，但没有复现其模型、权重或校准。本插件没有经过验证的跨学科总分，不输出录用概率，也不宣称与专家等效。记录每次评议的实际阅读范围、抽样、置信度及限制，比一个没有依据的精确分数更有用。
 
-English: review combines a declared general rubric, method-specific reasoning and optional sourced overlays. No venue is required. The output provides criterion-level judgments, evidence positions, coverage, confidence and actionable revisions. Reporting guidance is not a validity scale. See the [review reference](../skills/research-review/references/review.md) and [research basis](research-basis.md).
+English: review combines a declared general rubric, method-specific reasoning and optional sourced overlays. No venue is required. The output provides criterion-level judgments, evidence positions, coverage, confidence and actionable revisions. Reporting guidance is not a validity scale. See the [review reference](../skills/big-research-review/references/review.md) and [research basis](research-basis.md).

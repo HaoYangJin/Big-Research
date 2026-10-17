@@ -1,0 +1,4 @@
+interface:
+  display_name: "research setup"
+  short_description: "Human-led research assistance"
+  default_prompt: "Use $big-research-setup to help with my research task."

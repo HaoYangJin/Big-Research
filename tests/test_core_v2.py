@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from research_workflow.core import Project, WorkflowError, methods
+from big_research.core import Project, WorkflowError, methods
 
 
 class ProjectTests(unittest.TestCase):
@@ -140,7 +140,7 @@ class ProjectTests(unittest.TestCase):
 
     def test_concurrent_writer_fails_and_process_exit_releases_lock(self):
         code = (
-            "import os,sys; from pathlib import Path; from research_workflow.core import locked; "
+            "import os,sys; from pathlib import Path; from big_research.core import locked; "
             "lock=locked(Path(sys.argv[1])); lock.__enter__(); print('locked',flush=True); "
             "sys.stdin.readline(); os._exit(0)"
         )

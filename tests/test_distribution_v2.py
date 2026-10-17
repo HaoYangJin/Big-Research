@@ -22,24 +22,28 @@ class DistributionTests(unittest.TestCase):
             shutil.copyfile(ROOT / "package-lock.json", root / "package-lock.json")
             (root / ".gitignore").write_text("results/\n", encoding="utf-8")
             subprocess.run(["git", "init", "--quiet"], cwd=root, check=True)
-            (root / "examples/results").mkdir()
-            (root / "examples/results/private.json").write_text('{"unpublished":"research"}', encoding="utf-8")
+            (root / "results").mkdir()
+            (root / "examples").mkdir(exist_ok=True)
+            (root / "examples/preset.json").write_text("{}", encoding="utf-8")
+            (root / "results/private.json").write_text('{"unpublished":"research"}', encoding="utf-8")
             with zipfile.ZipFile(build(base / "filtered", root=root)) as package:
-                self.assertNotIn("examples/results/private.json", package.namelist())
-                self.assertIn("examples/run_examples.py", package.namelist())
+                self.assertNotIn("results/private.json", package.namelist())
+                self.assertFalse(
+                    any(n.startswith(("examples/", ".github/", "docs/development")) for n in package.namelist())
+                )
 
     def test_deterministic_current_package_and_relocated_runtime(self):
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp)
             first = build(base / "one")
             second = build(base / "two")
-            self.assertEqual(first.name, "big-research-2.1.0.zip")
+            self.assertEqual(first.name, "big-research-2.1.1.zip")
             self.assertEqual(first.read_bytes(), second.read_bytes())
             with zipfile.ZipFile(first) as archive:
                 names = archive.namelist()
                 self.assertIn("plugin.json", names)
-                self.assertIn("src/research_workflow/bridge.js", names)
-                self.assertIn("skills/research-workflow/SKILL.md", names)
+                self.assertIn("src/big_research/bridge.js", names)
+                self.assertIn("skills/big-research/SKILL.md", names)
                 self.assertFalse(
                     any("research-mentor" in name or "__pycache__" in name or "test_" in name for name in names)
                 )

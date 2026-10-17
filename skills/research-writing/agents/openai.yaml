@@ -1,4 +1,0 @@
-interface:
-  display_name: "research writing"
-  short_description: "Human-led research assistance"
-  default_prompt: "Use $research-writing to help with my research task."

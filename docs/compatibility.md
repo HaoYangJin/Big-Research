@@ -1,19 +1,17 @@
-# Compatibility and verification
+# 客户端与使用条件 / Compatibility
 
-The primary targets are local Codex and Claude Code. The full plugin needs uv and Python 3.11+. MCP uses the official Python SDK; the optional UI uses the official MCP Apps JavaScript SDK bundled into the resource. Node is needed for development builds, not by researchers running the packaged plugin.
+Big Research 是独立第三方开源插件，支持在 Codex 和 Claude Code 中使用；不代表任何平台的官方插件或认证。
 
-| Capability | Verification |
+完整本地体验需要 uv 和 Python 3.11+。模型推理、检索和文档处理使用客户端中已经授权的能力，本插件不要求配置独立模型 API 密钥。
+
+| 使用条件 | 可用体验 |
 | --- | --- |
-| Shared Python core and CLI | Automated local tests; CI covers Windows, Linux and macOS |
-| MCP tool schemas, stdio and resource | Real client/server integration tests |
-| Read-only local HTML | Browser checks for navigation, filtering, provenance and escaped content |
-| MCP Apps interaction | Protocol/browser checks; exact client support depends on its version |
-| Claude manifest/import | Strict CLI validation and clean installation on a disposable CI runner |
-| Codex manifest/import | Clean CLI installation on a disposable CI runner |
-| Cloud-only execution | Not a complete local-MCP experience; use conversation-level skills only when supported |
+| 支持本地 MCP | 保存和恢复项目，更新研究地图、证据与决定 |
+| 同时支持 MCP Apps | 在对话中使用研究地图、论据、方案与决定视图 |
+| 支持 MCP，但没有交互视图 | 使用等价文字、表格及本地只读快照 |
+| 没有 MCP，但可以运行本地命令 | 使用相同的 Big Research CLI |
+| 无法执行本地工具或保存文件 | 仅在当前会话中提供研究协助，明确说明无法持久保存 |
 
-This table describes the verification strategy, not an assertion that every client/account combination passed. The release acceptance record tracks completed checks; incomplete primary-client acceptance defers the formal release. Directory listing/approval is separate from the GitHub release.
+交互视图的实际可用性取决于客户端版本；它不是使用本插件的前提。首次使用与更新见[快速上手](quickstart.md)。
 
-Verification snapshot, 2026-10-17: [CI passed](https://github.com/HaoYangJin/Big-Research/actions/runs/38936132580) on Windows, Linux and macOS with Python 3.11/3.14. Disposable Linux runners passed browser/SDK checks, Claude Code 2.1.301 strict manifest validation and clean installation, and Codex CLI 0.163.0 clean installation. These results cover the tested versions; native client UI support remains conditional.
-
-Local state supports a single machine's filesystem with fail-fast writer locking. Shared/network filesystems and multi-machine coordination are not supported. Recorded commands are never executed by the workspace. Source inspection, scientific review and final research decisions remain with the researcher and available AI tools.
+项目保存于本机选定的研究目录。当前文件锁适用于单机本地文件系统；不用于多台电脑同时写入同一项目。
