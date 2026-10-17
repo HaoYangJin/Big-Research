@@ -39,46 +39,31 @@
 /plugin install research-workflow@research-workflow-marketplace
 ```
 
-重新开启会话，输入 `/research-workflow:research-workflow` 开始研究。
+开启新会话，发送以下内容开始研究：
 
-**更新本插件**：在系统终端中执行以下两条命令，随后重新开启 Claude Code 会话：
-
-```shell
-claude plugin marketplace update research-workflow-marketplace
-claude plugin update research-workflow@research-workflow-marketplace
+```text
+/research-workflow:research-workflow
+我刚开始研究这个问题。请帮我梳理已有材料，比较可行方向，并给出下一步。
 ```
 
 ### Codex CLI
 
-打开 **Windows PowerShell、macOS 终端或 Linux 终端**，确认 `codex --version` 和 `uv --version` 都能显示版本号。尚未安装 Codex CLI 时，先按[官方安装说明](https://learn.chatgpt.com/docs/codex/cli)准备；安装桌面应用后，也请先确认终端中能运行 `codex`。
-
-在该终端中依次执行以下命令，无需先克隆本仓库：
+在 **系统终端**（如 Windows PowerShell）依次执行：
 
 ```shell
 codex plugin marketplace add HaoYangJin/Research-workflow-Skill
 codex plugin add research-workflow@research-workflow-marketplace
-codex plugin list --marketplace research-workflow-marketplace
+codex
 ```
 
-第三条命令用于验证安装：输出中应出现 `research-workflow`，并显示 `installed, enabled` 和版本号。然后在终端运行 `codex`，完成首次登录，在 **Codex 对话输入框**中输入 `$research-setup` 完成首次设置，或输入 `$research-workflow` 开始研究。已经打开的会话需要重新开启。
+进入新的 **Codex 对话**后发送：
 
-使用 Codex 桌面应用时，请参照[桌面应用启用步骤](docs/quickstart.md#3-开启新会话并开始使用)，检查同一用户配置下的插件安装后重新打开应用。
-
-**更新本插件**：先刷新来源，再安装来源中的当前版本并核对结果，随后重新开启 Codex 会话：
-
-```shell
-codex plugin marketplace upgrade research-workflow-marketplace
-codex plugin add research-workflow@research-workflow-marketplace
-codex plugin list --marketplace research-workflow-marketplace
+```text
+$research-workflow
+我刚开始研究这个问题。请帮我梳理已有材料，比较可行方向，并给出下一步。
 ```
 
-如果提示找不到 `codex` 或不支持 `plugin` 子命令，请先按[快速上手中的环境检查](docs/quickstart.md#1-准备终端与工具)安装或更新 Codex CLI，再执行上述命令。
-
-然后描述你的研究任务，例如：
-
-> 我刚开始研究这个问题。请帮我梳理已有材料，比较可行方向，并给出下一步。
-
-首次设置、保存位置和其他使用方式见[快速上手](docs/quickstart.md)。正式发行包统一从 [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest) 获取。
+环境准备、安装验证、桌面应用和更新指令见[快速上手](docs/quickstart.md)。首次设置与日常入口的区别见[开始使用](docs/quickstart.md#3-开启新会话并开始使用)。正式发行包统一从 [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest) 获取。
 
 ## 一份看得见来路的研究
 

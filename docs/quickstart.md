@@ -53,14 +53,32 @@ codex plugin list --marketplace research-workflow-marketplace
 
 ### 3. 开启新会话并开始使用
 
-Codex 用户在终端运行 `codex`，按提示完成首次登录，再在 **Codex 对话输入框**发送：
+日常使用从 `research-workflow` 开始即可，它会根据任务按需组合设置、检索、设计、分析、写作和评议能力。
+
+**Codex 用户**在终端运行 `codex`，按提示完成首次登录，再在 **Codex 对话输入框**发送：
 
 ```text
-$research-setup
-我刚开始研究这个问题。请帮我梳理已有材料、选择保存位置，并给出下一步。
+$research-workflow
+我刚开始研究这个问题。请帮我梳理已有材料，比较可行方向，并给出下一步。
 ```
 
-也可输入 `$research-workflow` 直接开始研究。Claude Code 用户开启新会话，输入 `/research-workflow:research-workflow`，再描述研究任务。
+**Claude Code 用户**开启新会话，在对话输入框发送：
+
+```text
+/research-workflow:research-workflow
+我刚开始研究这个问题。请帮我梳理已有材料，比较可行方向，并给出下一步。
+```
+
+Claude Code 的插件 Skill 使用 `/插件名:Skill名` 格式。这里插件名和研究入口都叫 `research-workflow`，所以形成 `/research-workflow:research-workflow`；这是一个完整命令，整条发送一次即可。[官方命名说明](https://code.claude.com/docs/en/skills#choose-where-skills-load)
+
+**什么时候用 setup，什么时候用 workflow？**
+
+| 用途 | Codex 对话中输入 | Claude Code 对话中输入 |
+| --- | --- | --- |
+| 开始、推进或继续研究（默认入口） | `$research-workflow` | `/research-workflow:research-workflow` |
+| 首次设置、检查环境、调整研究保存位置（可选） | `$research-setup` | `/research-workflow:research-setup` |
+
+`research-setup` 专门帮助确认本地运行条件、研究目录和首个项目。需要设置或排查环境时单独调用；平时直接使用 `research-workflow`，无需按固定顺序把两个入口都运行一遍。
 
 **Codex 桌面应用用户**：用同一系统账户的 Codex CLI 完成上述安装后，完全退出并重新打开桌面应用，在插件页检查 Research Workflow 的安装与启用状态，再新建对话使用。若设置过自定义 `CODEX_HOME`，请确保 CLI 和桌面应用使用同一配置目录。桌面应用与 CLI 的具体支持情况见[兼容性说明](compatibility.md)。
 
