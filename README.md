@@ -1,6 +1,6 @@
 > 本项目旨在利用 AI 工具辅助人类科学家进行科学研究，而非一个 AI 科学家项目。人类科学家的科研品味以及伦理道德是科研过程中不可替代的东西。希望各位研究者为全人类的理想奋斗，一起突破未知边界。
 
-# Research Workflow
+# Big Research
 
 **人类主导的 AI 辅助科研工作台。把想法变成可以推进、检查和持续完善的研究。**
 
@@ -8,7 +8,7 @@
 
 ![Version](https://img.shields.io/badge/version-2.1.0-355b48) ![License](https://img.shields.io/badge/license-MIT-355b48)
 
-你不必先掌握一套复杂命令。带来一个想法、一组材料、一份草稿，或者一个卡住的问题，说明你希望完成什么，Research Workflow 会帮助你找到下一步。
+你不必先掌握一套复杂命令。带来一个想法、一组材料、一份草稿，或者一个卡住的问题，说明你希望完成什么，Big Research 会帮助你找到下一步。
 
 ## 从你所在的位置开始
 
@@ -35,7 +35,7 @@
 在 **Claude Code 的对话输入框**中依次执行：
 
 ```text
-/plugin marketplace add HaoYangJin/Research-workflow-Skill
+/plugin marketplace add HaoYangJin/Big-Research
 /plugin install research-workflow@research-workflow-marketplace
 ```
 
@@ -51,7 +51,7 @@
 在 **系统终端**（如 Windows PowerShell）依次执行：
 
 ```shell
-codex plugin marketplace add HaoYangJin/Research-workflow-Skill
+codex plugin marketplace add HaoYangJin/Big-Research
 codex plugin add research-workflow@research-workflow-marketplace
 codex
 ```
@@ -63,7 +63,7 @@ $research-workflow
 我刚开始研究这个问题。请帮我梳理已有材料，比较可行方向，并给出下一步。
 ```
 
-环境准备、安装验证、桌面应用和更新指令见[快速上手](docs/quickstart.md)。首次设置与日常入口的区别见[开始使用](docs/quickstart.md#3-开启新会话并开始使用)。正式发行包统一从 [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest) 获取。
+环境准备、安装验证、桌面应用和更新指令见[快速上手](docs/quickstart.md)。首次设置与日常入口的区别见[开始使用](docs/quickstart.md#3-开启新会话并开始使用)。正式发行包统一从 [Latest](https://github.com/HaoYangJin/Big-Research/releases/latest) 获取。
 
 ## 一份看得见来路的研究
 
@@ -79,7 +79,7 @@ $research-workflow
 
 ## 一起完善它
 
-欢迎贡献方法模块、研究案例、翻译和使用反馈。我们尤其希望听到：哪个科研环节没有被好好支持，哪些检查不适合你的研究传统。[贡献指南](CONTRIBUTING.md) · [问题反馈](https://github.com/HaoYangJin/Research-workflow-Skill/issues)
+欢迎贡献方法模块、研究案例、翻译和使用反馈。我们尤其希望听到：哪个科研环节没有被好好支持，哪些检查不适合你的研究传统。[贡献指南](CONTRIBUTING.md) · [问题反馈](https://github.com/HaoYangJin/Big-Research/issues)
 
 用户安装入口只提供最新版。已有项目可以[迁移数据](docs/quickstart.md#迁移已有项目)，开发者可以从[历史索引](docs/history.md)查看旧实现。
 

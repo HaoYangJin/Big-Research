@@ -1,12 +1,12 @@
 > This project uses AI tools to assist human scientists in scientific research; it is not an AI Scientist project. Human scientific taste and ethical judgment are irreplaceable. We hope researchers will work toward ideals that benefit all humanity and explore the boundaries of the unknown together.
 
-# Research Workflow
+# Big Research
 
 **A human-led research workspace. Develop ideas into work you can pursue, inspect and improve.**
 
 [简体中文](README.md) · [Get started](docs/quickstart.md) · [Methods and review](docs/methods.md) · [Contribute](CONTRIBUTING.md)
 
-Bring an idea, source material, a draft or a question that has stalled. Explain the result you need. Research Workflow helps you find and carry out the next useful step.
+Bring an idea, source material, a draft or a question that has stalled. Explain the result you need. Big Research helps you find and carry out the next useful step.
 
 | Your goal | Work together on |
 | --- | --- |
@@ -29,7 +29,7 @@ The full local plugin needs [uv](https://docs.astral.sh/uv/getting-started/insta
 Run these commands in the **Claude Code conversation input**:
 
 ```text
-/plugin marketplace add HaoYangJin/Research-workflow-Skill
+/plugin marketplace add HaoYangJin/Big-Research
 /plugin install research-workflow@research-workflow-marketplace
 ```
 
@@ -45,7 +45,7 @@ Help me organize my materials, compare feasible research directions and identify
 Run these commands in your **system terminal**, such as Windows PowerShell:
 
 ```shell
-codex plugin marketplace add HaoYangJin/Research-workflow-Skill
+codex plugin marketplace add HaoYangJin/Big-Research
 codex plugin add research-workflow@research-workflow-marketplace
 codex
 ```
@@ -57,7 +57,7 @@ $research-workflow
 Help me organize my materials, compare feasible research directions and identify the next step.
 ```
 
-See the [quickstart](docs/quickstart.md) for prerequisites, installation checks, desktop use and updates. The [usage guide](docs/quickstart.md#3-开启新会话并开始使用) explains the optional setup skill and the everyday entry point. Official downloads use [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest).
+See the [quickstart](docs/quickstart.md) for prerequisites, installation checks, desktop use and updates. The [usage guide](docs/quickstart.md#3-开启新会话并开始使用) explains the optional setup skill and the everyday entry point. Official downloads use [Latest](https://github.com/HaoYangJin/Big-Research/releases/latest).
 
 ## Trace the reasoning
 

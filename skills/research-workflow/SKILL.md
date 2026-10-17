@@ -3,7 +3,7 @@ name: research-workflow
 description: Help a human researcher plan, carry out, inspect and resume academic inquiry across disciplines. Use for multi-step research projects and selecting appropriate research assistance; simple tasks can go directly to a specialist.
 ---
 
-# Research Workflow
+# Big Research
 
 AI assists human researchers. Researchers retain intellectual leadership, ethical responsibility and final judgment. Respond in the user's language. Never promise discovery, novelty, acceptance, ethical approval or completed work without evidence.
 

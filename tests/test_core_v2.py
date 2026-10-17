@@ -185,7 +185,7 @@ class ProjectTests(unittest.TestCase):
         target = self.project.export("artifacts/workspace.html")
         html = Path(target).read_text(encoding="utf-8")
         self.assertNotIn("</script><script>alert", html)
-        self.assertIn("Research Workflow", html)
+        self.assertIn("Big Research", html)
 
     def test_review_and_confirmation_follow_the_reviewed_material(self):
         self.project.record_method_review(

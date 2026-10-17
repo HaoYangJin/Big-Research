@@ -30,12 +30,14 @@ codex --version
 
 如果 Codex CLI 是通过 npm 安装的，上面同一条 `npm install` 命令也用于更新 **Codex CLI 程序**。其他安装方式请按对应的官方说明更新。若 `codex plugin --help` 提示不支持 `plugin`，请先更新 CLI，再继续。
 
-### 2. 安装 Research Workflow
+### 2. 安装 Big Research
+
+Big Research 的安装标识仍为 `research-workflow`，下列命令可直接复制使用。
 
 **Codex CLI：在系统终端逐条执行。**
 
 ```shell
-codex plugin marketplace add HaoYangJin/Research-workflow-Skill
+codex plugin marketplace add HaoYangJin/Big-Research
 codex plugin add research-workflow@research-workflow-marketplace
 codex plugin list --marketplace research-workflow-marketplace
 ```
@@ -45,11 +47,11 @@ codex plugin list --marketplace research-workflow-marketplace
 **Claude Code：在 Claude Code 对话输入框中逐条执行。**
 
 ```text
-/plugin marketplace add HaoYangJin/Research-workflow-Skill
+/plugin marketplace add HaoYangJin/Big-Research
 /plugin install research-workflow@research-workflow-marketplace
 ```
 
-安装完成后，可在同一对话输入 `/plugin`，查看 Installed 中是否已有 Research Workflow。
+安装完成后，可在同一对话输入 `/plugin`，查看 Installed 中是否已有 Big Research。
 
 ### 3. 开启新会话并开始使用
 
@@ -80,11 +82,11 @@ Claude Code 的插件 Skill 使用 `/插件名:Skill名` 格式。这里插件�
 
 `research-setup` 专门帮助确认本地运行条件、研究目录和首个项目。需要设置或排查环境时单独调用；平时直接使用 `research-workflow`，无需按固定顺序把两个入口都运行一遍。
 
-**Codex 桌面应用用户**：用同一系统账户的 Codex CLI 完成上述安装后，完全退出并重新打开桌面应用，在插件页检查 Research Workflow 的安装与启用状态，再新建对话使用。若设置过自定义 `CODEX_HOME`，请确保 CLI 和桌面应用使用同一配置目录。桌面应用与 CLI 的具体支持情况见[兼容性说明](compatibility.md)。
+**Codex 桌面应用用户**：用同一系统账户的 Codex CLI 完成上述安装后，完全退出并重新打开桌面应用，在插件页检查 Big Research 的安装与启用状态，再新建对话使用。若设置过自定义 `CODEX_HOME`，请确保 CLI 和桌面应用使用同一配置目录。桌面应用与 CLI 的具体支持情况见[兼容性说明](compatibility.md)。
 
 首次设置会帮助你确认研究目标、已有材料、保存位置和可用工具。首次启用本地工具时，uv 可能下载锁定的依赖；模型推理和检索使用当前客户端已授权的能力。已验证的客户端版本和界面支持情况见[兼容性说明](compatibility.md)。
 
-### 4. 更新 Research Workflow
+### 4. 更新 Big Research
 
 **Codex CLI：在系统终端刷新来源，再安装当前版本并检查。**
 
@@ -106,7 +108,7 @@ claude plugin list
 
 如果 Codex 对话中仍找不到 `$research-workflow`，先在终端重新运行上面的 `plugin list` 检查安装与启用状态，再开启新会话。首次设置提示 uv 不可用时，重新打开终端并检查 `uv --version`。
 
-命令依据：[OpenAI 插件来源管理](https://developers.openai.com/plugins/build/plugins#add-a-marketplace-from-the-cli)、[Claude Code 插件管理](https://code.claude.com/docs/en/discover-plugins)。英文说明见[English README](../README.en.md#install-latest)。正式发行包统一从 [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest) 获取。
+命令依据：[OpenAI 插件来源管理](https://developers.openai.com/plugins/build/plugins#add-a-marketplace-from-the-cli)、[Claude Code 插件管理](https://code.claude.com/docs/en/discover-plugins)。英文说明见[English README](../README.en.md#install-latest)。正式发行包统一从 [Latest](https://github.com/HaoYangJin/Big-Research/releases/latest) 获取。
 
 ## 选择保存位置 / Research home
 

@@ -2,6 +2,7 @@
 
 ## 2.1.0
 
+- Rename the product and repository to Big Research, with current installation identifiers preserved.
 - Introduce a human-led research workspace with editable task dependencies and method-specific guidance across disciplines.
 - Compose seven focused skills with a shared Python core, local MCP tools and optional interactive views.
 - Connect claims to evidence, preserve decisions and invalidate dependent work after changes.

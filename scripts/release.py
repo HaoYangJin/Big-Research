@@ -170,7 +170,7 @@ def prepare(github: GitHub, plan: dict, sha: str, directory: Path) -> tuple[dict
             {
                 "tag_name": tag,
                 "target_commitish": sha,
-                "name": f"Research Workflow {tag}",
+                "name": f"Big Research {tag}",
                 "body": (ROOT / "docs/release-notes.md").read_text(encoding="utf-8"),
                 "draft": True,
                 "prerelease": False,
@@ -185,7 +185,16 @@ def prepare(github: GitHub, plan: dict, sha: str, directory: Path) -> tuple[dict
     archive = build(directory)
     package_hash = sha256(archive)
     if state.get("candidate_sha") != sha or state.get("package_sha256") != package_hash:
-        github.api(f"repos/{github.repo}/releases/{release['id']}", "PATCH", {"tag_name": tag, "target_commitish": sha})
+        github.api(
+            f"repos/{github.repo}/releases/{release['id']}",
+            "PATCH",
+            {
+                "tag_name": tag,
+                "target_commitish": sha,
+                "name": f"Big Research {tag}",
+                "body": (ROOT / "docs/release-notes.md").read_text(encoding="utf-8"),
+            },
+        )
         github.upload(tag, archive)
         github.upload(tag, directory / "SHA256SUMS.txt")
         state.update(candidate_sha=sha, package_sha256=package_hash, package_name=archive.name, ready_at=None)
@@ -271,6 +280,7 @@ def tick(github: GitHub, plan: dict, sha: str, acceptance: dict, *, once=False) 
                 )
                 promote_main(github, sha)
                 state.update(published=True, published_at=published["published_at"], url=published["html_url"])
+                save_state(github, tag, state, directory)
                 print(json.dumps({"published": True, "at": state["published_at"], "url": state["url"]}))
                 return state
             raise RuntimeError(f"Unexpected release action: {action}")
@@ -279,7 +289,7 @@ def tick(github: GitHub, plan: dict, sha: str, acceptance: dict, *, once=False) 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["prepare", "tick", "status"])
-    parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", "HaoYangJin/Research-workflow-Skill"))
+    parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", "HaoYangJin/Big-Research"))
     parser.add_argument("--once", action="store_true")
     args = parser.parse_args()
     github = GitHub(args.repo)

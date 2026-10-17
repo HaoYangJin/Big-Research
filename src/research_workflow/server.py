@@ -26,7 +26,7 @@ def make_server(home: Path | None = None) -> FastMCP:
         .resolve()
     )
     mcp = FastMCP(
-        "Research Workflow",
+        "Big Research",
         instructions="Human-led research. Records and integrity checks do not certify scientific truth. Project arguments are names relative to the explicitly configured research home. No tool executes commands or uploads research.",
     )
 

@@ -31,7 +31,7 @@ class MCPTests(unittest.TestCase):
                     self.assertEqual(result.structuredContent["project"]["schema_version"], 2)
                     view = await session.read_resource("ui://research-workflow/workspace.html")
                     self.assertEqual(view.contents[0].mimeType, "text/html;profile=mcp-app")
-                    self.assertIn("Research Workflow", view.contents[0].text)
+                    self.assertIn("Big Research", view.contents[0].text)
                     blocked = await session.call_tool("workspace_open", {"project": "../outside"})
                     self.assertTrue(blocked.isError)
                     result = await session.call_tool(

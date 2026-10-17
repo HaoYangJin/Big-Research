@@ -33,6 +33,7 @@ class DistributionTests(unittest.TestCase):
             base = Path(tmp)
             first = build(base / "one")
             second = build(base / "two")
+            self.assertEqual(first.name, "big-research-2.1.0.zip")
             self.assertEqual(first.read_bytes(), second.read_bytes())
             with zipfile.ZipFile(first) as archive:
                 names = archive.namelist()

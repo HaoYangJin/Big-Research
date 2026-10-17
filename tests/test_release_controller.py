@@ -131,6 +131,8 @@ class ControllerTests(unittest.TestCase):
             self.assertEqual(gh.publications, 1)
             saved = json.loads(gh.bytes["release-state.json"])
             self.assertEqual(len(saved["history"]), 2)
+            self.assertTrue(saved["published"])
+            self.assertEqual(gh.saved["name"], "Big Research v2.1.0")
 
     def test_dirty_checkout_never_mutates_github(self):
         github = Mock()

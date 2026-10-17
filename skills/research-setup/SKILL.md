@@ -1,6 +1,6 @@
 ---
 name: research-setup
-description: Set up Research Workflow, diagnose local prerequisites, choose a research home, or guide a researcher through a first saved project.
+description: Set up Big Research, diagnose local prerequisites, choose a research home, or guide a researcher through a first saved project.
 ---
 
 # Start a research workspace

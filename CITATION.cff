@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: "If this project helps your research, cite the version you used."
-title: "Research Workflow: Human-led AI-assisted research"
+title: "Big Research: Human-led AI-assisted research"
 type: software
 version: 2.1.0
 authors:
   - family-names: Yang
     given-names: JinhAo
-repository-code: "https://github.com/HaoYangJin/Research-workflow-Skill"
+repository-code: "https://github.com/HaoYangJin/Big-Research"
 license: MIT

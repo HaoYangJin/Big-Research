@@ -65,7 +65,7 @@ def build(output, root=ROOT):
     ):
         entries.append((name, root / name))
     output.mkdir(parents=True, exist_ok=True)
-    target = output / f"research-workflow-{version}.zip"
+    target = output / f"big-research-{version}.zip"
     with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for name, path in sorted(entries):
             if name not in eligible:

@@ -1,6 +1,6 @@
 {
   "name": "research-workflow-marketplace",
-  "interface": {"displayName": "Research Workflow"},
+  "interface": {"displayName": "Big Research"},
   "plugins": [{
     "name": "research-workflow",
     "source": {"source": "local", "path": "./"},

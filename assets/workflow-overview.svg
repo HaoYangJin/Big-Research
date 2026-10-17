@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="230" viewBox="0 0 1000 230" role="img" aria-label="Task to automatic mode to action card to saved progress">
 <rect width="1000" height="230" rx="18" fill="#101b30"/>
-<g font-family="sans-serif" text-anchor="middle"><text x="500" y="42" fill="#eef4ff" font-size="25">Research Workflow · 1.1.0</text>
+<g font-family="sans-serif" text-anchor="middle"><text x="500" y="42" fill="#eef4ff" font-size="25">Research Workflow · 1.1.0 (historical)</text>
 <g fill="#203957" stroke="#5cbdb5"><rect x="30" y="78" width="205" height="82" rx="12"/><rect x="275" y="78" width="205" height="82" rx="12"/><rect x="520" y="78" width="205" height="82" rx="12"/><rect x="765" y="78" width="205" height="82" rx="12"/></g>
 <g fill="#fff" font-size="19"><text x="132" y="113">01 · Your task</text><text x="377" y="113">02 · Auto mode</text><text x="622" y="113">03 · Action card</text><text x="867" y="113">04 · Resume</text></g>
 <g fill="#b9d3e7" font-size="13"><text x="132" y="140">Question + materials</text><text x="377" y="140">Mentor / Mixed / Reviewer</text><text x="622" y="140">Do → Deliver → Verify</text><text x="867" y="140">Evidence + checkpoint</text></g><g fill="#60d5c0" font-size="24"><text x="255" y="127">→</text><text x="500" y="127">→</text><text x="745" y="127">→</text></g><text x="500" y="201" fill="#b9d3e7" font-size="15">Start with your direction. Switch modes anytime. Keep the next action clear.</text></g></svg>

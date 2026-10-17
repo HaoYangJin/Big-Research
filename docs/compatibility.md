@@ -14,6 +14,6 @@ The primary targets are local Codex and Claude Code. The full plugin needs uv an
 
 This table describes the verification strategy, not an assertion that every client/account combination passed. The release acceptance record tracks completed checks; incomplete primary-client acceptance defers the formal release. Directory listing/approval is separate from the GitHub release.
 
-Verification snapshot, 2026-10-17: [CI passed](https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580) on Windows, Linux and macOS with Python 3.11/3.14. Disposable Linux runners passed browser/SDK checks, Claude Code 2.1.301 strict manifest validation and clean installation, and Codex CLI 0.163.0 clean installation. These results cover the tested versions; native client UI support remains conditional.
+Verification snapshot, 2026-10-17: [CI passed](https://github.com/HaoYangJin/Big-Research/actions/runs/38936132580) on Windows, Linux and macOS with Python 3.11/3.14. Disposable Linux runners passed browser/SDK checks, Claude Code 2.1.301 strict manifest validation and clean installation, and Codex CLI 0.163.0 clean installation. These results cover the tested versions; native client UI support remains conditional.
 
 Local state supports a single machine's filesystem with fail-fast writer locking. Shared/network filesystems and multi-machine coordination are not supported. Recorded commands are never executed by the workspace. Source inspection, scientific review and final research decisions remain with the researcher and available AI tools.

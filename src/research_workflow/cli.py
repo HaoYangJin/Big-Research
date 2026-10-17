@@ -13,7 +13,7 @@ from .review import profiles, template
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Research Workflow: human-led inquiry with traceable records")
+    parser = argparse.ArgumentParser(description="Big Research: human-led inquiry with traceable records")
     parser.add_argument("--version", action="version", version=__version__)
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("methods")
