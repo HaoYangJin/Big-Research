@@ -1,5 +1,5 @@
 {
-  "verified_at": "2026-10-17T03:26:11.408963+00:00",
+  "verified_at": "2026-10-17T03:30:00.658367+00:00",
   "checks": {
     "independent_code_review": true,
     "behavioral_skill_evaluation": true,
@@ -12,9 +12,9 @@
     "cross_disciplinary_examples": "examples/run_examples.py completed computational negative-result, public-domain interpretive and formal-proof cases; tests/test_core_v2.py covers six discipline/paradigm routes. Six OS/Python combinations passed in https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580",
     "behavioral_skill_evaluation": "Independent humanities manuscript task evaluation verified method-sensitive review, missing-material handling, source uncertainty and researcher authority; regression tests cover budget exhaustion and contradictory/unsupported evidence.",
     "interactive_ui": "scripts/check_ui.py passed static tabs, filtering, provenance, text safety, mobile layout and real MCP Apps SDK bridge message/tool interactions.",
-    "independent_code_review": "Independent code and Python reviews of 6a96ec3 approved; release/controller/distribution regressions passed; docs/development.md. Final release tag-preservation fix independently reviewed and approved on 2026-10-17; controller and timing regression suite passed.",
+    "independent_code_review": "Independent code and Python reviews of 6a96ec3 approved; release/controller/distribution regressions passed; docs/development.md. Final release tag-preservation fix independently reviewed and approved on 2026-10-17; controller and timing regression suite passed. Windows venv-launcher test correction independently approved; 14 core tests passed on Windows.",
     "claude_clean_install": "https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580 — browser job: Claude Code 2.1.301 strict plugin/marketplace validation, clean isolated marketplace add, install and listing passed.",
     "codex_clean_install": "https://github.com/HaoYangJin/Research-workflow-Skill/actions/runs/38936132580 — browser job: Codex CLI 0.163.0 clean isolated marketplace add, plugin add and listing passed."
   },
-  "content_sha256": "1654304e49d84453bfe4c49defa701396b60b9531d06f0befd6aa09e5135a6ca"
+  "content_sha256": "95203f9cd16af681500e14fbed161539955029bd1aafb066412cc6e995d86ad0"
 }

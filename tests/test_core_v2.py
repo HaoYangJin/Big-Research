@@ -140,18 +140,20 @@ class ProjectTests(unittest.TestCase):
 
     def test_concurrent_writer_fails_and_process_exit_releases_lock(self):
         code = (
-            "import sys,time; from pathlib import Path; from research_workflow.core import locked; "
-            "lock=locked(Path(sys.argv[1])); lock.__enter__(); print('locked',flush=True); time.sleep(60)"
+            "import os,sys; from pathlib import Path; from research_workflow.core import locked; "
+            "lock=locked(Path(sys.argv[1])); lock.__enter__(); print('locked',flush=True); "
+            "sys.stdin.readline(); os._exit(0)"
         )
-        child = subprocess.Popen([sys.executable, "-c", code, str(self.root)], stdout=subprocess.PIPE, text=True)
+        child = subprocess.Popen(
+            [sys.executable, "-c", code, str(self.root)], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True
+        )
         try:
             self.assertEqual(child.stdout.readline().strip(), "locked")
             with self.assertRaisesRegex(WorkflowError, "locked"):
                 self.project.configure(title="Concurrent change")
         finally:
-            child.terminate()
-            child.wait(timeout=10)
-            child.stdout.close()
+            # Exit the actual interpreter abruptly: on Windows sys.executable may be a venv launcher.
+            child.communicate(input="exit\n", timeout=10)
         self.project.configure(title="Recovered after process exit")
         self.assertEqual(self.project.read()["revision"], 1)
 
