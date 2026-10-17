@@ -73,7 +73,7 @@ $big-research
 
 Claude Code 的插件 Skill 使用 `/插件名:Skill名` 格式。这里插件名和研究入口都叫 `big-research`，所以形成 `/big-research:big-research`；这是一个完整命令，整条发送一次即可。[官方命名说明](https://code.claude.com/docs/en/skills#choose-where-skills-load)
 
-**什么时候用 setup，什么时候用 workflow？**
+**什么时候用首次设置，什么时候用研究入口？**
 
 | 用途 | Codex 对话中输入 | Claude Code 对话中输入 |
 | --- | --- | --- |
