@@ -1,20 +1,20 @@
 {
-  "verified_at": "2026-10-17T03:58:28.813783+00:00",
+  "verified_at": "2026-10-17T04:11:56.541687+00:00",
   "checks": {
-    "independent_code_review": false,
+    "independent_code_review": true,
     "behavioral_skill_evaluation": true,
     "cross_disciplinary_examples": true,
     "interactive_ui": true,
-    "claude_clean_install": false,
-    "codex_clean_install": false
+    "claude_clean_install": true,
+    "codex_clean_install": true
   },
   "evidence": {
-    "cross_disciplinary_examples": "examples/run_examples.py completed computational negative-result, public-domain interpretive and formal-proof cases; tests/test_core_v2.py covers six discipline/paradigm routes. Six OS/Python combinations passed in https://github.com/HaoYangJin/Big-Research/actions/runs/38936132580",
+    "cross_disciplinary_examples": "examples/run_examples.py completed computational negative-result, public-domain interpretive and formal-proof cases; tests/test_core_v2.py covers six discipline/paradigm routes. Six OS/Python combinations passed in https://github.com/HaoYangJin/Big-Research/actions/runs/38936132580 Big Research source passed all six OS/Python combinations: https://github.com/HaoYangJin/Big-Research/actions/runs/39001546063",
     "behavioral_skill_evaluation": "Independent humanities manuscript task evaluation verified method-sensitive review, missing-material handling, source uncertainty and researcher authority; regression tests cover budget exhaustion and contradictory/unsupported evidence.",
-    "interactive_ui": "scripts/check_ui.py passed static tabs, filtering, provenance, text safety, mobile layout and real MCP Apps SDK bridge message/tool interactions.",
-    "independent_code_review": "Independent code and Python reviews of 6a96ec3 approved; release/controller/distribution regressions passed; docs/development.md. Final release tag-preservation fix independently reviewed and approved on 2026-10-17; controller and timing regression suite passed. Windows venv-launcher test correction independently approved; 14 core tests passed on Windows. Big Research candidate verification pending.",
-    "claude_clean_install": "https://github.com/HaoYangJin/Big-Research/actions/runs/38936132580 — browser job: Claude Code 2.1.301 strict plugin/marketplace validation, clean isolated marketplace add, install and listing passed. Big Research candidate verification pending.",
-    "codex_clean_install": "https://github.com/HaoYangJin/Big-Research/actions/runs/38936132580 — browser job: Codex CLI 0.163.0 clean isolated marketplace add, plugin add and listing passed. Big Research candidate verification pending."
+    "interactive_ui": "scripts/check_ui.py passed static tabs, filtering, provenance, text safety, mobile layout and real MCP Apps SDK bridge message/tool interactions. Rechecked Big Research display and regenerated SDK bridge locally and in https://github.com/HaoYangJin/Big-Research/actions/runs/39001546063",
+    "independent_code_review": "Independent code and Python reviews of 6a96ec3 approved; release/controller/distribution regressions passed; docs/development.md. Final release tag-preservation fix independently reviewed and approved on 2026-10-17; controller and timing regression suite passed. Windows venv-launcher test correction independently approved; 14 core tests passed on Windows. Independent final Big Research rename, stable identifier compatibility, draft metadata and published-state persistence review approved; 31 local tests passed, one Windows permission skip, Ruff and repository validation passed.",
+    "claude_clean_install": "https://github.com/HaoYangJin/Big-Research/actions/runs/39001546063 — Big Research browser job: Claude Code 2.1.301 strict plugin/marketplace validation and isolated clean add/install/list passed on disposable CI runner; no local Claude installation.",
+    "codex_clean_install": "https://github.com/HaoYangJin/Big-Research/actions/runs/39001546063 — Big Research browser job: Codex CLI 0.163.0 isolated clean marketplace add/plugin add/list passed on disposable CI runner."
   },
-  "content_sha256": "35764e0def64505ca10980819dc94ca0d34c4487f449294b1655756cdc35d870"
+  "content_sha256": "1ef7dc4edc6977e412c758245cac11cbcebed81e84153f5907aa996b28be4fe4"
 }
