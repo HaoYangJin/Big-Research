@@ -8,18 +8,16 @@ For a concise experience: “Use concise guidance. My question is …, my materi
 
 ## 安装 / Installation
 
-完整本地体验需要 uv，及其管理的 Python 3.11+。先按 [uv 官方安装说明](https://docs.astral.sh/uv/getting-started/installation/)配置 uv。首次启动可能下载锁定的依赖；本地 MCP 不上传研究材料，也不包含检索服务或模型账户。
+完整本地体验需要 uv 和 Python 3.11+，uv 可以管理 Python。先按 [uv 官方安装说明](https://docs.astral.sh/uv/getting-started/installation/) 配置 uv，再按照[首页安装指南](../README.md#安装最新版本)选择 Claude Code 或 Codex CLI，两种方式均提供完整命令。
 
-Claude Code 的安装命令见首页。Codex CLI：
+安装完成后：
 
-```text
-codex plugin marketplace add HaoYangJin/Research-workflow-Skill
-codex plugin add research-workflow@research-workflow-marketplace
-```
+- **Claude Code**：输入 `/research-workflow:research-workflow` 开始研究。
+- **Codex CLI**：开启新会话，输入 `$research-setup` 完成首次设置，或输入 `$research-workflow` 开始研究。
 
-新会话输入 `$research-setup` 或 `$research-workflow`。安装方式随客户端版本变化，发布验收状态见[兼容性说明](compatibility.md)。不要同时启用另行复制的历史 research-mentor Skill。
+首次设置会帮助你确认研究目标、已有材料、保存位置和可用工具。首次启用本地工具时，uv 可能下载锁定的依赖；模型推理和检索使用当前客户端已授权的能力。已验证的客户端版本和界面支持情况见[兼容性说明](compatibility.md)。
 
-The repository marketplace exposes one current plugin. Official release packages are available from [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest). Development branches are for testing, not an alternate user version selector.
+For installation commands in English, see the [English README](../README.en.md#install-latest). Official release packages are available from [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest).
 
 ## 选择保存位置 / Research home
 

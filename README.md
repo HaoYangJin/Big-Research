@@ -30,21 +30,29 @@
 
 完整本地体验需要 [uv](https://docs.astral.sh/uv/getting-started/installation/) 和 Python 3.11+，uv 可以管理 Python。无需为本插件配置模型 API 密钥；AI 与检索使用你当前客户端的能力。
 
-Claude Code：
+### Claude Code
 
 ```text
 /plugin marketplace add HaoYangJin/Research-workflow-Skill
 /plugin install research-workflow@research-workflow-marketplace
 ```
 
-然后输入：
+安装后输入 `/research-workflow:research-workflow` 开始研究。
+
+### Codex CLI
 
 ```text
-/research-workflow:research-workflow
-我刚开始研究这个问题。请帮我梳理已有材料，比较可行方向，并给出下一步。
+codex plugin marketplace add HaoYangJin/Research-workflow-Skill
+codex plugin add research-workflow@research-workflow-marketplace
 ```
 
-Codex 的本地安装、首次设置和其他使用方式见[快速上手](docs/quickstart.md)。正式发行包统一从 [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest) 获取。
+安装后开启新会话，输入 `$research-setup` 完成首次设置，或输入 `$research-workflow` 开始研究。
+
+然后描述你的研究任务，例如：
+
+> 我刚开始研究这个问题。请帮我梳理已有材料，比较可行方向，并给出下一步。
+
+首次设置、保存位置和其他使用方式见[快速上手](docs/quickstart.md)。正式发行包统一从 [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest) 获取。
 
 ## 一份看得见来路的研究
 

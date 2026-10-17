@@ -24,15 +24,29 @@ The researcher leads the question, method and judgment. Compose quantitative/exp
 
 The full local plugin needs [uv](https://docs.astral.sh/uv/getting-started/installation/) and Python 3.11+; uv can manage Python. It requires no model API key or Connected App. AI inference and search use your client's available capabilities.
 
-Claude Code:
+### Claude Code
 
 ```text
 /plugin marketplace add HaoYangJin/Research-workflow-Skill
 /plugin install research-workflow@research-workflow-marketplace
-/research-workflow:research-workflow
 ```
 
-Then describe your research task. See the [quickstart](docs/quickstart.md) for Codex local installation, setup and the shared CLI. Official downloads use [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest).
+After installation, enter `/research-workflow:research-workflow` to start.
+
+### Codex CLI
+
+```text
+codex plugin marketplace add HaoYangJin/Research-workflow-Skill
+codex plugin add research-workflow@research-workflow-marketplace
+```
+
+Start a new session, then enter `$research-setup` for initial setup or `$research-workflow` to begin research.
+
+Then describe your research task, for example:
+
+> I am starting to research this question. Help me organize my materials, compare feasible directions and identify the next step.
+
+See the [quickstart](docs/quickstart.md) for setup, research storage and the shared CLI. Official downloads use [Latest](https://github.com/HaoYangJin/Research-workflow-Skill/releases/latest).
 
 ## Trace the reasoning
 
