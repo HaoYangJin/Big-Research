@@ -44,6 +44,8 @@ Help me organize my materials, compare feasible research directions and identify
 
 ### Codex CLI
 
+First check `codex plugin marketplace --help` and `codex plugin add --help`. Both must display the relevant command help; CLI 0.120.0 does not support them. For unrecognized commands or a `service_tier` configuration error, follow the [Windows executable checks](docs/quickstart.md#codex-windows) before continuing.
+
 Run these commands in your **system terminal**, such as Windows PowerShell:
 
 ```shell

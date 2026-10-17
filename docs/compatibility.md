@@ -15,3 +15,5 @@ Big Research 是独立第三方开源插件，支持在 Codex 和 Claude Code �
 交互视图的实际可用性取决于客户端版本；它不是使用本插件的前提。首次使用与更新见[快速上手](quickstart.md)。
 
 项目保存于本机选定的研究目录。当前文件锁适用于单机本地文件系统；不用于多台电脑同时写入同一项目。
+
+Codex CLI 需要同时支持 `plugin marketplace` 和 `plugin add`。已验证 CLI 0.163.0 的隔离安装；0.120.0 不支持这些命令。Windows 同时安装多份 Codex 时，先按[命令与配置排查](quickstart.md#codex-windows)确认终端实际调用的程序。

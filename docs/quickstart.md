@@ -17,9 +17,11 @@ Windows 用户打开 PowerShell；macOS 和 Linux 用户打开终端。完整本
 ```shell
 uv --version
 codex --version
+codex plugin marketplace --help
+codex plugin add --help
 ```
 
-两条命令都应显示版本号。使用 Claude Code 的研究者只需检查 uv，并准备好可用的 Claude Code。
+前两条应显示版本号，后两条必须分别显示插件来源管理和插件安装的帮助。仅能运行 `codex --version` 不能证明它支持插件。使用 Claude Code 的研究者只需检查 uv，并准备好可用的 Claude Code。
 
 如果找不到 `codex`，请按 [Codex CLI 官方安装说明](https://learn.chatgpt.com/docs/codex/cli)安装命令行工具。若已有 Node.js 和 npm，也可以在终端安装：
 
@@ -28,7 +30,7 @@ npm install -g @openai/codex@latest
 codex --version
 ```
 
-如果 Codex CLI 是通过 npm 安装的，上面同一条 `npm install` 命令也用于更新 **Codex CLI 程序**。其他安装方式请按对应的官方说明更新。若 `codex plugin --help` 提示不支持 `plugin`，请先更新 CLI，再继续。
+如果 Codex CLI 是通过 npm 安装的，上面同一条 `npm install` 命令也用于更新 **Codex CLI 程序**。其他安装方式请按对应的官方说明更新。如果插件命令不受支持，先按下方的 [Windows 排查](#codex-windows)确认实际调用的是哪一份程序；已有兼容版本时无需重复安装。
 
 ### 2. 安装 Big Research
 
@@ -109,6 +111,42 @@ claude plugin list
 如果 Codex 对话中仍找不到 `$big-research`，先在终端重新运行上面的 `plugin list` 检查安装与启用状态，再开启新会话。首次设置提示 uv 不可用时，重新打开终端并检查 `uv --version`。
 
 命令依据：[Codex 插件命令参考](https://developers.openai.com/plugins/build/plugins#add-a-marketplace-from-the-cli)、[Claude Code 插件管理](https://code.claude.com/docs/en/discover-plugins)。英文说明见[English README](../README.en.md#install-latest)。正式发行包统一从 [Latest](https://github.com/HaoYangJin/Big-Research/releases/latest) 获取。
+
+<a id="codex-windows"></a>
+
+## Windows：命令不支持或配置读取失败
+
+若安装时报 `unexpected argument marketplace`、`unrecognized subcommand add`，或启动时报 `unknown variant default ... service_tier`，先在 PowerShell 检查：
+
+```powershell
+Get-Command codex -All | Select-Object CommandType, Source
+codex --version
+```
+
+Windows 可以同时存在 npm 安装的 `codex.ps1` / `codex.cmd` 和桌面应用附带的 `codex.exe`。终端按命令查找顺序选择程序，不会自动选择版本较新的那份。桌面应用可用不代表终端调用的是同一个版本。
+
+已确认 CLI 0.120.0 没有本指南使用的插件命令；CLI 0.163.0 的隔离安装检查通过。以实际命令帮助为准，不把尚未验证的版本当作兼容保证。
+
+**已有桌面应用附带的兼容 `codex.exe` 时**，可以显式使用它。先检查版本和帮助：
+
+```powershell
+$codex = (Get-Command codex.exe -ErrorAction Stop).Source
+& $codex --version
+& $codex plugin marketplace --help
+& $codex plugin add --help
+```
+
+确认显示对应帮助后，保持在同一个 PowerShell 窗口执行：
+
+```powershell
+& $codex plugin marketplace add HaoYangJin/Big-Research
+& $codex plugin add big-research@big-research-marketplace
+& $codex
+```
+
+以后在这个窗口也用 `& $codex` 启动。这个变量只影响当前 PowerShell 会话，不修改 PATH、配置或已安装的软件。如果找不到 `codex.exe`，或选中的程序仍不支持插件命令，按前面的官方安装说明选择兼容 CLI，再重新检查；不要继续执行安装命令。
+
+`service_tier = "default"` 的上述错误也可能来自旧 CLI 无法解析同一份新版配置。若选定的新版本能够正常读取配置，保留原设置即可；无需为安装插件切换服务档位。
 
 ## 从旧安装迁移
 

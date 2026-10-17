@@ -50,6 +50,8 @@
 
 ### Codex CLI
 
+先运行 `codex plugin marketplace --help` 和 `codex plugin add --help`，确认两条都显示对应命令的帮助。Codex CLI 0.120.0 不支持这组命令；若出现命令不识别或 `service_tier` 配置错误，请先按[Windows 多版本排查](docs/quickstart.md#codex-windows)选择支持插件的 Codex。
+
 在 **系统终端**（如 Windows PowerShell）依次执行：
 
 ```shell
