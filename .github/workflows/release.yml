@@ -1,7 +1,7 @@
 name: Guarded release
 on:
   schedule:
-    - cron: '37,52 6 * * *'
+    - cron: '7,22 3 * * *'
   workflow_dispatch:
     inputs:
       operation:
