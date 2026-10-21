@@ -15,6 +15,9 @@ def validate(root=ROOT):
     assert re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", version), "Invalid version"
     project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
     assert project["project"]["version"] == version
+    lockfile = tomllib.loads((root / "uv.lock").read_text(encoding="utf-8"))
+    locked = {package["name"]: package for package in lockfile["package"]}
+    assert locked["big-research"]["version"] == version, "Lockfile drift"
     for relative in ("plugin.json", ".codex-plugin/plugin.json", ".claude-plugin/plugin.json"):
         manifest = json.loads((root / relative).read_text(encoding="utf-8"))
         assert manifest["version"] == version and manifest["name"] == "big-research", "Manifest drift"
