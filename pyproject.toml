@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "big-research"
-version = "2.1.1"
+version = "2.2.0"
 description = "Human-led research, traceable evidence, and an adaptable research workspace."
 readme = "README.en.md"
 requires-python = ">=3.11"

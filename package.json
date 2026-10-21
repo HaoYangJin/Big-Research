@@ -1,6 +1,6 @@
 {
   "name": "big-research-ui",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "private": true,
   "scripts": {
     "build": "esbuild ui/bridge.js --bundle --format=esm --minify --outfile=src/big_research/bridge.js"

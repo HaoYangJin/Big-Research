@@ -8,7 +8,7 @@
 
 [English](README.en.md) · [开始使用](docs/quickstart.md) · [研究方法与评议](docs/methods.md) · [参与贡献](CONTRIBUTING.md)
 
-![Version](https://img.shields.io/badge/version-2.1.1-355b48) ![License](https://img.shields.io/badge/license-MIT-355b48)
+![Version](https://img.shields.io/badge/version-2.2.0-355b48) ![License](https://img.shields.io/badge/license-MIT-355b48)
 
 你不必先掌握一套复杂命令。带来一个想法、一组材料、一份草稿，或者一个卡住的问题，说明你希望完成什么，Big-Research 会帮助你找到下一步。
 
