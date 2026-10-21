@@ -10,6 +10,6 @@ Explain the question and research tradition your method fits. Provide primary re
 
 Use the repository's issue templates for bugs or method suggestions. Describe the actual behavior and the result you need. Keep private materials, participant information and credentials out of issues and pull requests.
 
-Big Research is an independent third-party project. Contributors do not need an OpenAI affiliation or an official plugin listing.
+Big-Research is an independent third-party project. Contributors do not need an OpenAI affiliation or an official plugin listing.
 
 Code contributors can find setup and verification commands in the [maintainer guide](https://github.com/HaoYangJin/Big-Research/blob/main/.github/maintainers/development.md).

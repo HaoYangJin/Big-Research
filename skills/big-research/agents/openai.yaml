@@ -1,4 +1,4 @@
 interface:
-  display_name: "Big Research"
+  display_name: "Big-Research"
   short_description: "Human-led research assistance"
   default_prompt: "Use $big-research to help with my research task."

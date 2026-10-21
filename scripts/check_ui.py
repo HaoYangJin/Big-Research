@@ -70,7 +70,7 @@ def main():
 const fixture=__FIXTURE__;window.messages=[];window.refreshes=0;
 window.addEventListener('message',event=>{const frame=document.querySelector('iframe');if(event.source!==frame.contentWindow)return;const m=event.data;if(!m||m.jsonrpc!=='2.0')return;
 const reply=result=>event.source.postMessage({jsonrpc:'2.0',id:m.id,result},event.origin);
-if(m.method==='ui/initialize')reply({protocolVersion:m.params.protocolVersion,hostInfo:{name:'Big Research protocol test',version:'1'},hostCapabilities:{serverTools:{},message:{text:{}}},hostContext:{theme:'light',displayMode:'inline',availableDisplayModes:['inline'],locale:'zh-CN'}});
+if(m.method==='ui/initialize')reply({protocolVersion:m.params.protocolVersion,hostInfo:{name:'Big-Research protocol test',version:'1'},hostCapabilities:{serverTools:{},message:{text:{}}},hostContext:{theme:'light',displayMode:'inline',availableDisplayModes:['inline'],locale:'zh-CN'}});
 else if(m.method==='ui/notifications/initialized')event.source.postMessage({jsonrpc:'2.0',method:'ui/notifications/tool-result',params:{content:[],structuredContent:fixture}},event.origin);
 else if(m.method==='tools/call'){window.refreshes++;fixture.project.title='Refreshed workspace';reply({content:[],structuredContent:fixture,isError:false});}
 else if(m.method==='ui/message'){window.messages.push(m.params);reply({});}

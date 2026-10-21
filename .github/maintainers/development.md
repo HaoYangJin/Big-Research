@@ -1,6 +1,6 @@
 # Maintainer guide
 
-Big Research is an independent third-party plugin. Client-compatible manifests and `agents/openai.yaml` metadata enable installation and skill discovery; they do not imply platform ownership, endorsement or directory approval.
+Big-Research is an independent third-party plugin. Client-compatible manifests and `agents/openai.yaml` metadata enable installation and skill discovery; they do not imply platform ownership, endorsement or directory approval.
 
 ## Local checks
 

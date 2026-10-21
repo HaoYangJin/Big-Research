@@ -32,9 +32,9 @@ codex --version
 
 如果 Codex CLI 是通过 npm 安装的，上面同一条 `npm install` 命令也用于更新 **Codex CLI 程序**。其他安装方式请按对应的官方说明更新。如果插件命令不受支持，先按下方的 [Windows 排查](#codex-windows)确认实际调用的是哪一份程序；已有兼容版本时无需重复安装。
 
-### 2. 安装 Big Research
+### 2. 安装 Big-Research
 
-Big Research 是独立第三方插件，安装标识为 `big-research`。
+Big-Research 是独立第三方插件，安装标识为 `big-research`。
 
 **Codex CLI：在系统终端逐条执行。**
 
@@ -53,7 +53,7 @@ codex plugin list --marketplace big-research-marketplace
 /plugin install big-research@big-research-marketplace
 ```
 
-安装完成后，可在同一对话输入 `/plugin`，查看 Installed 中是否已有 Big Research。
+安装完成后，可在同一对话输入 `/plugin`，查看 Installed 中是否已有 Big-Research。
 
 ### 3. 开启新会话并开始使用
 
@@ -84,11 +84,11 @@ Claude Code 的插件 Skill 使用 `/插件名:Skill名` 格式。这里插件�
 
 `big-research-setup` 专门帮助确认本地运行条件、研究目录和首个项目。需要设置或排查环境时单独调用；平时直接使用 `big-research`，无需按固定顺序把两个入口都运行一遍。
 
-**Codex 桌面应用用户**：用同一系统账户的 Codex CLI 完成上述安装后，完全退出并重新打开桌面应用，在插件页检查 Big Research 的安装与启用状态，再新建对话使用。若设置过自定义 `CODEX_HOME`，请确保 CLI 和桌面应用使用同一配置目录。桌面应用与 CLI 的具体支持情况见[兼容性说明](compatibility.md)。
+**Codex 桌面应用用户**：用同一系统账户的 Codex CLI 完成上述安装后，完全退出并重新打开桌面应用，在插件页检查 Big-Research 的安装与启用状态，再新建对话使用。若设置过自定义 `CODEX_HOME`，请确保 CLI 和桌面应用使用同一配置目录。桌面应用与 CLI 的具体支持情况见[兼容性说明](compatibility.md)。
 
 首次设置会帮助你确认研究目标、已有材料、保存位置和可用工具。首次启用本地工具时，uv 可能下载锁定的依赖；模型推理和检索使用当前客户端已授权的能力。已验证的客户端版本和界面支持情况见[兼容性说明](compatibility.md)。
 
-### 4. 更新 Big Research
+### 4. 更新 Big-Research
 
 **Codex CLI：在系统终端刷新来源，再安装当前版本并检查。**
 

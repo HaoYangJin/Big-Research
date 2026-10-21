@@ -1,6 +1,6 @@
 > This project uses AI tools to assist human scientists in scientific research; it is not an AI Scientist project. Human scientific taste and ethical judgment are irreplaceable. We hope researchers will work toward ideals that benefit all humanity and explore the boundaries of the unknown together.
 
-# Big Research
+# Big-Research
 
 **A human-led research workspace. Develop ideas into work you can pursue, inspect and improve.**
 
@@ -8,7 +8,7 @@ An independent, third-party open-source plugin for Codex and Claude Code. It is 
 
 [简体中文](README.md) · [Get started](docs/quickstart.md) · [Methods and review](docs/methods.md) · [Contribute](CONTRIBUTING.md)
 
-Bring an idea, source material, a draft or a question that has stalled. Explain the result you need. Big Research helps you find and carry out the next useful step.
+Bring an idea, source material, a draft or a question that has stalled. Explain the result you need. Big-Research helps you find and carry out the next useful step.
 
 | Your goal | Work together on |
 | --- | --- |

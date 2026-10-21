@@ -1,6 +1,6 @@
-# Big Research v2.1.1
+# Big-Research v2.1.1
 
-Big Research now uses the same name across installation commands, research skills and local tools. It is an independent third-party plugin for Codex and Claude Code.
+Big-Research now uses the same display name across the plugin directory, research skills and workspace UI, while keeping `big-research` as the stable installation identifier. It is an independent third-party plugin for Codex and Claude Code.
 
 The repository focuses on getting started and doing research. Preset experiments and obsolete publication controls have been removed, maintainer notes are separate, and Star History is back.
 

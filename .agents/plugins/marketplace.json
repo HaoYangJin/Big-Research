@@ -1,6 +1,6 @@
 {
   "name": "big-research-marketplace",
-  "interface": {"displayName": "Big Research"},
+  "interface": {"displayName": "Big-Research"},
   "plugins": [{
     "name": "big-research",
     "source": {"source": "local", "path": "./"},
