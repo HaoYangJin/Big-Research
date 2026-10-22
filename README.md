@@ -12,6 +12,30 @@
 
 你不必先掌握一套复杂命令。带来一个想法、一组材料、一份草稿，或者一个卡住的问题，说明你希望完成什么，Big-Research 会帮助你找到下一步。
 
+<!-- big-repo:showcase:start -->
+## 为什么做 Big-Research
+
+一项研究很少沿着预先画好的路线走完。读到新材料，可能需要重写问题；分析没有支持假设，也需要保留过程；隔一段时间回来，还要找得到上次判断的依据。Big-Research 希望帮助研究者把这些工作接起来。
+
+项目早期以 Research Workflow 的导师与审稿技能组织研究阶段，后来发展为连接任务、证据、方法和决定的工作台。变化的是组织方式，保留的是人的主导权：AI 帮助推进工作，研究者决定值得追问什么、采用什么方法，以及能从材料中得出什么结论。
+
+[阅读项目故事与演进记录](docs/project-story.md) · [参考与致谢](docs/research-basis.md)
+
+### 找到下一步
+
+| 现在想了解什么 | 从这里进入 |
+| --- | --- |
+| 第一次使用，先完成一项小任务 | [安装与开始使用](docs/quickstart.md) |
+| 我的研究方法是否适用 | [方法模块与评议边界](docs/methods.md) |
+| 客户端能提供哪些界面与能力 | [兼容性说明](docs/compatibility.md) |
+| 想补充方法、翻译或报告问题 | [贡献指南](CONTRIBUTING.md) |
+| 想检查项目当前构建状态 | [CI 工作流](https://github.com/HaoYangJin/Big-Research/actions/workflows/ci.yml) |
+
+[![CI](https://github.com/HaoYangJin/Big-Research/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/HaoYangJin/Big-Research/actions/workflows/ci.yml)
+
+CI 展示主分支工作流状态；检查内容见[开发指南](https://github.com/HaoYangJin/Big-Research/blob/main/.github/maintainers/development.md)，不代表科学结论得到验证。
+<!-- big-repo:showcase:end -->
+
 ## 从你所在的位置开始
 
 | 你想做什么 | 一起完成什么 |

@@ -10,6 +10,30 @@ An independent, third-party open-source plugin for Codex and Claude Code. It is 
 
 Bring an idea, source material, a draft or a question that has stalled. Explain the result you need. Big-Research helps you find and carry out the next useful step.
 
+<!-- big-repo:showcase:start -->
+## Why Big-Research exists
+
+Research rarely follows its first plan. New material can change the question. An analysis that does not support a hypothesis still needs a record. Returning to a project means recovering the reasons behind earlier decisions. Big-Research aims to help researchers keep these pieces connected.
+
+The project began with mentor and reviewer skills organized around research stages under the name Research Workflow. It grew into a workspace connecting tasks, evidence, methods and decisions. The organization changed; human leadership remains central. AI helps carry out the work. Researchers decide which questions matter, which methods fit and which conclusions the materials support.
+
+[Read the project story and milestones](docs/project-story.en.md) · [References and acknowledgments](docs/research-basis.md)
+
+### Find your next step
+
+| What you need | Where to start |
+| --- | --- |
+| Try a small research task | [Installation and first use](docs/quickstart.md) |
+| Check whether your methods fit | [Methods and review boundaries](docs/methods.md) |
+| Understand client capabilities | [Compatibility](docs/compatibility.md) |
+| Contribute a method, translation or bug report | [Contribution guide](CONTRIBUTING.md) |
+| Inspect the current build status | [CI workflow](https://github.com/HaoYangJin/Big-Research/actions/workflows/ci.yml) |
+
+[![CI](https://github.com/HaoYangJin/Big-Research/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/HaoYangJin/Big-Research/actions/workflows/ci.yml)
+
+CI reports the main branch workflow status. See the [maintainer guide](https://github.com/HaoYangJin/Big-Research/blob/main/.github/maintainers/development.md) for its checks; it does not validate scientific conclusions.
+<!-- big-repo:showcase:end -->
+
 | Your goal | Work together on |
 | --- | --- |
 | Develop a question | Scholarly context, rival explanations and feasible directions |

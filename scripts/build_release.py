@@ -54,6 +54,8 @@ def build(output, root=ROOT):
         "docs/methods.md",
         "docs/compatibility.md",
         "docs/research-basis.md",
+        "docs/project-story.md",
+        "docs/project-story.en.md",
         "CONTRIBUTING.md",
         "CODE_OF_CONDUCT.md",
         "NOTICE.md",
